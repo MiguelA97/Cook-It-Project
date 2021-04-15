@@ -33,7 +33,7 @@ create table if not exists USERS_RECIPES (
 	id_recipes int references RECIPE(id),
 	id_user int,
 	id_user_recipe_list int,
-	foreign key (id_user, id_user_recipe_list) int references USER_RECIPE_LIST(id_user, id),
+	foreign key (id_user, id_user_recipe_list) references USER_RECIPE_LIST(id_user, id),
 	primary key(id_recipes, id_user, id_user_recipe_list)
 );
 
