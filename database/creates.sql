@@ -1,3 +1,5 @@
+create schema if not exists public authorization postgres;
+
 create table if not exists USERS (
 	id serial primary key,
 	username varchar(25) unique not null,
