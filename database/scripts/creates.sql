@@ -1,4 +1,4 @@
-create schema if not exists public authorization postgres;
+create shema if not exists public authorization postgres;
 
 create table if not exists USERS (
 	id serial primary key,
@@ -41,9 +41,9 @@ create table if not exists USERS_RECIPES (
 
 create table if not exists INGREDIENT_DETAILS (
 	id serial primary key,
-	id_api int,
+	id_api int unique,
 	id_recipe int references RECIPE(id),
-	aisle varchar(30) not null,
+	aisle varchar(30),
 	ingredient_name varchar(50) not null,
 	amount double precision not null,
 	unit varchar(20) not null,
