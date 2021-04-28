@@ -19,11 +19,11 @@ public class UsersController {
     public Users getUser(@PathVariable("username") String username) throws NotFoundException, BadRequestException {
         Users user = null;
         try {
-            user = userService.getUserByUsername(username);                              //TODO tratar de outputModel, autenticaçao, etc!
+            user = userService.getUserByUsername(username);                                              //TODO tratar de outputModel, autenticaçao, etc!
         } catch (EntityException e) {
-            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
-            throw new NotFoundException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new NotFoundException(e.getMessage());
         }
         return user;
     }
@@ -33,23 +33,23 @@ public class UsersController {
         try {
             userService.addUser(user);
         } catch (EntityException e) {
-            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new BadRequestException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
-            throw new ConflictException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new ConflictException(e.getMessage());
         }
         return user;
     }
 
-    @PostMapping("/{username}")
+    @PatchMapping("/{username}")
     public Users updateUser(@PathVariable("username") String username, @RequestBody Users user) throws BadRequestException, ConflictException, NotFoundException {
         try {
             user = userService.updateUser(username, user);
         } catch (EntityException e) {
-            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
-            throw new NotFoundException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new NotFoundException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
-            throw new ConflictException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new ConflictException(e.getMessage());
         }
         return user;
     }
@@ -59,9 +59,9 @@ public class UsersController {
         try {
             userService.deleteUserByUsername(username);
         } catch (EntityException e) {
-            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
-            throw new NotFoundException(e.getMessage(), e.getUserFriendlyMessage());
+            throw new NotFoundException(e.getMessage());
         }
     }
 }

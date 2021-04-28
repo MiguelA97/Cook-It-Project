@@ -2,14 +2,14 @@ package isel.leic.ps.exceptions;
 
 public class EntityException extends Exception {
 
-    private String userFriendlyMessage;
+    private String message;
 
-    public EntityException(String message, String userFriendlyMessage) {
+    public EntityException(String message) {
         super(message);
-        this.userFriendlyMessage = userFriendlyMessage;
+        this.message = message;
     }
 
-    public String getUserFriendlyMessage() {
-        return userFriendlyMessage;
+    public String getMessage() {
+        return message;
     }
 }

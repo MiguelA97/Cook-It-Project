@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "cd3f0406-9e1a-4e09-b5b7-29343e828cfa",
+		"name": "Cook It",
+		"description": "Request to Cook It app.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}v1/users/SandroA97",
+							"host": [
+								"{{URL}}v1"
+							],
+							"path": [
+								"users",
+								"SandroA97"
+							]
+						},
+						"description": "Gets user with the specified username."
+					},
+					"response": []
+				},
+				{
+					"name": "Add User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"JoãoA97\",\r\n    \"password\":\"pass\",\r\n    \"email\":\"joaoachega@hotmail.com\",\r\n    \"name\":\"João Achega\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}v1/users",
+							"host": [
+								"{{URL}}v1"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Adds user with the specified parameters."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"SandroA97\",\r\n    \"password\":\"pass\",\r\n    \"email\":\"sandroachega@hotmail.com\",\r\n    \"name\":\"Sandro Achega\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}v1/users/SandroA97",
+							"host": [
+								"{{URL}}v1"
+							],
+							"path": [
+								"users",
+								"SandroA97"
+							]
+						},
+						"description": "Updates user with the specified parameters."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}v1/users/SandroA97",
+							"host": [
+								"{{URL}}v1"
+							],
+							"path": [
+								"users",
+								"SandroA97"
+							]
+						},
+						"description": "Deletes user with the specified username."
+					},
+					"response": []
+				}
+			],
+			"description": "Request about users."
+		},
+		{
+			"name": "User Recipe List",
+			"item": [],
+			"description": "Requests about User Recipe List."
+		},
+		{
+			"name": "Recipe",
+			"item": [],
+			"description": "Requests about Recipes."
+		},
+		{
+			"name": "Users Recipes",
+			"item": [],
+			"description": "Requests about Users Recipes."
+		},
+		{
+			"name": "Ingredient Details",
+			"item": [],
+			"description": "Requests about Ingredient Details."
+		}
+	]
+}

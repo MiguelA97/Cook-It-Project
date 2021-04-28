@@ -36,17 +36,17 @@ public class UserServiceImpl implements UserService {
         ValidationsUtils.validateUserUsername(username);
         return usersRepository
                 .findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("User with username %s does not exist.", username), messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH)));
+                .orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH)));
     }
 
     @Transactional
     @Override
     public Users addUser(Users user) throws EntityException, EntityAlreadyExistsException {
         if (existsUserByUserUsername(user.getUsername()))
-            throw new EntityAlreadyExistsException(String.format("Username %s is already in use.", user.getUsername()), messageSource.getMessage("username_Already_Exist", new Object[]{user.getUsername()}, Locale.ENGLISH));
+            throw new EntityAlreadyExistsException(messageSource.getMessage("username_Already_Exist", new Object[]{user.getUsername()}, Locale.ENGLISH));
         ValidationsUtils.validateUserEmail(user.getEmail());
         if (usersRepository.existsByEmail(user.getEmail()))
-            throw new EntityAlreadyExistsException(String.format("Already exists a user with email: %s", user.getEmail()), messageSource.getMessage("email_Already_Exist", new Object[]{user.getEmail()}, Locale.ENGLISH));
+            throw new EntityAlreadyExistsException(messageSource.getMessage("email_Already_Exist", new Object[]{user.getEmail()}, Locale.ENGLISH));
         user.setPassword(user.getPassword());
         return usersRepository.save(user);
     }
@@ -55,14 +55,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users updateUser(String username, Users updatedUser) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException {
         if (!existsUserByUserUsername(username))
-            throw new EntityNotFoundException(String.format("User with username %s does not exist.", username), messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
+            throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
         if (!username.equals(updatedUser.getUsername()) && existsUserByUserUsername(updatedUser.getUsername()))
-            throw new EntityAlreadyExistsException(String.format("Username %s is already in use.", updatedUser.getUsername()), messageSource.getMessage("username_Already_Exist", new Object[]{updatedUser.getUsername()}, Locale.ENGLISH));
+            throw new EntityAlreadyExistsException(messageSource.getMessage("username_Already_Exist", new Object[]{updatedUser.getUsername()}, Locale.ENGLISH));
 
         Users user = getUserByUsername(username);
         ValidationsUtils.validateUserEmail(updatedUser.getEmail());
         if (!updatedUser.getEmail().equals(user.getEmail()) && usersRepository.existsByEmail(updatedUser.getEmail()))
-            throw new EntityAlreadyExistsException(String.format("Already exists a user with email: %s", updatedUser.getEmail()), messageSource.getMessage("email_Aready_Exist", new Object[]{updatedUser.getEmail()}, Locale.ENGLISH));
+            throw new EntityAlreadyExistsException(messageSource.getMessage("email_Already_Exist", new Object[]{updatedUser.getEmail()}, Locale.ENGLISH));
 
         user.setUsername(updatedUser.getUsername());
         user.setEmail(updatedUser.getEmail());
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException {
         ValidationsUtils.validateUserUsername(username);
         if (!usersRepository.existsByUsername(username))
-            throw new EntityNotFoundException(String.format("User with username %s does not exist.", username), messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
+            throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
         usersRepository.deleteByUsername(username);
     }
 }

@@ -2,14 +2,14 @@ package isel.leic.ps.exceptions;
 
 public class EntityNotFoundException extends Exception {
 
-    private String userFriendlyMessage;
+    private String message;
 
-    public EntityNotFoundException(String message, String userFriendlyMessage) {
+    public EntityNotFoundException(String message) {
         super(message);
-        this.userFriendlyMessage = userFriendlyMessage;
+        this.message = message;
     }
 
-    public String getUserFriendlyMessage() {
-        return userFriendlyMessage;
+    public String getMessage() {
+        return message;
     }
 }
