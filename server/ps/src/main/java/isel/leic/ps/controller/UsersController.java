@@ -1,5 +1,6 @@
 package isel.leic.ps.controller;
 
+import isel.leic.ps.exceptions.*;
 import isel.leic.ps.model.Users;
 import isel.leic.ps.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -15,42 +16,52 @@ public class UsersController {
     }
 
     @GetMapping("/{username}")
-    public Users getUser(@PathVariable("username") String username) throws Exception {
+    public Users getUser(@PathVariable("username") String username) throws NotFoundException, BadRequestException {
         Users user = null;
         try {
-            user = userService.getUserByUsername(username);                              //TODO tratar de exceptions, outputModel, autenticaçao, etc!
-        } catch (Exception e) {
-            throw new Exception("An error occurred while getting the user!");
+            user = userService.getUserByUsername(username);                              //TODO tratar de outputModel, autenticaçao, etc!
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(e.getMessage(), e.getUserFriendlyMessage());
         }
         return user;
     }
 
     @PostMapping("")
-    public Users addUser(@RequestBody Users user) throws Exception{
+    public Users addUser(@RequestBody Users user) throws BadRequestException, ConflictException {
         try {
             userService.addUser(user);
-        } catch (Exception e) {
-            throw new Exception("An error occurred while adding the user!");
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+        } catch (EntityAlreadyExistsException e) {
+            throw new ConflictException(e.getMessage(), e.getUserFriendlyMessage());
         }
         return user;
     }
 
     @PostMapping("/{username}")
-    public Users updateUser(@PathVariable("username") String username, @RequestBody Users user) throws Exception {
+    public Users updateUser(@PathVariable("username") String username, @RequestBody Users user) throws BadRequestException, ConflictException, NotFoundException {
         try {
             user = userService.updateUser(username, user);
-        } catch (Exception e) {
-            throw new Exception("An error occurred while updating the user!");
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(e.getMessage(), e.getUserFriendlyMessage());
+        } catch (EntityAlreadyExistsException e) {
+            throw new ConflictException(e.getMessage(), e.getUserFriendlyMessage());
         }
         return user;
     }
 
     @DeleteMapping("/{username}")
-    public void deleteUser(@PathVariable("username") String username) throws Exception {
+    public void deleteUser(@PathVariable("username") String username) throws BadRequestException, NotFoundException {
         try {
             userService.deleteUserByUsername(username);
-        } catch (Exception e) {
-            throw new Exception("An error occurred while deleting the user!");
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage(), e.getUserFriendlyMessage());
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(e.getMessage(), e.getUserFriendlyMessage());
         }
     }
 }

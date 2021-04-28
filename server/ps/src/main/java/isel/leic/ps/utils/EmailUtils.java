@@ -4,15 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Classe utilitária para Emails
+ * Utility class for Emails
  */
 public class EmailUtils {
 
     /**
-     * Verifica se o email é válido
+     * Verifies if the email is vali
      *
-     * @param email email a validar
-     * @return true se @param email é um email válido, false caso contrário
+     * @param email email to validate
+     * @return true if @param email is a valid, false otherwise
      */
     public static boolean isStringValidEmail(String email) {
         Matcher matcher = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE).matcher(email);

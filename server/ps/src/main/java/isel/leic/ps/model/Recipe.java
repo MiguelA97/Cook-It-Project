@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "RECIPE")
@@ -14,7 +14,7 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_recipe", nullable = false)
     private int id;
 
     @Column(name = "id_api", unique = true)
@@ -48,10 +48,10 @@ public class Recipe {
     private boolean vegetarian;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipeByRecipeId")
-    private ArrayList<IngredientDetails> ingredientDetailsList;
+    private Collection<IngredientDetails> ingredientDetailsList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
-    private ArrayList<UsersRecipes> usersRecipesList;
+    private Collection<UsersRecipes> usersRecipesList;
 
     protected Recipe() {
     }

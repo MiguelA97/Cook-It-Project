@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @IdClass(UserRecipeListId.class)
@@ -15,7 +15,7 @@ public class UserRecipeList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //TODO acho que isto nao funciona!! verificar!
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_url", nullable = false)
     private int id;
 
     @Id
@@ -36,7 +36,7 @@ public class UserRecipeList {
     private Users userByUserId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userRecipeList")
-    private ArrayList<UsersRecipes> usersRecipesList;
+    private Collection<UsersRecipes> usersRecipesList;
 
     protected UserRecipeList() {
     }

@@ -13,7 +13,7 @@ public class IngredientDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_ingredient", nullable = false)
     private int id;
 
     @Column(name = "id_api", unique = true)

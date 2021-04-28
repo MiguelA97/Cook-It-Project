@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "USERS")
@@ -14,7 +14,7 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_user", nullable = false)
     private int id;
 
     @Column(name = "username", length = RestrictionUtils.USER_USERNAME_MAX_LENGTH, nullable = false, unique = true)
@@ -30,7 +30,7 @@ public class Users {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserId")
-    private ArrayList<UserRecipeList> userRecipeLists;
+    private Collection<UserRecipeList> userRecipeLists;
 
     protected Users() {
     }

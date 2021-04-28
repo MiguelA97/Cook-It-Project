@@ -20,18 +20,18 @@ public class UsersRecipes {
     private int userId;
 
     @Id
-    @Column(name = "id_user_recipe_list", nullable = false)
+    @Column(name = "id_url", nullable = false)
     private int urlId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false, insertable = false, updatable = false),
-            @JoinColumn(name = "id_user_recipe_list", referencedColumnName = "id_user_recipe_list", nullable = false, insertable = false, updatable = false)
+            @JoinColumn(name = "id_url", referencedColumnName = "id_url", nullable = false, insertable = false, updatable = false)
     })
     private UserRecipeList userRecipeList;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_recipes", referencedColumnName = "id_recipes", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "id_recipe", referencedColumnName = "id_recipe", nullable = false, insertable = false, updatable = false)
     private Recipe recipe;
 
     protected UsersRecipes() {
