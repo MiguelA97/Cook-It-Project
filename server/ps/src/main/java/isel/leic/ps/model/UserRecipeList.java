@@ -3,6 +3,7 @@ package isel.leic.ps.model;
 import isel.leic.ps.utils.RestrictionUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -16,19 +17,20 @@ public class UserRecipeList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //TODO acho que isto nao funciona!! verificar!
     @Column(name = "id_url", nullable = false)
-    private int id;
+    private int idUrl;
 
     @Id
     @Column(name = "id_user", nullable = false)
-    private int userId;
+    private int idUser;
 
     @Column(name = "list_name", length = RestrictionUtils.URL_LIST_NAME_MAX_LENGTH, nullable = false)
-    private String name;
+    private String listName;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "visibility", length = RestrictionUtils.URL_VISIBILITY_MAX_LENGTH)
+    @Value("${props.visibility:private}")               //TODO verificar isto, pode nem servir para nada!
     private String visibility;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -41,17 +43,17 @@ public class UserRecipeList {
     protected UserRecipeList() {
     }
 
-    public UserRecipeList(int userId, String name, String description, String visibility) {
-        setUserId(userId);
-        setName(name);
+    public UserRecipeList(int idUser, String listName, String description, String visibility) {
+        setIdUser(idUser);
+        setListName(listName);
         setDescription(description);
         setVisibility(visibility);
     }
 
-    public UserRecipeList(int id, int userId, String name, String description, String visibility) {
-        setId(id);
-        setUserId(userId);
-        setName(name);
+    public UserRecipeList(int idUrl, int idUser, String listName, String description, String visibility) {
+        setIdUrl(idUrl);
+        setIdUser(idUser);
+        setListName(listName);
         setDescription(description);
         setVisibility(visibility);
     }

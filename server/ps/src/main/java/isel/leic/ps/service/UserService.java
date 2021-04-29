@@ -8,8 +8,7 @@ import isel.leic.ps.model.Users;
 public interface UserService {
 
     /**
-     *
-     * Verofoes if the given user exists by it's username
+     * Verifies if the given user exists by it's username
      *
      * @param username
      * @return true if user exists, false otherwise
@@ -22,6 +21,8 @@ public interface UserService {
      *
      * @param username
      * @return User
+     * @throws EntityException if the given parameters are invalid
+     * @throws EntityNotFoundException if no user with username is found
      */
     Users getUserByUsername(String username) throws EntityException, EntityNotFoundException;
 
@@ -30,6 +31,8 @@ public interface UserService {
      *
      * @param user
      * @return created User
+     * @throws EntityException if the given parameters are invalid
+     * @throws EntityAlreadyExistsException if a user already exists with the same parameters
      */
     Users addUser(Users user) throws EntityException, EntityAlreadyExistsException;
 
@@ -39,6 +42,9 @@ public interface UserService {
      * @param user
      * @param username
      * @return updated User
+     * @throws EntityException if the given parameters are invalid
+     * @throws EntityNotFoundException if no user with username is found
+     * @throws EntityAlreadyExistsException if a user already exists with the same parameters
      */
     Users updateUser(String username, Users user) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException;
 
@@ -46,6 +52,8 @@ public interface UserService {
      * Deletes a User by its username
      *
      * @param username
+     * @throws EntityException if the given parameters are invalid
+     * @throws EntityNotFoundException if no user with username is found
      */
     void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException;
 }

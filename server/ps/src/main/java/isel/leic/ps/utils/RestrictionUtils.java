@@ -15,6 +15,7 @@ public class RestrictionUtils {
     //USER_RECIPE_LIST
     public static final short URL_LIST_NAME_MAX_LENGTH = 25;
     public static final short URL_VISIBILITY_MAX_LENGTH = 7;
+    public static final short USER_RECIPE_LIST_ID_MIN = 1;
 
     //RECIPE
     public static final short RECIPE_NAME_MAX_LENGTH = 100;

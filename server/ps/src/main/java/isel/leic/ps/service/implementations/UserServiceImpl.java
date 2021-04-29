@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
         ValidationsUtils.validateUserEmail(user.getEmail());
         if (usersRepository.existsByEmail(user.getEmail()))
             throw new EntityAlreadyExistsException(messageSource.getMessage("email_Already_Exist", new Object[]{user.getEmail()}, Locale.ENGLISH));
-        user.setPassword(user.getPassword());
         return usersRepository.save(user);
     }
 

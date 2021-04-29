@@ -18,7 +18,7 @@ public class ValidationsUtils {
      * @param id id to validate
      * @throws EntityException if id is not valid
      */
-    public static void validateUserId(Long id) throws EntityException {
+    public static void validateUserId(Integer id) throws EntityException {
         MessageSource messageSource = MessageSourceHolder.getMessageSource();
         if (id == null)
             throw new EntityException(messageSource.getMessage("user_Required", null, Locale.ENGLISH));
@@ -82,5 +82,53 @@ public class ValidationsUtils {
             throw new EntityException(messageSource.getMessage("password_Required", null, Locale.ENGLISH));
         if (password.length() > RestrictionUtils.USER_PASSWORD_MAX_LENGTH)
             throw new EntityException(messageSource.getMessage("invalid_Password", new Object[]{RestrictionUtils.USER_PASSWORD_MAX_LENGTH}, Locale.ENGLISH));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////                                        User Recipe List                                                    ////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Validates the idUrl
+     *
+     * @param idUrl id to validate
+     * @throws EntityException if idUrl is not valid
+     */
+    public static void validateUserRecipeListId(Integer idUrl) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (idUrl == null)
+            throw new EntityException(messageSource.getMessage("user_recipe_list_Required", null, Locale.ENGLISH));
+        if (idUrl < RestrictionUtils.USER_RECIPE_LIST_ID_MIN)
+            throw new EntityException(messageSource.getMessage("invalid_User_Recipe_List_Id", null, Locale.ENGLISH));
+    }
+
+    /**
+     * Validates list name
+     *
+     * @param listName name of the list to validate
+     * @throws EntityException if list name isn't valid
+     */
+    public static void validateUserRecipeListName(String listName) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (listName == null)
+            throw new EntityException(messageSource.getMessage("list_name_Required", null, Locale.ENGLISH));
+        if (listName.length() > RestrictionUtils.URL_LIST_NAME_MAX_LENGTH)
+            throw new EntityException(messageSource.getMessage("invalid_list_name", new Object[]{RestrictionUtils.URL_LIST_NAME_MAX_LENGTH}, Locale.ENGLISH));
+    }
+
+    /**
+     * Validate visibility
+     *
+     * @param visibility visibility to validate
+     * @throws EntityException if visibility isn't valid
+     */
+    public static void validateUserRecipeListVisibility(String visibility) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (visibility != null) {
+            if (visibility.length() > RestrictionUtils.URL_VISIBILITY_MAX_LENGTH)
+                throw new EntityException(messageSource.getMessage("invalid_visibility_length", new Object[]{RestrictionUtils.URL_VISIBILITY_MAX_LENGTH}, Locale.ENGLISH));
+            if (!visibility.equalsIgnoreCase(messageSource.getMessage("visibility_private", null, Locale.ENGLISH)) && !visibility.equalsIgnoreCase(messageSource.getMessage("visibility_public", null, Locale.ENGLISH)))
+                throw new EntityException(messageSource.getMessage("invalid_visibility_value", null, Locale.ENGLISH));
+        }
     }
 }
