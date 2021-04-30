@@ -1,5 +1,6 @@
 package isel.leic.ps.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import isel.leic.ps.utils.RestrictionUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class Users {
     @Column(name = "name", length = RestrictionUtils.USER_NAME_MAX_LENGTH, nullable = false)
     private String name;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserId")
     private Collection<UserRecipeList> userRecipeLists;
 

@@ -2,8 +2,10 @@ package isel.leic.ps.service.implementations;
 
 import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
+import isel.leic.ps.exceptions.EntityMismatchException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
 import isel.leic.ps.model.UserRecipeList;
+import isel.leic.ps.model.Users;
 import isel.leic.ps.repository.UserRecipeListRepository;
 import isel.leic.ps.service.UserRecipeListService;
 import isel.leic.ps.service.UserService;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class UserRecipesListServiceImpl implements UserRecipeListService {
@@ -60,10 +63,32 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
 
     @Transactional
     @Override
-    public UserRecipeList addUserRecipeList(UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException {
+    public UserRecipeList addUserRecipeList(String username, UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, EntityMismatchException {
+        if (!userService.existsUserByUserUsername(username))
+            throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
+
+        Users user = userService.getUserByUsername(username);
+        if (user.getId() != userRecipeList.getIdUser())
+            throw new EntityMismatchException(messageSource.getMessage("entity_mismatch", new Object[]{username, user.getId(), userRecipeList.getIdUser()}, Locale.ENGLISH));
+
         if (existsUserRecipeListByListName(userRecipeList.getIdUser(), userRecipeList.getListName()))
             throw new EntityAlreadyExistsException(messageSource.getMessage("user_recipe_list_Already_Exist", new Object[]{userRecipeList.getIdUser(), userRecipeList.getListName()}, Locale.ENGLISH));
-        ValidationsUtils.validateUserRecipeListVisibility(userRecipeList.getVisibility());
+        if (userRecipeList.getVisibility() == null) userRecipeList.setVisibility("private");         //set default visibility to private
+        else ValidationsUtils.validateUserRecipeListVisibility(userRecipeList.getVisibility());
+
+        //set ID using IDENTITY strategy, getting the biggest one and then incrementing one
+        /*int id;
+        if (userRecipeListRepository.getBiggestId().isEmpty()) id = 1;
+        else userRecipeListRepository.getBiggestId().ifPresentOrElse();
+        id = userRecipeListRepository.getBiggestId().isPresent() + 1;*/
+
+        AtomicInteger id = new AtomicInteger();
+        userRecipeListRepository.getBiggestId().ifPresentOrElse(
+                (value) -> { id.set(value + 1); },
+                () -> { id.set(1); }
+        );
+        userRecipeList.setIdUrl(id.get());
+
         return userRecipeListRepository.save(userRecipeList);
     }
 

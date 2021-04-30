@@ -19,7 +19,7 @@ public class UserRecipeListController {
 
     @GetMapping("")
     public List<UserRecipeList> getUserRecipeListsByUsername(@PathVariable("username") String username) throws NotFoundException, BadRequestException {
-        List<UserRecipeList> userRecipeLists = null;
+        List<UserRecipeList> userRecipeLists;
         try {
             userRecipeLists = userRecipeListService.getUserRecipeListsByUsername(username);                           //TODO tratar de outputModel, autenticaçao, etc!
         } catch (EntityException e) {
@@ -32,7 +32,7 @@ public class UserRecipeListController {
 
     @GetMapping("/{idUrl}")
     public UserRecipeList getUserRecipeListsById(@PathVariable("idUrl") int idUrl) throws NotFoundException, BadRequestException {
-        UserRecipeList userRecipeList = null;
+        UserRecipeList userRecipeList;
         try {
             userRecipeList = userRecipeListService.getUserRecipeListById(idUrl);
         } catch (EntityException e) {
@@ -44,13 +44,17 @@ public class UserRecipeListController {
     }
 
     @PostMapping("")
-    public UserRecipeList addUserRecipeList(@RequestBody UserRecipeList userRecipeList) throws BadRequestException, ConflictException {
+    public UserRecipeList addUserRecipeList(@PathVariable("username") String username, @RequestBody UserRecipeList userRecipeList) throws BadRequestException, ConflictException, NotFoundException, MismatchException {
         try {
-            userRecipeListService.addUserRecipeList(userRecipeList);
+            userRecipeListService.addUserRecipeList(username, userRecipeList);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
             throw new ConflictException(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(e.getMessage());
+        } catch (EntityMismatchException e) {
+            throw new MismatchException(e.getMessage());
         }
         return userRecipeList;
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
+import isel.leic.ps.exceptions.EntityMismatchException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
 import isel.leic.ps.model.UserRecipeList;
 
@@ -51,12 +52,14 @@ public interface UserRecipeListService {
     /**
      * Adds a user recipe list
      *
+     * @param username
      * @param userRecipeList
      * @return created user recipe list
      * @throws EntityException if the given parameters are invalid
      * @throws EntityAlreadyExistsException if a user recipe list already exists with the same parameters
+     * @throws EntityMismatchException if the user id doesn't match the user id with the corresponding username.
      */
-    UserRecipeList addUserRecipeList(UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException;
+    UserRecipeList addUserRecipeList(String username, UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, EntityMismatchException;
 
     /**
      * Updates a user recipe list

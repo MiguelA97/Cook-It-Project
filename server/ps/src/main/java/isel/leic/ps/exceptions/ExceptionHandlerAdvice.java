@@ -40,6 +40,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
             BadRequestException.class,
             NotFoundException.class,
             ConflictException.class,
+            MismatchException.class,
     })
     public final ResponseEntity<ProblemDetails> handleProblemDetailsException(ProblemDetailsException ex) {
         log.warn(ex.getTitle());

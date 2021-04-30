@@ -1,5 +1,7 @@
 package isel.leic.ps.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import isel.leic.ps.utils.RestrictionUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,12 +17,9 @@ import java.util.Collection;
 public class UserRecipeList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)     //TODO acho que isto nao funciona!! verificar!
-    @Column(name = "id_url", nullable = false)
     private int idUrl;
 
     @Id
-    @Column(name = "id_user", nullable = false)
     private int idUser;
 
     @Column(name = "list_name", length = RestrictionUtils.URL_LIST_NAME_MAX_LENGTH, nullable = false)
@@ -30,15 +29,12 @@ public class UserRecipeList {
     private String description;
 
     @Column(name = "visibility", length = RestrictionUtils.URL_VISIBILITY_MAX_LENGTH)
-    @Value("${props.visibility:private}")               //TODO verificar isto, pode nem servir para nada!
     private String visibility;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false, insertable = false, updatable = false)
     private Users userByUserId;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userRecipeList")
-    private Collection<UsersRecipes> usersRecipesList;
 
     protected UserRecipeList() {
     }

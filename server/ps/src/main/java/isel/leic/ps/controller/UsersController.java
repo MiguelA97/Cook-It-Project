@@ -17,7 +17,7 @@ public class UsersController {
 
     @GetMapping("/{username}")
     public Users getUser(@PathVariable("username") String username) throws NotFoundException, BadRequestException {
-        Users user = null;
+        Users user;
         try {
             user = userService.getUserByUsername(username);                                              //TODO tratar de outputModel, autenticaçao, etc!
         } catch (EntityException e) {

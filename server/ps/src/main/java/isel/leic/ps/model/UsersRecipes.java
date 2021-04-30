@@ -12,15 +12,12 @@ import javax.persistence.*;
 public class UsersRecipes {
 
     @Id
-    @Column(name = "id_recipes", nullable = false)
     private int recipesId;
 
     @Id
-    @Column(name = "id_user", nullable = false)
     private int userId;
 
     @Id
-    @Column(name = "id_url", nullable = false)
     private int urlId;
 
     @ManyToOne(fetch = FetchType.LAZY)

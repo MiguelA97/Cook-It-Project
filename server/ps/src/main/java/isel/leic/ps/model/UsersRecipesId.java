@@ -3,14 +3,20 @@ package isel.leic.ps.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Getter @Setter
 public class UsersRecipesId implements Serializable {
 
+    @Column(name = "id_recipes", nullable = false)
     private int recipesId;
+
+    @Column(name = "id_user", nullable = false)
     private int userId;
+
+    @Column(name = "id_url", nullable = false)
     private int urlId;
 
     protected UsersRecipesId() {
