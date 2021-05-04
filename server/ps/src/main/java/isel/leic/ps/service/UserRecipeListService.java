@@ -78,7 +78,7 @@ public interface UserRecipeListService {
      *
      * @param idUrl
      * @throws EntityException if the given parameters are invalid
-     *  @throws EntityNotFoundException if no user recipe list with idUrl is found
+     * @throws EntityNotFoundException if no user recipe list with idUrl is found
      */
     void deleteUserRecipeListById(int idUrl) throws EntityException, EntityNotFoundException;
 }

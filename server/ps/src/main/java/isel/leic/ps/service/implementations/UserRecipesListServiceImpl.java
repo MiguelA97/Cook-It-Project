@@ -66,21 +66,14 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
     public UserRecipeList addUserRecipeList(String username, UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, EntityMismatchException {
         if (!userService.existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
-
         Users user = userService.getUserByUsername(username);
         if (user.getId() != userRecipeList.getIdUser())
             throw new EntityMismatchException(messageSource.getMessage("entity_mismatch", new Object[]{username, user.getId(), userRecipeList.getIdUser()}, Locale.ENGLISH));
-
         if (existsUserRecipeListByListName(userRecipeList.getIdUser(), userRecipeList.getListName()))
             throw new EntityAlreadyExistsException(messageSource.getMessage("user_recipe_list_Already_Exist", new Object[]{userRecipeList.getIdUser(), userRecipeList.getListName()}, Locale.ENGLISH));
+
         if (userRecipeList.getVisibility() == null) userRecipeList.setVisibility("private");         //set default visibility to private
         else ValidationsUtils.validateUserRecipeListVisibility(userRecipeList.getVisibility());
-
-        //set ID using IDENTITY strategy, getting the biggest one and then incrementing one
-        /*int id;
-        if (userRecipeListRepository.getBiggestId().isEmpty()) id = 1;
-        else userRecipeListRepository.getBiggestId().ifPresentOrElse();
-        id = userRecipeListRepository.getBiggestId().isPresent() + 1;*/
 
         AtomicInteger id = new AtomicInteger();
         userRecipeListRepository.getBiggestId().ifPresentOrElse(
@@ -113,7 +106,6 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
     @Transactional
     @Override
     public void deleteUserRecipeListById(int idUrl) throws EntityException, EntityNotFoundException {
-        ValidationsUtils.validateUserRecipeListId(idUrl);
         if (!existsUserRecipeListById(idUrl))
             throw new EntityNotFoundException(messageSource.getMessage("user_recipe_list_Not_Exist", new Object[]{idUrl}, Locale.ENGLISH));
         userRecipeListRepository.deleteByIdUrl(idUrl);

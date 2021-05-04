@@ -73,8 +73,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException {
-        ValidationsUtils.validateUserUsername(username);
-        if (!usersRepository.existsByUsername(username))
+        if (!existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
         usersRepository.deleteByUsername(username);
     }

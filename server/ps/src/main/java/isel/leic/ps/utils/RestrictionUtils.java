@@ -19,6 +19,7 @@ public class RestrictionUtils {
 
     //RECIPE
     public static final short RECIPE_NAME_MAX_LENGTH = 100;
+    public static final short RECIPE_ID_MIN = 1;
 
     //INGREDIENT_DETAILS
     public static final short INGREDIENT_DETAILS_AISLE_MAX_LENGTH = 30;

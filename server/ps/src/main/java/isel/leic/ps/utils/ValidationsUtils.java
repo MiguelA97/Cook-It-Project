@@ -131,4 +131,36 @@ public class ValidationsUtils {
                 throw new EntityException(messageSource.getMessage("invalid_visibility_value", null, Locale.ENGLISH));
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////                                            Recipe                                                          ////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Validates the idUrl
+     *
+     * @param id id to validate
+     * @throws EntityException if id is not valid
+     */
+    public static void validateRecipeId(Integer id) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (id == null)
+            throw new EntityException(messageSource.getMessage("recipe_Required", null, Locale.ENGLISH));
+        if (id < RestrictionUtils.RECIPE_ID_MIN)
+            throw new EntityException(messageSource.getMessage("invalid_recipe_Id", null, Locale.ENGLISH));
+    }
+
+    /**
+     * Validates recipe name
+     *
+     * @param name name of the recipe to validate
+     * @throws EntityException if name isn't valid
+     */
+    public static void validateRecipeName(String name) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (name == null)
+            throw new EntityException(messageSource.getMessage("recipe_name_Required", null, Locale.ENGLISH));
+        if (name.length() > RestrictionUtils.RECIPE_NAME_MAX_LENGTH)
+            throw new EntityException(messageSource.getMessage("invalid_recipe_name", new Object[]{RestrictionUtils.RECIPE_NAME_MAX_LENGTH}, Locale.ENGLISH));
+    }
 }
