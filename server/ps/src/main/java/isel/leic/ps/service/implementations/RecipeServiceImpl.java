@@ -66,7 +66,10 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     @Override
     public Recipe addRecipe(int listId, Recipe recipe) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException {
-        return null;
+        if (!userRecipeListService.existsUserRecipeListById(listId))
+            throw new EntityNotFoundException(messageSource.getMessage("user_recipe_list_Not_Exist", new Object[]{listId}, Locale.ENGLISH));
+        ValidationsUtils.validateRecipeName(recipe.getName());
+        return recipeRepository.save(recipe);
     }
 
     @Transactional
