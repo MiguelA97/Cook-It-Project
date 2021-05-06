@@ -1,5 +1,6 @@
 package isel.leic.ps.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import isel.leic.ps.utils.RestrictionUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,7 @@ public class IngredientDetails {
     @Column(name = "image")
     private String image;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_recipe", referencedColumnName = "id_recipe", nullable = false, insertable = false, updatable = false)
     private Recipe recipeByRecipeId;

@@ -36,6 +36,10 @@ public class UserRecipeList {
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false, insertable = false, updatable = false)
     private Users userByUserId;
 
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userRecipeListByUserRecipeListId")
+    private Collection<Recipe> recipes;
+
     protected UserRecipeList() {
     }
 

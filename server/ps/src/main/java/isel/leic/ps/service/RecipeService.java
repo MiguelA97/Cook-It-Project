@@ -16,7 +16,17 @@ public interface RecipeService {
      * @return true if recipe exists, false otherwise
      * @throws EntityException if the given parameters are invalid
      */
-     boolean existsRecipeById(int id) throws EntityException;
+    boolean existsRecipeById(int id) throws EntityException;
+
+    /**
+     * Verifies if the list with id listId already contains a recipe with api id
+     *
+     * @param listId
+     * @param apiId
+     * @return true if recipe exists, false otherwise
+     * @throws EntityException if the given parameters are invalid
+     */
+    boolean existsRecipeByIdUrlAndIdApi(int listId, int apiId) throws EntityException;
 
     /**
      * Returns a recipe by it's id
@@ -38,14 +48,14 @@ public interface RecipeService {
     List<Recipe> getRecipesByUserRecipeListId(int listId) throws EntityException, EntityNotFoundException;
 
     /**
-     * Adds a recipe
+     * Adds a recipe to a list
      *
      * @param listId
      * @param recipe
      * @return Recipe
      * @throws EntityException if the given parameters are invalid
      * @throws EntityAlreadyExistsException if a recipe (from API) already exists in that list
-     * @throws EntityNotFoundException if the parameters username or listId don't exist
+     * @throws EntityNotFoundException if the parameter listId don't exist
      */
     Recipe addRecipe(int listId, Recipe recipe) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException;
 
@@ -61,13 +71,11 @@ public interface RecipeService {
     Recipe updateRecipe(int id, Recipe recipe) throws EntityException, EntityNotFoundException;
 
     /**
-     * Deletes a recipe from the list with the id listId, and if there are no more recipes in any list from the user with the given username, deletes the recipe with id recipeId
+     * Deletes a recipe by it's id
      *
-     * @param username
-     * @param listId
      * @param recipeId
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no recipe with id is found
      */
-    void deleteRecipeById(String username, int listId, int recipeId) throws EntityException, EntityNotFoundException;
+    void deleteRecipeById(int recipeId) throws EntityException, EntityNotFoundException;
 }

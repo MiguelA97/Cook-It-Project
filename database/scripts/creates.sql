@@ -19,7 +19,10 @@ create table if not exists USER_RECIPE_LIST (
 
 create table if not exists RECIPE (
 	id_recipe serial primary key,
-	id_api int unique,
+	id_api int,
+	id_user int,
+	id_url int,
+	foreign key (id_user, id_url) references USER_RECIPE_LIST(id_user, id_url) on delete cascade,
 	recipe_name varchar(100) not null,
 	ready_in_minutes smallint not null,
 	instructions text not null,
@@ -31,17 +34,9 @@ create table if not exists RECIPE (
 	vegetarian boolean not null
 );
 
-create table if not exists USERS_RECIPES (
-	id_recipes int references RECIPE(id_recipe) on delete cascade,
-	id_user int,
-	id_url int,
-	foreign key (id_user, id_url) references USER_RECIPE_LIST(id_user, id_url) on delete cascade,
-	primary key(id_recipes, id_user, id_url)
-);
-
 create table if not exists INGREDIENT_DETAILS (
 	id_ingredient serial primary key,
-	id_api int unique,
+	id_api int,
 	id_recipe int references RECIPE(id_recipe) on delete cascade,
 	aisle varchar(30),
 	ingredient_name varchar(50) not null,

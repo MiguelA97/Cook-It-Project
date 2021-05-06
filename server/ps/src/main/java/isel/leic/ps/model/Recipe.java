@@ -1,5 +1,7 @@
 package isel.leic.ps.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import isel.leic.ps.utils.RestrictionUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +19,14 @@ public class Recipe {
     @Column(name = "id_recipe", nullable = false)
     private int id;
 
-    @Column(name = "id_api", unique = true)
+    @Column(name = "id_api")
     private int idApi;
+
+    @Column(name = "id_user", nullable = false)
+    private int idUser;
+
+    @Column(name = "id_url", nullable = false)
+    private int idUrl;
 
     @Column(name = "recipe_name", length = RestrictionUtils.RECIPE_NAME_MAX_LENGTH, nullable = false)
     private String name;
@@ -47,11 +55,17 @@ public class Recipe {
     @Column(name = "vegetarian", nullable = false)
     private boolean vegetarian;
 
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false, insertable = false, updatable = false),
+            @JoinColumn(name = "id_url", referencedColumnName = "id_url", nullable = false, insertable = false, updatable = false)
+    })
+    private UserRecipeList userRecipeListByUserRecipeListId;
+
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipeByRecipeId")
     private Collection<IngredientDetails> ingredientDetailsList;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
-    private Collection<UsersRecipes> usersRecipesList;
 
     protected Recipe() {
     }

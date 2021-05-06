@@ -71,9 +71,9 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{recipeId}")
-    public void deleteRecipeById(@PathVariable("username") String username, @PathVariable("listId") int listId, @PathVariable("recipeId") int recipeId) throws BadRequestException, NotFoundException {
+    public void deleteRecipeById(@PathVariable("recipeId") int recipeId) throws BadRequestException, NotFoundException {
         try {
-            recipeService.deleteRecipeById(username, listId, recipeId);
+            recipeService.deleteRecipeById(recipeId);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
