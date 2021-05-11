@@ -39,15 +39,6 @@ public interface UserRecipeListRepository extends JpaRepository<UserRecipeList, 
     Optional<Integer> getBiggestId();
 
     /**
-     * Find all user recipe lists from a user with username
-     *
-     * @param username The username of the user
-     * @return List with all user recipe lists that belong to the user with username
-     */
-    @Query(value = "select * from user_recipe_list where id_user = (select id_user from users where username = '?1')", nativeQuery = true)
-    List<UserRecipeList> findByUsername(String username);
-
-    /**
      * Finds user recipe list by id
      *
      * @param idUrl id of the user recipe list

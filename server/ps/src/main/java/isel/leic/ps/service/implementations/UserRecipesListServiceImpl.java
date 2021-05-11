@@ -50,7 +50,9 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
         ValidationsUtils.validateUserUsername(username);
         if(!userService.existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
-        return userRecipeListRepository.findByUsername(username);
+
+        Users user = userService.getUserByUsername(username);
+        return (List<UserRecipeList>) user.getUserRecipeLists();
     }
 
     @Override
