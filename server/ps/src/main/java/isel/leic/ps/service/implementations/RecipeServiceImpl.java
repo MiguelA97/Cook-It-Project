@@ -22,14 +22,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final UserRecipeListService userRecipeListService;
-    private final UserService userService;
 
     private final MessageSource messageSource;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRecipeListService userRecipeListService, UserService userService, MessageSource messageSource) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRecipeListService userRecipeListService, MessageSource messageSource) {
         this.recipeRepository = recipeRepository;
         this.userRecipeListService = userRecipeListService;
-        this.userService = userService;
         this.messageSource = messageSource;
     }
 

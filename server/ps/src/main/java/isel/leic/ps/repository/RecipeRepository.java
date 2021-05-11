@@ -1,10 +1,7 @@
 package isel.leic.ps.repository;
 
-import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.model.Recipe;
-import isel.leic.ps.model.UserRecipeList;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +16,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
      * @param listId
      * @param apiId
      * @return true if recipe exists, false otherwise
-     * @throws EntityException if the given parameters are invalid
      */
     boolean existsByIdUrlAndIdApi(int listId, int apiId);
 

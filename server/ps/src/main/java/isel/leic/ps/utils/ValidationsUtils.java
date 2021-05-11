@@ -163,4 +163,62 @@ public class ValidationsUtils {
         if (name.length() > RestrictionUtils.RECIPE_NAME_MAX_LENGTH)
             throw new EntityException(messageSource.getMessage("invalid_recipe_name", new Object[]{RestrictionUtils.RECIPE_NAME_MAX_LENGTH}, Locale.ENGLISH));
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////                                       Ingredient Details                                                   ////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Validates the ingredient detail id
+     *
+     * @param id id to validate
+     * @throws EntityException if id is not valid
+     */
+    public static void validateIngredientDetailsId(Integer id) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (id == null)
+            throw new EntityException(messageSource.getMessage("ingredient_detail_Required", null, Locale.ENGLISH));
+        if (id < RestrictionUtils.INGREDIENT_DETAILS_ID_MIN)
+            throw new EntityException(messageSource.getMessage("invalid_ingredient_detail_Id", null, Locale.ENGLISH));
+    }
+
+    /**
+     * Validates ingredient details name
+     *
+     * @param name name of the ingredient to validate
+     * @throws EntityException if name isn't valid
+     */
+    public static void validateIngredientDetailsName(String name) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (name == null)
+            throw new EntityException(messageSource.getMessage("ingredient_detail_name_Required", null, Locale.ENGLISH));
+        if (name.length() > RestrictionUtils.INGREDIENT_DETAILS_INGREDIENT_NAME_MAX_LENGTH)
+            throw new EntityException(messageSource.getMessage("invalid_ingredient_detail_name", new Object[]{RestrictionUtils.INGREDIENT_DETAILS_INGREDIENT_NAME_MAX_LENGTH}, Locale.ENGLISH));
+    }
+
+    /**
+     * Validates ingredient details aisle
+     *
+     * @param aisle aisle of the ingredient to validate
+     * @throws EntityException if aisle isn't valid
+     */
+    public static void validateIngredientDetailsAisle(String aisle) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (aisle.length() > RestrictionUtils.INGREDIENT_DETAILS_AISLE_MAX_LENGTH)
+            throw new EntityException(messageSource.getMessage("invalid_ingredient_detail_aisle", new Object[]{RestrictionUtils.INGREDIENT_DETAILS_AISLE_MAX_LENGTH}, Locale.ENGLISH));
+    }
+
+    /**
+     * Validates ingredient details name
+     *
+     * @param unit unit of the ingredient to validate
+     * @throws EntityException if name isn't valid
+     */
+    public static void validateIngredientDetailsUnit(String unit) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (unit == null)
+            throw new EntityException(messageSource.getMessage("ingredient_detail_unit_Required", null, Locale.ENGLISH));
+        if (unit.length() > RestrictionUtils.INGREDIENT_DETAILS_UNIT_MAX_LENGTH)
+            throw new EntityException(messageSource.getMessage("invalid_ingredient_detail_unit", new Object[]{RestrictionUtils.INGREDIENT_DETAILS_UNIT_MAX_LENGTH}, Locale.ENGLISH));
+    }
 }
