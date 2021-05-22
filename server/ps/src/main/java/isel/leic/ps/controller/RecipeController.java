@@ -2,11 +2,17 @@ package isel.leic.ps.controller;
 
 import isel.leic.ps.exceptions.*;
 import isel.leic.ps.model.Recipe;
-import isel.leic.ps.model.UserRecipeList;
+import isel.leic.ps.model.outputModel.RecipeOutputModel;
 import isel.leic.ps.service.RecipeService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static isel.leic.ps.utils.HeadersUtils.setSirenContentType;
 
 @RestController
 @RequestMapping("/v1/users/{username}/lists/{listId}/recipes")
@@ -19,7 +25,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{recipeId}")
-    public Recipe getRecipeById(@PathVariable("recipeId") int recipeId) throws BadRequestException, NotFoundException {
+    public ResponseEntity<RecipeOutputModel> getRecipeById(@PathVariable("username") String username, @PathVariable("recipeId") int recipeId) throws BadRequestException, NotFoundException {
         Recipe recipe;
         try {
             recipe = recipeService.getRecipeById(recipeId);
@@ -28,24 +34,30 @@ public class RecipeController {
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
         }
-        return recipe;
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(new RecipeOutputModel(recipe, username), setSirenContentType(headers), HttpStatus.OK);
     }
 
     @GetMapping("")
-    public List<Recipe> getRecipesByUserRecipeListId(@PathVariable("listId") int listId) throws BadRequestException, NotFoundException {
+    public ResponseEntity<List<RecipeOutputModel>> getRecipesByUserRecipeListId(@PathVariable("username") String username, @PathVariable("listId") int listId) throws BadRequestException, NotFoundException {
         List<Recipe> recipes;
+        ArrayList<RecipeOutputModel> recipeOutputModels;
         try {
             recipes = recipeService.getRecipesByUserRecipeListId(listId);
+            recipeOutputModels = new ArrayList<>(recipes.size());
+            for (Recipe recipe : recipes)
+                recipeOutputModels.add(new RecipeOutputModel(recipe, username));
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
         }
-        return recipes;
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(recipeOutputModels, setSirenContentType(headers), HttpStatus.OK);
     }
 
     @PostMapping("")
-    public Recipe addRecipe(@PathVariable("listId") int listId, @RequestBody Recipe recipe) throws BadRequestException, ConflictException, NotFoundException {
+    public ResponseEntity<RecipeOutputModel> addRecipe(@PathVariable("username") String username, @PathVariable("listId") int listId, @RequestBody Recipe recipe) throws BadRequestException, ConflictException, NotFoundException {
         try {
             recipeService.addRecipe(listId, recipe);
         } catch (EntityException e) {
@@ -55,11 +67,12 @@ public class RecipeController {
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
         }
-        return recipe;
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(new RecipeOutputModel(recipe, username), setSirenContentType(headers), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{recipeId}")
-    public Recipe updateRecipe(@PathVariable("recipeId") int recipeId, @RequestBody Recipe recipe) throws BadRequestException, NotFoundException {
+    public ResponseEntity<RecipeOutputModel> updateRecipe(@PathVariable("username") String username, @PathVariable("recipeId") int recipeId, @RequestBody Recipe recipe) throws BadRequestException, NotFoundException {
         try {
             recipe = recipeService.updateRecipe(recipeId, recipe);
         } catch (EntityException e) {
@@ -67,7 +80,8 @@ public class RecipeController {
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
         }
-        return recipe;
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(new RecipeOutputModel(recipe, username), setSirenContentType(headers), HttpStatus.OK);
     }
 
     @DeleteMapping("/{recipeId}")

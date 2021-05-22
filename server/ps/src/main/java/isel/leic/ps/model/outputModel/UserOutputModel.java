@@ -3,16 +3,15 @@ package isel.leic.ps.model.outputModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import isel.leic.ps.hypermedia.siren.subentities.Action;
-import isel.leic.ps.hypermedia.siren.subentities.Entity;
-import isel.leic.ps.hypermedia.siren.subentities.Link;
+import isel.leic.ps.hypermedia.hateoas.Link;
 import isel.leic.ps.model.Users;
+import isel.leic.ps.utils.UriBuilderUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"class", "properties", "entities", "actions", "links"})
+@JsonPropertyOrder({"class", "properties", "links"})
 public class UserOutputModel {
 
     private final static String ENTITY_CLASS = "users";
@@ -22,18 +21,12 @@ public class UserOutputModel {
     @JsonProperty
     private final Map<String, Object> properties;
     @JsonProperty
-    private final Entity[] entities;
-    @JsonProperty
-    private final Action[] actions;
-    @JsonProperty
     private final Link[] links;
 
     public UserOutputModel(Users user) {
         this.klass = initKlass();
         this.properties = initProperties(user);
-        this.entities = initEntities(user);
-        this.actions = initActions(user);
-        this.links = initLinks(user);
+        this.links = initLinks(user.getUsername());
     }
 
     private String[] initKlass() {
@@ -41,18 +34,24 @@ public class UserOutputModel {
     }
 
     private HashMap<String, Object> initProperties(Users user) {
-        return null;
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("user-id", user.getId());
+        properties.put("user-username", user.getUsername());
+        properties.put("user-name", user.getName());
+        properties.put("user-email", user.getEmail());
+        properties.put("user-password", user.getPassword());
+        properties.put("user-recipe-lists", user.getUserRecipeLists());
+        return properties;
     }
 
-    private Entity[] initEntities(Users user) {
-        return null;
-    }
+    private Link[] initLinks(String username) {
+        // Link-self
+        String userUri = UriBuilderUtils.buildUserUri(username);
+        Link self = new Link(new String[]{"self"}, new String[]{ENTITY_CLASS}, userUri);
+        // Link-index
+        String indexUri = UriBuilderUtils.buildIndexUri();
+        Link indexLink = new Link(new String[]{"index"}, new String[]{"index"}, indexUri);
 
-    private Action[] initActions(Users user) {
-       return null;
-    }
-
-    private Link[] initLinks(Users user) {
-        return null;
+        return new Link[]{self, indexLink};
     }
 }
