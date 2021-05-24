@@ -221,4 +221,20 @@ public class ValidationsUtils {
         if (unit.length() > RestrictionUtils.INGREDIENT_DETAILS_UNIT_MAX_LENGTH)
             throw new EntityException(messageSource.getMessage("invalid_ingredient_detail_unit", new Object[]{RestrictionUtils.INGREDIENT_DETAILS_UNIT_MAX_LENGTH}, Locale.ENGLISH));
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////                                             API                                                            ////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Validates search recipes query
+     *
+     * @param query query of search recipes request to validate
+     * @throws EntityException if query isn't valid
+     */
+    public static void validateSearchRecipesQuery(String query) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (query == null)
+            throw new EntityException(messageSource.getMessage("search_recipes_query_Required", null, Locale.ENGLISH));
+    }
 }
