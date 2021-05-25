@@ -9,15 +9,15 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RecipeObject {
 
-    @JsonProperty(value = "recipe-id")
+    @JsonProperty(value = "id")
     private final int id;
-    @JsonProperty(value = "recipe-title")
+    @JsonProperty(value = "title")
     private final String title;
-    @JsonProperty(value = "recipe-ready-in-minutes")
+    @JsonProperty(value = "readyInMinutes")
     private final short readyInMinutes;
     @JsonProperty(value = "servings")
     private final short servings;
-    @JsonProperty(value = "recipe-image")
+    @JsonProperty(value = "image")
     private final String image;
 
     public RecipeObject(int id, String title, short readyInMinutes, short servings, String image) {
@@ -27,5 +27,4 @@ public class RecipeObject {
         this.servings = servings;
         this.image = image;
     }
-
 }

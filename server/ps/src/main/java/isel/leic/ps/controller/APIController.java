@@ -2,15 +2,15 @@ package isel.leic.ps.controller;
 
 import isel.leic.ps.exceptions.BadRequestException;
 import isel.leic.ps.exceptions.EntityException;
+import isel.leic.ps.exceptions.EntityNotFoundException;
+import isel.leic.ps.exceptions.NotFoundException;
+import isel.leic.ps.model.outputModel.jsonObjects.RecipeInformationObject;
 import isel.leic.ps.model.outputModel.jsonObjects.RecipeObject;
 import isel.leic.ps.service.APIService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,16 +38,21 @@ public class APIController {
         return new ResponseEntity<>(searchRecipesObjects, setSirenContentType(headers), HttpStatus.OK);
     }
 
-    /*@GetMapping("/{recipeId}/summary")
-    public ResponseEntity<> summarizeRecipe() {
-        return null;
-    }
-
     @GetMapping("/{recipeId}/information")
-    public ResponseEntity<> getRecipeInformation() {
-        return null;
+    public ResponseEntity<RecipeInformationObject> getRecipeInformation(@PathVariable("recipeId") int recipeId) throws NotFoundException, BadRequestException {
+        RecipeInformationObject recipeInformationObject;
+        try {
+            recipeInformationObject = apiService.getRecipeInformation(recipeId);
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(recipeInformationObject, setSirenContentType(headers), HttpStatus.OK);
     }
 
+    /*
     @GetMapping("/findByIngredients")
     public ResponseEntity<> searchRecipesByIngredients() {
         return null;
