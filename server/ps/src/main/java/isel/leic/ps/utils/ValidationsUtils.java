@@ -4,6 +4,7 @@ import isel.leic.ps.components.MessageSourceHolder;
 import isel.leic.ps.exceptions.EntityException;
 import org.springframework.context.MessageSource;
 
+import java.util.LinkedList;
 import java.util.Locale;
 
 public class ValidationsUtils {
@@ -248,5 +249,58 @@ public class ValidationsUtils {
         MessageSource messageSource = MessageSourceHolder.getMessageSource();
         if (ingredients == null)
             throw new EntityException(messageSource.getMessage("search_recipes_by_ingredients_ingredients_Required", null, Locale.ENGLISH));
+    }
+
+    /**
+     * Validates search recipes number
+     *
+     * @param number number of maximum recipes
+     * @throws EntityException if number isn´t valid
+     */
+    public static void validateSearchRecipesNumber(String number) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        int num;
+        try {
+            num = Integer.parseInt(number);
+        } catch (NumberFormatException e) {
+            throw new EntityException(messageSource.getMessage("invalid_search_recipes_number", new Object[]{number}, Locale.ENGLISH));
+        }
+        if (num < RestrictionUtils.API_RETURNED_RECIPES_MIN_NUMBER || num > RestrictionUtils.API_RETURNED_RECIPES_MAX_NUMBER)
+            throw new EntityException(messageSource.getMessage("invalid_search_recipes_number_size", new Object[]{number, RestrictionUtils.API_RETURNED_RECIPES_MIN_NUMBER, RestrictionUtils.API_RETURNED_RECIPES_MAX_NUMBER}, Locale.ENGLISH));
+    }
+
+    /**
+     * Validates search recipes offset
+     *
+     * @param offset number of results to skip
+     * @throws EntityException if offset isn´t valid
+     */
+    public static void validateSearchRecipesOffset(String offset) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        int num;
+        try {
+            num = Integer.parseInt(offset);
+        } catch (NumberFormatException e) {
+            throw new EntityException(messageSource.getMessage("invalid_search_recipes_offset", new Object[]{offset}, Locale.ENGLISH));
+        }
+        if (num < RestrictionUtils.API_RETURNED_RECIPES_MIN_OFFSET || num > RestrictionUtils.API_RETURNED_RECIPES_MAX_OFFSET)
+            throw new EntityException(messageSource.getMessage("invalid_search_recipes_offset_size", new Object[]{offset, RestrictionUtils.API_RETURNED_RECIPES_MIN_OFFSET, RestrictionUtils.API_RETURNED_RECIPES_MAX_OFFSET}, Locale.ENGLISH));
+    }
+
+    /**
+     * Generic method to validate optional parameters of search recipes
+     *
+     * @param params param to validate
+     * @param validValues list with the valid parameters
+     * @param parameterName parameter name
+     * @throws EntityException if parameters aren't valid
+     */
+    public static void validateOptionalParameters(String params, LinkedList<String> validValues, String parameterName) throws EntityException {
+        if (params.isEmpty()) return;
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        String[] values = params.split(",");
+        for (String val : values)
+            if (!validValues.contains(val))
+                throw new EntityException(messageSource.getMessage("invalid_optional_parameter", new Object[]{val, parameterName}, Locale.ENGLISH));
     }
 }

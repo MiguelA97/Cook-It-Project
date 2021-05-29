@@ -4,6 +4,7 @@ import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
 import isel.leic.ps.model.outputModel.jsonObjects.*;
 import isel.leic.ps.service.APIService;
+import isel.leic.ps.utils.RestrictionUtils;
 import isel.leic.ps.utils.ValidationsUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -46,11 +47,23 @@ public class APIServiceImpl implements APIService {
     }
 
     @Override
-    public List<RecipeObject> searchRecipes(String query) throws EntityException {
+    public List<RecipeObject> searchRecipes(String query, String number, String offset, String diet, String intolerances, String type, String cuisine) throws EntityException {
         ValidationsUtils.validateSearchRecipesQuery(query);
+        ValidationsUtils.validateSearchRecipesNumber(number);
+        ValidationsUtils.validateSearchRecipesOffset(offset);
+        ValidationsUtils.validateOptionalParameters(diet, RestrictionUtils.API_ACCEPTED_DIETS, "diet");
+        ValidationsUtils.validateOptionalParameters(intolerances, RestrictionUtils.API_ACCEPTED_INTOLERANCES, "intolerances");
+        ValidationsUtils.validateOptionalParameters(type, RestrictionUtils.API_ACCEPTED_TYPES, "type");
+        ValidationsUtils.validateOptionalParameters(cuisine, RestrictionUtils.API_ACCEPTED_CUISINES, "cuisine");
+
 
         HttpEntity<String> entity = setHeaders();
-        String url = searchRecipesUrl + query;
+        String url = searchRecipesUrl + query + "&number=" + number + "&offset=" + offset;
+        //optional parameters url
+        if (!diet.isEmpty()) url += "&diet=" + diet;
+        if (!intolerances.isEmpty()) url += "&intolerances=" + intolerances;
+        if (!type.isEmpty()) url += "&type=" + type;
+        if (!cuisine.isEmpty()) url += "&cuisine=" + cuisine;
         ResponseEntity<SearchRecipesObject> searchRecipesObject = restTemplate.exchange(url, HttpMethod.GET, entity, SearchRecipesObject.class);
 
         List<RecipeObject> recipeObjects = new ArrayList<>();
@@ -82,12 +95,12 @@ public class APIServiceImpl implements APIService {
     }
 
     @Override
-    public List<SearchRecipesByIngredientsObject> searchRecipesByIngredients(String ingredients) throws EntityException {
+    public List<SearchRecipesByIngredientsObject> searchRecipesByIngredients(String ingredients, String number) throws EntityException {
         ValidationsUtils.validateSearchRecipesByIngredients(ingredients);
+        ValidationsUtils.validateSearchRecipesNumber(number);
 
         HttpEntity<String> entity = setHeaders();
-        String url = searchRecipesByIngredientsUrl + ingredients;
-
+        String url = searchRecipesByIngredientsUrl + ingredients + "&number=" + number;
         ResponseEntity<SearchRecipesByIngredientsObject[]> searchRecipesByIngredientsObject = restTemplate.exchange(url, HttpMethod.GET, entity, SearchRecipesByIngredientsObject[].class);
 
         return Arrays.asList(searchRecipesByIngredientsObject.getBody());

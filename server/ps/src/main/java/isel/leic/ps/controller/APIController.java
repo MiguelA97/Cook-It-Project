@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static isel.leic.ps.utils.HeadersUtils.setSirenContentType;
 
@@ -28,10 +29,17 @@ public class APIController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<RecipeObject>> searchRecipes(@RequestParam("query") String query) throws BadRequestException {
+    public ResponseEntity<List<RecipeObject>> searchRecipes(@RequestParam("query") String query,
+                                                            @RequestParam(value = "number", defaultValue = "10") String number,
+                                                            @RequestParam(value = "offset", defaultValue = "0") String offset,
+                                                            @RequestParam(value = "diet", defaultValue = "", required = false) String diet,
+                                                            @RequestParam(value = "intolerances", defaultValue = "", required = false) String intolerances,
+                                                            @RequestParam(value = "type", defaultValue = "", required = false) String type,
+                                                            @RequestParam(value = "cuisine", defaultValue = "", required = false) String cuisine
+                                                            ) throws BadRequestException {
         List<RecipeObject> searchRecipesObjects;
         try {
-            searchRecipesObjects = apiService.searchRecipes(query);
+            searchRecipesObjects = apiService.searchRecipes(query, number, offset, diet, intolerances, type, cuisine);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         }
@@ -55,10 +63,10 @@ public class APIController {
 
 
     @GetMapping("/findByIngredients")
-    public ResponseEntity<List<SearchRecipesByIngredientsObject>> searchRecipesByIngredients(@RequestParam("ingredients") String ingredients) throws BadRequestException {
+    public ResponseEntity<List<SearchRecipesByIngredientsObject>> searchRecipesByIngredients(@RequestParam("ingredients") String ingredients, @RequestParam(value = "number", defaultValue = "10") String number) throws BadRequestException {
         List<SearchRecipesByIngredientsObject> searchSearchRecipesByIngredientsObjects;
         try {
-            searchSearchRecipesByIngredientsObjects = apiService.searchRecipesByIngredients(ingredients);
+            searchSearchRecipesByIngredientsObjects = apiService.searchRecipesByIngredients(ingredients, number);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         }
