@@ -2,10 +2,7 @@ package isel.leic.ps.service.implementations;
 
 import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
-import isel.leic.ps.model.outputModel.jsonObjects.RecipeInformationObject;
-import isel.leic.ps.model.outputModel.jsonObjects.RecipeObject;
-import isel.leic.ps.model.outputModel.jsonObjects.SearchRecipesObject;
-import isel.leic.ps.model.outputModel.jsonObjects.SummarizeRecipeObject;
+import isel.leic.ps.model.outputModel.jsonObjects.*;
 import isel.leic.ps.service.APIService;
 import isel.leic.ps.utils.ValidationsUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +17,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +35,7 @@ public class APIServiceImpl implements APIService {
     private String searchRecipesUrl = "https://" + API_HOST + "/recipes/search?query=";
     private String summarizeRecipeUrl = "https://" + API_HOST + "/recipes/#?recipeId;/summary";
     private String getRecipeInformationUrl = "https://" + API_HOST + "/recipes/#?recipeId;/information";
+    private String searchRecipesByIngredientsUrl = "https://" + API_HOST + "/recipes/findByIngredients?ingredients=";
 
     private final RestTemplate restTemplate;
     private final MessageSource messageSource;
@@ -80,6 +79,18 @@ public class APIServiceImpl implements APIService {
         recipeInformationObject.getBody().setSummary(summarizeRecipeObject.getBody().getSummary());
 
         return recipeInformationObject.getBody();
+    }
+
+    @Override
+    public List<SearchRecipesByIngredientsObject> searchRecipesByIngredients(String ingredients) throws EntityException {
+        ValidationsUtils.validateSearchRecipesByIngredients(ingredients);
+
+        HttpEntity<String> entity = setHeaders();
+        String url = searchRecipesByIngredientsUrl + ingredients;
+
+        ResponseEntity<SearchRecipesByIngredientsObject[]> searchRecipesByIngredientsObject = restTemplate.exchange(url, HttpMethod.GET, entity, SearchRecipesByIngredientsObject[].class);
+
+        return Arrays.asList(searchRecipesByIngredientsObject.getBody());
     }
 
     /**

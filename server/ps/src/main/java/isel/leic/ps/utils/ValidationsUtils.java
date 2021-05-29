@@ -237,4 +237,16 @@ public class ValidationsUtils {
         if (query == null)
             throw new EntityException(messageSource.getMessage("search_recipes_query_Required", null, Locale.ENGLISH));
     }
+
+    /**
+     * Validates search recipes by ingredients ingredients
+     *
+     * @param ingredients ingredients of search recipes by ingredients request to validate
+     * @throws EntityException if ingredients isn´t valid
+     */
+    public static void validateSearchRecipesByIngredients(String ingredients) throws EntityException {
+        MessageSource messageSource = MessageSourceHolder.getMessageSource();
+        if (ingredients == null)
+            throw new EntityException(messageSource.getMessage("search_recipes_by_ingredients_ingredients_Required", null, Locale.ENGLISH));
+    }
 }

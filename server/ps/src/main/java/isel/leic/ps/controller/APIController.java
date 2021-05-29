@@ -6,6 +6,7 @@ import isel.leic.ps.exceptions.EntityNotFoundException;
 import isel.leic.ps.exceptions.NotFoundException;
 import isel.leic.ps.model.outputModel.jsonObjects.RecipeInformationObject;
 import isel.leic.ps.model.outputModel.jsonObjects.RecipeObject;
+import isel.leic.ps.model.outputModel.jsonObjects.SearchRecipesByIngredientsObject;
 import isel.leic.ps.service.APIService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,9 +53,16 @@ public class APIController {
         return new ResponseEntity<>(recipeInformationObject, setSirenContentType(headers), HttpStatus.OK);
     }
 
-    /*
+
     @GetMapping("/findByIngredients")
-    public ResponseEntity<> searchRecipesByIngredients() {
-        return null;
-    }*/
+    public ResponseEntity<List<SearchRecipesByIngredientsObject>> searchRecipesByIngredients(@RequestParam("ingredients") String ingredients) throws BadRequestException {
+        List<SearchRecipesByIngredientsObject> searchSearchRecipesByIngredientsObjects;
+        try {
+            searchSearchRecipesByIngredientsObjects = apiService.searchRecipesByIngredients(ingredients);
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(searchSearchRecipesByIngredientsObjects, setSirenContentType(headers), HttpStatus.OK);
+    }
 }
