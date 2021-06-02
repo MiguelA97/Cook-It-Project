@@ -10,7 +10,7 @@ public class RestrictionUtils {
 
     // USERS
     public static final short USER_USERNAME_MAX_LENGTH = 25;
-    public static final short USER_PASSWORD_MAX_LENGTH = 25;
+    public static final short USER_PASSWORD_MAX_LENGTH = 320;
     public static final short USER_EMAIL_MAX_LENGTH = 320;
     public static final short USER_NAME_MAX_LENGTH = 100;
     public static final short USER_ID_MIN = 1;

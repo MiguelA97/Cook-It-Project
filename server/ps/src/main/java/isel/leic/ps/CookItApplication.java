@@ -22,5 +22,4 @@ public class CookItApplication {
 		messageSource.setBasename("locales/messages");
 		return messageSource;
 	}
-
 }

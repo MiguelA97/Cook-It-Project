@@ -39,7 +39,6 @@ public class UserOutputModel {
         properties.put("user-username", user.getUsername());
         properties.put("user-name", user.getName());
         properties.put("user-email", user.getEmail());
-        properties.put("user-password", user.getPassword());
         properties.put("user-recipe-lists", user.getUserRecipeLists());
         return properties;
     }

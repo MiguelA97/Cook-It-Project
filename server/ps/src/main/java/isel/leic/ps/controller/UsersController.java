@@ -25,7 +25,7 @@ public class UsersController {
     public ResponseEntity<UserOutputModel> getUser(@PathVariable("username") String username) throws NotFoundException, BadRequestException {
         Users user;
         try {
-            user = userService.getUserByUsername(username);                                              //TODO tratar de autenticaçao, etc!
+            user = userService.getUserByUsername(username);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
