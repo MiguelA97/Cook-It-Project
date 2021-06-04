@@ -4,6 +4,7 @@ import isel.leic.ps.components.AuthenticationFacade;
 import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
+import isel.leic.ps.exceptions.InsufficientPrivilegesException;
 import isel.leic.ps.model.Users;
 import isel.leic.ps.repository.UsersRepository;
 import isel.leic.ps.service.UserService;
@@ -60,7 +61,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Users updateUser(String username, Users updatedUser) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException {
+    public Users updateUser(String username, Users updatedUser) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException, InsufficientPrivilegesException {
+        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        if (!authenticatedUser.equals(username))
+            throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+
         if (!existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
         if (!username.equals(updatedUser.getUsername()) && existsUserByUserUsername(updatedUser.getUsername()))
@@ -80,7 +85,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException {
+    public void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException {
+        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        if (!authenticatedUser.equals(username))
+            throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+
         if (!existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
         usersRepository.deleteByUsername(username);

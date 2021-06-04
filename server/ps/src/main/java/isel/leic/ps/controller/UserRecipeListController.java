@@ -57,7 +57,7 @@ public class UserRecipeListController {
     }
 
     @PostMapping("")
-    public ResponseEntity<UserRecipeListOutputModel> addUserRecipeList(@PathVariable("username") String username, @RequestBody UserRecipeList userRecipeList) throws BadRequestException, ConflictException, NotFoundException, MismatchException {
+    public ResponseEntity<UserRecipeListOutputModel> addUserRecipeList(@PathVariable("username") String username, @RequestBody UserRecipeList userRecipeList) throws BadRequestException, ConflictException, NotFoundException, MismatchException, ForbiddenException {
         try {
             userRecipeListService.addUserRecipeList(username, userRecipeList);
         } catch (EntityException e) {
@@ -68,33 +68,39 @@ public class UserRecipeListController {
             throw new NotFoundException(e.getMessage());
         } catch (EntityMismatchException e) {
             throw new MismatchException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(new UserRecipeListOutputModel(userRecipeList, username), setSirenContentType(headers), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{idUrl}")
-    public ResponseEntity<UserRecipeListOutputModel> updateUserRecipeList(@PathVariable("username") String username, @PathVariable("idUrl") int idUrl, @RequestBody UserRecipeList userRecipeList) throws BadRequestException, ConflictException, NotFoundException {
+    public ResponseEntity<UserRecipeListOutputModel> updateUserRecipeList(@PathVariable("username") String username, @PathVariable("idUrl") int idUrl, @RequestBody UserRecipeList userRecipeList) throws BadRequestException, ConflictException, NotFoundException, ForbiddenException {
         try {
-            userRecipeList = userRecipeListService.updateUserRecipeList(idUrl, userRecipeList);
+            userRecipeList = userRecipeListService.updateUserRecipeList(username, idUrl, userRecipeList);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
             throw new ConflictException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(new UserRecipeListOutputModel(userRecipeList, username), setSirenContentType(headers), HttpStatus.OK);    }
 
     @DeleteMapping("/{idUrl}")
-    public void deleteUserRecipeList(@PathVariable("idUrl") int idUrl) throws BadRequestException, NotFoundException {
+    public void deleteUserRecipeList(@PathVariable("username") String username, @PathVariable("idUrl") int idUrl) throws BadRequestException, NotFoundException, ForbiddenException {
         try {
-            userRecipeListService.deleteUserRecipeListById(idUrl);
+            userRecipeListService.deleteUserRecipeListById(username, idUrl);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
     }
 }

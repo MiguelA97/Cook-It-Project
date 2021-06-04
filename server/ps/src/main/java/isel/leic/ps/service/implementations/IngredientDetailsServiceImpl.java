@@ -1,8 +1,10 @@
 package isel.leic.ps.service.implementations;
 
+import isel.leic.ps.components.AuthenticationFacade;
 import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
+import isel.leic.ps.exceptions.InsufficientPrivilegesException;
 import isel.leic.ps.model.IngredientDetails;
 import isel.leic.ps.repository.IngredientDetailsRepository;
 import isel.leic.ps.service.IngredientDetailsService;
@@ -21,11 +23,13 @@ public class IngredientDetailsServiceImpl implements IngredientDetailsService {
     private final IngredientDetailsRepository ingredientDetailsRepository;
     private final RecipeService recipeService;
 
+    private final AuthenticationFacade authenticationFacade;
     private final MessageSource messageSource;
 
-    public IngredientDetailsServiceImpl(IngredientDetailsRepository ingredientDetailsRepository, RecipeService recipeService, MessageSource messageSource) {
+    public IngredientDetailsServiceImpl(IngredientDetailsRepository ingredientDetailsRepository, RecipeService recipeService, AuthenticationFacade authenticationFacade, MessageSource messageSource) {
         this.ingredientDetailsRepository = ingredientDetailsRepository;
         this.recipeService = recipeService;
+        this.authenticationFacade = authenticationFacade;
         this.messageSource = messageSource;
     }
 
@@ -60,7 +64,11 @@ public class IngredientDetailsServiceImpl implements IngredientDetailsService {
 
     @Transactional
     @Override
-    public IngredientDetails addIngredientDetails(int recipeId, IngredientDetails ingredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException {
+    public IngredientDetails addIngredientDetails(String username, int recipeId, IngredientDetails ingredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, InsufficientPrivilegesException {
+        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        if (!authenticatedUser.equals(username))
+            throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+
         if (!recipeService.existsRecipeById(recipeId))
             throw new EntityNotFoundException(messageSource.getMessage("recipe_Not_Exist", new Object[]{recipeId}, Locale.ENGLISH));
         if (existsIngredientDetailsByRecipeIdAndIngredientName(recipeId, ingredientDetails.getIngredientName()))
@@ -74,7 +82,11 @@ public class IngredientDetailsServiceImpl implements IngredientDetailsService {
 
     @Transactional
     @Override
-    public IngredientDetails updateIngredientDetails(int ingredientDetailsId, IngredientDetails updatedIngredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException {
+    public IngredientDetails updateIngredientDetails(String username, int ingredientDetailsId, IngredientDetails updatedIngredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, InsufficientPrivilegesException {
+        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        if (!authenticatedUser.equals(username))
+            throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+
         if (!existsIngredientDetailsById(ingredientDetailsId))
             throw new EntityNotFoundException(messageSource.getMessage("ingredient_details_Not_Exist", new Object[]{ingredientDetailsId}, Locale.ENGLISH));
         IngredientDetails ingredientDetails = getIngredientDetailsById(ingredientDetailsId);
@@ -96,7 +108,11 @@ public class IngredientDetailsServiceImpl implements IngredientDetailsService {
 
     @Transactional
     @Override
-    public void deleteById(int id) throws EntityException, EntityNotFoundException {
+    public void deleteById(String username, int id) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException {
+        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        if (!authenticatedUser.equals(username))
+            throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+
         if (!existsIngredientDetailsById(id))
             throw new EntityNotFoundException(messageSource.getMessage("ingredient_details_Not_Exist", new Object[]{id}, Locale.ENGLISH));
         ingredientDetailsRepository.deleteById(id);

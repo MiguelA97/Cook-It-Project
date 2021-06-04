@@ -57,43 +57,49 @@ public class IngredientDetailsController {
     }
 
     @PostMapping("")
-    public ResponseEntity<IngredientDetailsOutputModel> addIngredientDetails(@PathVariable("username") String username, @PathVariable("listId") int idUrl, @PathVariable("recipeId") int recipeId, @RequestBody IngredientDetails ingredientDetails) throws BadRequestException, ConflictException, NotFoundException {
+    public ResponseEntity<IngredientDetailsOutputModel> addIngredientDetails(@PathVariable("username") String username, @PathVariable("listId") int idUrl, @PathVariable("recipeId") int recipeId, @RequestBody IngredientDetails ingredientDetails) throws BadRequestException, ConflictException, NotFoundException, ForbiddenException {
         try {
-            ingredientDetailsService.addIngredientDetails(recipeId, ingredientDetails);
+            ingredientDetailsService.addIngredientDetails(username, recipeId, ingredientDetails);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
             throw new ConflictException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(new IngredientDetailsOutputModel(ingredientDetails, username, idUrl), setSirenContentType(headers), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{ingredientDetailsId}")
-    public ResponseEntity<IngredientDetailsOutputModel> updateRecipe(@PathVariable("username") String username, @PathVariable("listId") int idUrl, @PathVariable("ingredientDetailsId") int ingredientDetailsId, @RequestBody IngredientDetails ingredientDetails) throws BadRequestException, NotFoundException, ConflictException {
+    public ResponseEntity<IngredientDetailsOutputModel> updateRecipe(@PathVariable("username") String username, @PathVariable("listId") int idUrl, @PathVariable("ingredientDetailsId") int ingredientDetailsId, @RequestBody IngredientDetails ingredientDetails) throws BadRequestException, NotFoundException, ConflictException, ForbiddenException {
         try {
-            ingredientDetails = ingredientDetailsService.updateIngredientDetails(ingredientDetailsId, ingredientDetails);
+            ingredientDetails = ingredientDetailsService.updateIngredientDetails(username, ingredientDetailsId, ingredientDetails);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
             throw new ConflictException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(new IngredientDetailsOutputModel(ingredientDetails, username, idUrl), setSirenContentType(headers), HttpStatus.OK);
     }
 
     @DeleteMapping("/{ingredientDetailsId}")
-    public void deleteIngredientDetailsById(@PathVariable("ingredientDetailsId") int ingredientDetailsId) throws BadRequestException, NotFoundException {
+    public void deleteIngredientDetailsById(@PathVariable("username") String username, @PathVariable("ingredientDetailsId") int ingredientDetailsId) throws BadRequestException, NotFoundException, ForbiddenException {
         try {
-            ingredientDetailsService.deleteById(ingredientDetailsId);
+            ingredientDetailsService.deleteById(username, ingredientDetailsId);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
     }
 }

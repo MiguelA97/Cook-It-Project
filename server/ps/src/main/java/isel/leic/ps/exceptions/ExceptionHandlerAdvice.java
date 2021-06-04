@@ -41,6 +41,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
             NotFoundException.class,
             ConflictException.class,
             MismatchException.class,
+            ForbiddenException.class
     })
     public final ResponseEntity<ProblemDetails> handleProblemDetailsException(ProblemDetailsException ex) {
         log.warn(ex.getTitle());

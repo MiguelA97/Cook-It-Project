@@ -2,10 +2,7 @@ package isel.leic.ps.service;
 
 import java.util.List;
 
-import isel.leic.ps.exceptions.EntityAlreadyExistsException;
-import isel.leic.ps.exceptions.EntityException;
-import isel.leic.ps.exceptions.EntityMismatchException;
-import isel.leic.ps.exceptions.EntityNotFoundException;
+import isel.leic.ps.exceptions.*;
 import isel.leic.ps.model.UserRecipeList;
 
 public interface UserRecipeListService {
@@ -58,27 +55,32 @@ public interface UserRecipeListService {
      * @throws EntityException if the given parameters are invalid
      * @throws EntityAlreadyExistsException if a user recipe list already exists with the same parameters
      * @throws EntityMismatchException if the user id doesn't match the user id with the corresponding username.
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    UserRecipeList addUserRecipeList(String username, UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, EntityMismatchException;
+    UserRecipeList addUserRecipeList(String username, UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, EntityMismatchException, InsufficientPrivilegesException;
 
     /**
      * Updates a user recipe list
      *
+     * @param username
      * @param userRecipeList
      * @param idUrl
      * @return updated user recipe list
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no user recipe list with idUrl is found
      * @throws EntityAlreadyExistsException if a user recipe list already exists with the same parameters
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    UserRecipeList updateUserRecipeList(int idUrl, UserRecipeList userRecipeList) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException;
+    UserRecipeList updateUserRecipeList(String username, int idUrl, UserRecipeList userRecipeList) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException, InsufficientPrivilegesException;
 
     /**
      * Deletes a user recipe list by it's id
      *
+     * @param username
      * @param idUrl
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no user recipe list with idUrl is found
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    void deleteUserRecipeListById(int idUrl) throws EntityException, EntityNotFoundException;
+    void deleteUserRecipeListById(String username, int idUrl) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException;
 }

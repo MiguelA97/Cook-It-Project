@@ -57,41 +57,47 @@ public class RecipeController {
     }
 
     @PostMapping("")
-    public ResponseEntity<RecipeOutputModel> addRecipe(@PathVariable("username") String username, @PathVariable("listId") int listId, @RequestBody Recipe recipe) throws BadRequestException, ConflictException, NotFoundException {
+    public ResponseEntity<RecipeOutputModel> addRecipe(@PathVariable("username") String username, @PathVariable("listId") int listId, @RequestBody Recipe recipe) throws BadRequestException, ConflictException, NotFoundException, ForbiddenException {
         try {
-            recipeService.addRecipe(listId, recipe);
+            recipeService.addRecipe(username, listId, recipe);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
             throw new ConflictException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(new RecipeOutputModel(recipe, username), setSirenContentType(headers), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{recipeId}")
-    public ResponseEntity<RecipeOutputModel> updateRecipe(@PathVariable("username") String username, @PathVariable("recipeId") int recipeId, @RequestBody Recipe recipe) throws BadRequestException, NotFoundException {
+    public ResponseEntity<RecipeOutputModel> updateRecipe(@PathVariable("username") String username, @PathVariable("recipeId") int recipeId, @RequestBody Recipe recipe) throws BadRequestException, NotFoundException, ForbiddenException {
         try {
-            recipe = recipeService.updateRecipe(recipeId, recipe);
+            recipe = recipeService.updateRecipe(username, recipeId, recipe);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(new RecipeOutputModel(recipe, username), setSirenContentType(headers), HttpStatus.OK);
     }
 
     @DeleteMapping("/{recipeId}")
-    public void deleteRecipeById(@PathVariable("recipeId") int recipeId) throws BadRequestException, NotFoundException {
+    public void deleteRecipeById(@PathVariable("username") String username, @PathVariable("recipeId") int recipeId) throws BadRequestException, NotFoundException, ForbiddenException {
         try {
-            recipeService.deleteRecipeById(recipeId);
+            recipeService.deleteRecipeById(username, recipeId);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
     }
 }

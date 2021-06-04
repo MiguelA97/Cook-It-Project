@@ -49,7 +49,7 @@ public class UsersController {
     }
 
     @PatchMapping("/{username}")
-    public ResponseEntity<UserOutputModel> updateUser(@PathVariable("username") String username, @RequestBody Users user) throws BadRequestException, ConflictException, NotFoundException {
+    public ResponseEntity<UserOutputModel> updateUser(@PathVariable("username") String username, @RequestBody Users user) throws BadRequestException, ConflictException, NotFoundException, ForbiddenException {
         try {
             user = userService.updateUser(username, user);
         } catch (EntityException e) {
@@ -58,19 +58,23 @@ public class UsersController {
             throw new NotFoundException(e.getMessage());
         } catch (EntityAlreadyExistsException e) {
             throw new ConflictException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(new UserOutputModel(user), setSirenContentType(headers), HttpStatus.OK);
     }
 
     @DeleteMapping("/{username}")
-    public void deleteUser(@PathVariable("username") String username) throws BadRequestException, NotFoundException {
+    public void deleteUser(@PathVariable("username") String username) throws BadRequestException, NotFoundException, ForbiddenException {
         try {
             userService.deleteUserByUsername(username);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
         }
     }
 }

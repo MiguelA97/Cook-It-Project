@@ -3,6 +3,7 @@ package isel.leic.ps.service;
 import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
+import isel.leic.ps.exceptions.InsufficientPrivilegesException;
 import isel.leic.ps.model.Users;
 
 public interface UserService {
@@ -45,8 +46,9 @@ public interface UserService {
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no user with username is found
      * @throws EntityAlreadyExistsException if a user already exists with the same parameters
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    Users updateUser(String username, Users user) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException;
+    Users updateUser(String username, Users user) throws EntityException, EntityNotFoundException, EntityAlreadyExistsException, InsufficientPrivilegesException;
 
     /**
      * Deletes a User by its username
@@ -54,6 +56,7 @@ public interface UserService {
      * @param username
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no user with username is found
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException;
+    void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException;
 }

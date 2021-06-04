@@ -3,6 +3,7 @@ package isel.leic.ps.service;
 import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
+import isel.leic.ps.exceptions.InsufficientPrivilegesException;
 import isel.leic.ps.model.Recipe;
 
 import java.util.List;
@@ -50,32 +51,38 @@ public interface RecipeService {
     /**
      * Adds a recipe to a list
      *
+     * @param username
      * @param listId
      * @param recipe
      * @return Recipe
      * @throws EntityException if the given parameters are invalid
      * @throws EntityAlreadyExistsException if a recipe (from API) already exists in that list
      * @throws EntityNotFoundException if the parameter listId don't exist
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    Recipe addRecipe(int listId, Recipe recipe) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException;
+    Recipe addRecipe(String username, int listId, Recipe recipe) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, InsufficientPrivilegesException;
 
     /**
      * Updates a recipe
      *
+     * @param username
      * @param recipe
      * @paran id
      * @return Recipe
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no recipe with id is found
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    Recipe updateRecipe(int id, Recipe recipe) throws EntityException, EntityNotFoundException;
+    Recipe updateRecipe(String username, int id, Recipe recipe) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException;
 
     /**
      * Deletes a recipe by it's id
      *
+     * @param username
      * @param recipeId
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no recipe with id is found
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    void deleteRecipeById(int recipeId) throws EntityException, EntityNotFoundException;
+    void deleteRecipeById(String username, int recipeId) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException;
 }

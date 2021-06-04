@@ -3,6 +3,7 @@ package isel.leic.ps.service;
 import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
+import isel.leic.ps.exceptions.InsufficientPrivilegesException;
 import isel.leic.ps.model.IngredientDetails;
 import isel.leic.ps.utils.ValidationsUtils;
 
@@ -52,33 +53,39 @@ public interface IngredientDetailsService {
     /**
      * Adds an Ingredient Detail
      *
+     * @param username
      * @param recipeId
      * @param ingredientDetails
      * @return Ingredient Details
      * @throws EntityException if the given parameters are invalid
      * @throws EntityAlreadyExistsException if an ingredient with the same name already exists for that recipe
      * @throws EntityNotFoundException if the parameter recipeId don't exist
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    IngredientDetails addIngredientDetails(int recipeId, IngredientDetails ingredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException;
+    IngredientDetails addIngredientDetails(String username, int recipeId, IngredientDetails ingredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, InsufficientPrivilegesException;
 
     /**
      * Updates an Ingredient Detail
      *
+     * @param username
      * @param ingredientDetailsId
      * @param ingredientDetails
      * @return Ingredient Detail
      * @throws EntityException if the given parameters are invalid
      * @throws EntityAlreadyExistsException if an ingredient with the same name already exists for that recipe
      * @throws EntityNotFoundException if the parameter ingredientDetailsId don't exist
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    IngredientDetails updateIngredientDetails(int ingredientDetailsId, IngredientDetails ingredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException;
+    IngredientDetails updateIngredientDetails(String username, int ingredientDetailsId, IngredientDetails ingredientDetails) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, InsufficientPrivilegesException;
 
     /**
      * Deletes an Ingredient Details by it's id
      *
+     * @param username
      * @param id
      * @throws EntityException if the given parameters are invalid
      * @throws EntityNotFoundException if no ingredient details with id is found
+     * @throws InsufficientPrivilegesException if username is different from the authenticated user
      */
-    void deleteById(int id) throws EntityException, EntityNotFoundException;
+    void deleteById(String username, int id) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException;
 }
