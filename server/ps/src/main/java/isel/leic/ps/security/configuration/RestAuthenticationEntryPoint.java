@@ -1,4 +1,4 @@
-package isel.leic.ps.authentication.configuration;
+package isel.leic.ps.security.configuration;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

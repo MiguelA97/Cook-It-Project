@@ -1,0 +1,26 @@
+<template>
+    <section>
+        <base-card>
+            <h2>Register as a new user:</h2>
+            <user-form @save-data="saveData"></user-form>
+        </base-card>
+    </section>
+</template>
+
+<script>
+import BaseCard from '../../components/ui/BaseCard.vue'
+import UserForm from '../../components/users/UserForm.vue'
+
+export default {
+    components: {
+        UserForm,
+        BaseCard
+    },
+    methods: {
+        saveData(data) {
+            this.$store.dispatch('user/addUser', data);
+            this.$router.replace('/');
+        }
+    },
+}
+</script>

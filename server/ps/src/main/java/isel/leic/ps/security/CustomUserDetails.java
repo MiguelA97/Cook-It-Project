@@ -1,4 +1,4 @@
-package isel.leic.ps.authentication;
+package isel.leic.ps.security;
 
 import isel.leic.ps.model.Users;
 import org.springframework.security.core.GrantedAuthority;
