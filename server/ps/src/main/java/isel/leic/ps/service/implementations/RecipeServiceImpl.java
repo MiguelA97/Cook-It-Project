@@ -5,12 +5,15 @@ import isel.leic.ps.exceptions.EntityAlreadyExistsException;
 import isel.leic.ps.exceptions.EntityException;
 import isel.leic.ps.exceptions.EntityNotFoundException;
 import isel.leic.ps.exceptions.InsufficientPrivilegesException;
+import isel.leic.ps.model.IngredientDetails;
 import isel.leic.ps.model.Recipe;
 import isel.leic.ps.repository.RecipeRepository;
+import isel.leic.ps.service.IngredientDetailsService;
 import isel.leic.ps.service.RecipeService;
 import isel.leic.ps.service.UserRecipeListService;
 import isel.leic.ps.utils.ValidationsUtils;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +25,15 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final UserRecipeListService userRecipeListService;
+    private final IngredientDetailsService ingredientDetailsService;
 
     private final AuthenticationFacade authenticationFacade;
     private final MessageSource messageSource;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRecipeListService userRecipeListService, AuthenticationFacade authenticationFacade, MessageSource messageSource) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRecipeListService userRecipeListService, @Lazy IngredientDetailsService ingredientDetailsService, AuthenticationFacade authenticationFacade, MessageSource messageSource) {
         this.recipeRepository = recipeRepository;
         this.userRecipeListService = userRecipeListService;
+        this.ingredientDetailsService = ingredientDetailsService;
         this.authenticationFacade = authenticationFacade;
         this.messageSource = messageSource;
     }
@@ -76,7 +81,13 @@ public class RecipeServiceImpl implements RecipeService {
         ValidationsUtils.validateRecipeName(recipe.getName());
         recipe.setIdUrl(listId);
         recipe.setIdUser(userRecipeListService.getUserRecipeListById(listId).getIdUser());
-        return recipeRepository.save(recipe);
+        Recipe createdRecipe = recipeRepository.save(recipe);
+
+        //recipe has been created, now create ingredients and add them to the created recipe ingredients list!
+        for (IngredientDetails ingredientDetails : recipe.getIngredientDetailsList())
+            ingredientDetailsService.addIngredientDetails(username, createdRecipe.getId(), ingredientDetails);
+
+        return recipe;
     }
 
     @Transactional

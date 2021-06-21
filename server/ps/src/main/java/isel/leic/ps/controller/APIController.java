@@ -6,7 +6,6 @@ import isel.leic.ps.exceptions.EntityNotFoundException;
 import isel.leic.ps.exceptions.NotFoundException;
 import isel.leic.ps.model.outputModel.jsonObjects.RecipeInformationObject;
 import isel.leic.ps.model.outputModel.jsonObjects.RecipeObject;
-import isel.leic.ps.model.outputModel.jsonObjects.SearchRecipesByIngredientsObject;
 import isel.leic.ps.service.APIService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static isel.leic.ps.utils.HeadersUtils.setSirenContentType;
 
@@ -29,17 +27,18 @@ public class APIController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<RecipeObject>> searchRecipes(@RequestParam("query") String query,
+    public ResponseEntity<List<RecipeObject>> searchRecipes(@RequestParam(value = "query", defaultValue = "", required = false) String query,
                                                             @RequestParam(value = "number", defaultValue = "10") String number,
                                                             @RequestParam(value = "offset", defaultValue = "0") String offset,
                                                             @RequestParam(value = "diet", defaultValue = "", required = false) String diet,
                                                             @RequestParam(value = "intolerances", defaultValue = "", required = false) String intolerances,
                                                             @RequestParam(value = "type", defaultValue = "", required = false) String type,
-                                                            @RequestParam(value = "cuisine", defaultValue = "", required = false) String cuisine
+                                                            @RequestParam(value = "cuisine", defaultValue = "", required = false) String cuisine,
+                                                            @RequestParam(value = "includeIngredients", defaultValue = "", required = false) String ingredients
                                                             ) throws BadRequestException {
         List<RecipeObject> searchRecipesObjects;
         try {
-            searchRecipesObjects = apiService.searchRecipes(query, number, offset, diet, intolerances, type, cuisine);
+            searchRecipesObjects = apiService.searchRecipes(query, number, offset, diet, intolerances, type, cuisine, ingredients);
         } catch (EntityException e) {
             throw new BadRequestException(e.getMessage());
         }
@@ -59,18 +58,5 @@ public class APIController {
         }
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(recipeInformationObject, setSirenContentType(headers), HttpStatus.OK);
-    }
-
-
-    @GetMapping("/findByIngredients")
-    public ResponseEntity<List<SearchRecipesByIngredientsObject>> searchRecipesByIngredients(@RequestParam("ingredients") String ingredients, @RequestParam(value = "number", defaultValue = "10") String number) throws BadRequestException {
-        List<SearchRecipesByIngredientsObject> searchSearchRecipesByIngredientsObjects;
-        try {
-            searchSearchRecipesByIngredientsObjects = apiService.searchRecipesByIngredients(ingredients, number);
-        } catch (EntityException e) {
-            throw new BadRequestException(e.getMessage());
-        }
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(searchSearchRecipesByIngredientsObjects, setSirenContentType(headers), HttpStatus.OK);
     }
 }

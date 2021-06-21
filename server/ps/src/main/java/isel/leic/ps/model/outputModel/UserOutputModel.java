@@ -35,11 +35,11 @@ public class UserOutputModel {
 
     private HashMap<String, Object> initProperties(Users user) {
         HashMap<String, Object> properties = new HashMap<>();
-        properties.put("user-id", user.getId());
-        properties.put("user-username", user.getUsername());
-        properties.put("user-name", user.getName());
-        properties.put("user-email", user.getEmail());
-        properties.put("user-recipe-lists", user.getUserRecipeLists());
+        properties.put("userId", user.getId());
+        properties.put("userUsername", user.getUsername());
+        properties.put("userName", user.getName());
+        properties.put("userEmail", user.getEmail());
+        properties.put("userRecipeLists", user.getUserRecipeLists());
         return properties;
     }
 

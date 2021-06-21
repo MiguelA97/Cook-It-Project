@@ -86,9 +86,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void deleteUserByUsername(String username) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException {
-        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        /*String authenticatedUser = authenticationFacade.getAuthentication().getName();
         if (!authenticatedUser.equals(username))
             throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+
+         */
 
         if (!existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));

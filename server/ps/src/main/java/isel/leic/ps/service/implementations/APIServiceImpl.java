@@ -18,7 +18,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,10 +32,9 @@ public class APIServiceImpl implements APIService {
     private String API_HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
 
     /** API requests URL's */
-    private String searchRecipesUrl = "https://" + API_HOST + "/recipes/search?query=";
+    private String searchRecipesUrl = "https://" + API_HOST + "/recipes/searchComplex?limitLicense=false";
     private String summarizeRecipeUrl = "https://" + API_HOST + "/recipes/#?recipeId;/summary";
     private String getRecipeInformationUrl = "https://" + API_HOST + "/recipes/#?recipeId;/information";
-    private String searchRecipesByIngredientsUrl = "https://" + API_HOST + "/recipes/findByIngredients?ingredients=";
 
     private final RestTemplate restTemplate;
     private final MessageSource messageSource;
@@ -47,8 +45,7 @@ public class APIServiceImpl implements APIService {
     }
 
     @Override
-    public List<RecipeObject> searchRecipes(String query, String number, String offset, String diet, String intolerances, String type, String cuisine) throws EntityException {
-        ValidationsUtils.validateSearchRecipesQuery(query);
+    public List<RecipeObject> searchRecipes(String query, String number, String offset, String diet, String intolerances, String type, String cuisine, String ingredients) throws EntityException {
         ValidationsUtils.validateSearchRecipesNumber(number);
         ValidationsUtils.validateSearchRecipesOffset(offset);
         ValidationsUtils.validateOptionalParameters(diet, RestrictionUtils.API_ACCEPTED_DIETS, "diet");
@@ -58,8 +55,10 @@ public class APIServiceImpl implements APIService {
 
 
         HttpEntity<String> entity = setHeaders();
-        String url = searchRecipesUrl + query + "&number=" + number + "&offset=" + offset;
+        String url = searchRecipesUrl + "&number=" + number + "&offset=" + offset;
         //optional parameters url
+        if (!query.isEmpty()) url += "&query=" + query;
+        else if (!ingredients.isEmpty()) url += "&includeIngredients=" + ingredients;
         if (!diet.isEmpty()) url += "&diet=" + diet;
         if (!intolerances.isEmpty()) url += "&intolerances=" + intolerances;
         if (!type.isEmpty()) url += "&type=" + type;
@@ -78,8 +77,8 @@ public class APIServiceImpl implements APIService {
         ValidationsUtils.validateRecipeId(recipeId);
 
         HttpEntity<String> entity = setHeaders();
-        String summaryUrl = summarizeRecipeUrl.replaceAll("#\\?.*?;", recipeId + "");                   // remplaces #?recipeId; with recipeId in the url
-        String recipeInformationUrl = getRecipeInformationUrl.replaceAll("#\\?.*?;", recipeId + "");    // remplaces #?recipeId; with recipeId in the url
+        String summaryUrl = summarizeRecipeUrl.replaceAll("#\\?.*?;", recipeId + "");                   // replaces #?recipeId; with recipeId in the url
+        String recipeInformationUrl = getRecipeInformationUrl.replaceAll("#\\?.*?;", recipeId + "");    // replaces #?recipeId; with recipeId in the url
 
         ResponseEntity<RecipeInformationObject> recipeInformationObject;
         try {
@@ -92,18 +91,6 @@ public class APIServiceImpl implements APIService {
         recipeInformationObject.getBody().setSummary(summarizeRecipeObject.getBody().getSummary());
 
         return recipeInformationObject.getBody();
-    }
-
-    @Override
-    public List<SearchRecipesByIngredientsObject> searchRecipesByIngredients(String ingredients, String number) throws EntityException {
-        ValidationsUtils.validateSearchRecipesByIngredients(ingredients);
-        ValidationsUtils.validateSearchRecipesNumber(number);
-
-        HttpEntity<String> entity = setHeaders();
-        String url = searchRecipesByIngredientsUrl + ingredients + "&number=" + number;
-        ResponseEntity<SearchRecipesByIngredientsObject[]> searchRecipesByIngredientsObject = restTemplate.exchange(url, HttpMethod.GET, entity, SearchRecipesByIngredientsObject[].class);
-
-        return Arrays.asList(searchRecipesByIngredientsObject.getBody());
     }
 
     /**

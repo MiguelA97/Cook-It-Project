@@ -5,8 +5,16 @@
             <input type="text" id="name" v-model.trim="name.val" @blur="clearValidations('name')"/>
             <p v-if="!name.isValid">Name must not be empty!</p>
         </div>
-        <div>
-            <ingredient-form></ingredient-form>
+        <div class="form-control">
+            <label for="ingredients">Ingredients</label>
+            <div class="border" v-for="(ingredient, index) in ingredients" :key="index">
+                <input type="text" id="ingredientName" v-model.trim="ingredient.ingredientName" placeholder="Ingredient Name">
+                <input type="text" id="ingredientAisle" v-model.trim="ingredient.aisle" placeholder="Ingredient Aisle">
+                <input type="number" step="0.01" id="ingredientAmount" v-model.trim="ingredient.amount" placeholder="Ingredient Amount">
+                <input type="text" id="ingredientUnit" v-model.trim="ingredient.unit" placeholder="Ingredient Unit">
+                <button @click="removeIngredient(index)">Remove Ingredient</button>
+            </div>
+        <base-button @click="addIngredient">Add Ingredient</base-button>
         </div>
         <div class="form-control" :class="{invalid: !instructions.isValid}">
             <label for="instructions">Instructions</label>
@@ -55,19 +63,22 @@
 </template>
 
 <script>
-import IngredientForm from '../ingredients/IngredientForm.vue'
-
 export default {
     emits: ['save-data'],
-    components: {
-        IngredientForm
-    },
     data() {
         return {
             name: {
                 val: '',
                 isValid: true
             },
+            ingredients: [
+                {
+                    ingredientName: '',
+                    aisle: '',
+                    amount: null,
+                    unit: '' 
+                }
+            ],
             instructions: {
                 val: '',
                 isValid: true
@@ -117,6 +128,12 @@ export default {
                 this.listToAdd.isValid = false;
                 this.formIsValid = false;
             }
+
+            this.ingredients.forEach(ingredient => {
+                if (ingredient.ingredientName === '') this.formIsValid = false;
+                if (ingredient.amount === null || ingredient.amount < 0) this.formIsValid = false;
+                if (ingredient.unit === '') this.formIsValid = false;
+            });
         },
         submitForm() {
             this.validateForm();
@@ -132,13 +149,25 @@ export default {
                 dairyFree: this.dairyFree.val,
                 glutenFree: this.glutenFree.val,
                 vegan: this.vegan.val,
-                vegetarian: this.vegetarian.val
+                vegetarian: this.vegetarian.val,
+                ingredientDetailsList : this.ingredients
             }
 
             console.log(FormData);
             this.$emit('save-data', formData);
+        },
+        addIngredient() {
+            this.ingredients.push({
+                        ingredientName: '',
+                        aisle: '',
+                        amount: null,
+                        unit: ''    
+            });
+        },
+        removeIngredient(index) {
+            this.ingredients.splice(index, 1);
         }
-    },
+    }
 }
 </script>
 
@@ -196,5 +225,10 @@ h3 {
 .invalid input,
 .invalid textarea {
   border: 1px solid red;
+}
+
+.border {
+  border: 1px solid black;
+  margin-bottom: 5px;
 }
 </style>

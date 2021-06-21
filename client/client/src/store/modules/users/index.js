@@ -6,15 +6,13 @@ export default {
     namespaced: true,
     state() {
         return {
-            user: [
-                {
-                    id: 1,
-                    username: 'MiguelA97',
-                    email: 'miguelachega@hotmail.com',
-                    password: 'password',
-                    name: 'Miguel'
+            user: {
+                    id: null,
+                    username: '',
+                    email: '',
+                    name: '',
+                    recipesList: ''
                 }
-            ]
         }   
     },
     mutations,
