@@ -34,14 +34,14 @@ public class IngredientDetailsOutputModel {
 
     private HashMap<String, Object> initProperties(IngredientDetails ingredientDetails) {
         HashMap<String, Object> properties = new HashMap<>();
-        properties.put("ingredient-details-id", ingredientDetails.getId());
-        properties.put("ingredient-details-api-id", ingredientDetails.getIdApi());
-        properties.put("recipe-id", ingredientDetails.getRecipeId());
-        properties.put("ingredient-details-aisle", ingredientDetails.getAisle());
-        properties.put("ingredient-details-name", ingredientDetails.getIngredientName());
-        properties.put("ingredient-details-amount", ingredientDetails.getAmount());
-        properties.put("ingredient-details-unit", ingredientDetails.getUnit());
-        properties.put("ingredient-details-image", ingredientDetails.getImage());
+        properties.put("ingredientDetailsId", ingredientDetails.getId());
+        properties.put("ingredientDetailsApiId", ingredientDetails.getIdApi());
+        properties.put("recipeId", ingredientDetails.getRecipeId());
+        properties.put("ingredientDetailsAisle", ingredientDetails.getAisle());
+        properties.put("ingredientDetailsName", ingredientDetails.getIngredientName());
+        properties.put("ingredientDetailsAmount", ingredientDetails.getAmount());
+        properties.put("ingredientDetailsUnit", ingredientDetails.getUnit());
+        properties.put("ingredientDetailsImage", ingredientDetails.getImage());
         return properties;
     }
 

@@ -1,27 +1,22 @@
 <template>
     <li>
-      <h3>Name: {{name}}</h3>
-      <h3>Ready in: {{readyInMinutes}} minutes</h3>
-      <h3>Servings: {{servings}}</h3>
-      <h3>Dairy free: {{dairyFree}}</h3>
-      <h3>Gluten free: {{glutenFree}}</h3>
-      <h3>Vegan: {{vegan}}</h3>
-      <h3>Vegetarian: {{vegetarian}}</h3>
+      <h3>Name: {{title}}</h3>
       <h3>Image: {{image}}</h3>
       <div class="actions">
-        <base-button link :to="recipeDetailsLink">View Details</base-button>
+        <base-button @click="getRecipeDetails">View Details</base-button>
       </div>
     </li>
 </template>
 
 <script>
 export default {
-    props: ['id', 'name', 'readyInMinutes', 'servings', 'dairyFree', 'glutenFree', 'vegan', 'vegetarian', 'image'],
-    computed: {
-      recipeDetailsLink() {
-        return this.$route.path + '/' + this.id;
+    props: ['id', 'title', 'image'],
+    methods: {
+      getRecipeDetails() {
+        this.$store.dispatch('recipes/getRecipeDetails', this.id); 
+        this.$router.replace('/recipes/' + this.id);
       }
-    }
+    },
 }
 </script>
 

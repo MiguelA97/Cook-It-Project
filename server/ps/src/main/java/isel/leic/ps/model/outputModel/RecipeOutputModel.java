@@ -35,20 +35,20 @@ public class RecipeOutputModel {
 
     private HashMap<String, Object> initProperties(Recipe recipe) {
         HashMap<String, Object> properties = new HashMap<>();
-        properties.put("recipe-id", recipe.getId());
-        properties.put("recipe-api-id", recipe.getIdApi());
-        properties.put("user-id", recipe.getIdUser());
-        properties.put("recipe-list-id", recipe.getIdUrl());
-        properties.put("recipe-name", recipe.getName());
-        properties.put("recipe-ready-in-minutes", recipe.getReadyInMinutes());
-        properties.put("recipe-instructions", recipe.getInstructions());
-        properties.put("recipe-image", recipe.getImage());
-        properties.put("recipe-servings", recipe.getServings());
-        properties.put("recipe-dairy-free", recipe.isDairyFree());
-        properties.put("recipe-gluten-free", recipe.isGlutenFree());
-        properties.put("recipe-vegan", recipe.isVegan());
-        properties.put("recipe-vegetarian", recipe.isVegetarian());
-        properties.put("recipe-ingredient-details-list", recipe.getIngredientDetailsList());
+        properties.put("recipeId", recipe.getId());
+        properties.put("recipeApiId", recipe.getIdApi());
+        properties.put("userId", recipe.getIdUser());
+        properties.put("recipeListId", recipe.getIdUrl());
+        properties.put("recipeName", recipe.getName());
+        properties.put("recipeReadyInMinutes", recipe.getReadyInMinutes());
+        properties.put("recipeInstructions", recipe.getInstructions());
+        properties.put("recipeImage", recipe.getImage());
+        properties.put("recipeServings", recipe.getServings());
+        properties.put("recipeDairyFree", recipe.isDairyFree());
+        properties.put("recipeGlutenFree", recipe.isGlutenFree());
+        properties.put("recipeVegan", recipe.isVegan());
+        properties.put("recipeVegetarian", recipe.isVegetarian());
+        properties.put("recipeIngredientDetailsList", recipe.getIngredientDetailsList());
         return properties;
     }
 

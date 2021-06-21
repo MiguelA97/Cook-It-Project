@@ -38,12 +38,12 @@ public class UserRecipeListOutputModel {
 
     private HashMap<String, Object> initProperties(UserRecipeList userRecipeList) {
         HashMap<String, Object> properties = new HashMap<>();
-        properties.put("user-recipe-list-id", userRecipeList.getIdUrl());
-        properties.put("user-id", userRecipeList.getIdUser());
-        properties.put("user-recipe-list-name", userRecipeList.getListName());
-        properties.put("user-recipe-list-description", userRecipeList.getDescription());
-        properties.put("user-recipe-list-visibility", userRecipeList.getVisibility());
-        properties.put("user-recipe-list-recipes", userRecipeList.getRecipes());
+        properties.put("userRecipeListId", userRecipeList.getIdUrl());
+        properties.put("userId", userRecipeList.getIdUser());
+        properties.put("userRecipeListName", userRecipeList.getListName());
+        properties.put("userRecipeListDescription", userRecipeList.getDescription());
+        properties.put("userRecipeListVisibility", userRecipeList.getVisibility());
+        properties.put("userRecipeListRecipes", userRecipeList.getRecipes());
         return properties;
     }
 

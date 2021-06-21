@@ -6,13 +6,7 @@
                     v-for="recipe in recipes" 
                     :key="recipe.id"
                     :id="recipe.id"
-                    :name="recipe.name"
-                    :ready-in-minutes="recipe.readyInMinutes"
-                    :servings="recipe.servings"
-                    :dairy-free="recipe.dairyFree"
-                    :gluten-free="recipe.glutenFree"
-                    :vegan="recipe.vegan"
-                    :vegetarian="recipe.vegetarian"
+                    :title="recipe.title"
                     :image="recipe.image"
                 ></recipe-item>
             </ul>

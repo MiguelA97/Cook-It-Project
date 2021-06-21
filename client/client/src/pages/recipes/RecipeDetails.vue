@@ -25,45 +25,10 @@
 <script>
 export default {
     props: ['id'],
-    data() {
-        return {
-            recipe: null
-        };
-    },
     computed: {
-        name() {
-            return this.recipe.name;
-        },
-        readyInMinutes() {
-            return this.recipe.readyInMinutes;
-        },
-        instructions() {
-            return this.recipe.instructions;
-        },
-        servings() {
-            return this.recipe.servings;
-        },
-        dairyFree() {
-            return this.recipe.dairyFree;
-        },
-        glutenFree() {
-            return this.recipe.glutenFree;
-        },
-        vegan() {
-            return this.recipe.vegan;
-        },
-        vegetarian() {
-            return this.recipe.vegetarian;
-        },
-        image() {
-            return this.recipe.image;
-        },
-        ingredients() {
-            return this.recipe.ingredients;
+        recipe() {
+            return this.$store.getters['recipes/recipe'];
         }
-    },
-    created() {
-        this.recipe = this.$store.getters['recipes/recipes'].find(recipe => recipe.id === this.id);
     }
 }
 </script>

@@ -32,7 +32,7 @@ public class APIServiceImpl implements APIService {
     private String API_HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
 
     /** API requests URL's */
-    private String searchRecipesUrl = "https://" + API_HOST + "/recipes/searchComplex?limitLicense=false";
+    private String searchRecipesUrl = "https://" + API_HOST + "/recipes/searchComplex?limitLicense=true";
     private String summarizeRecipeUrl = "https://" + API_HOST + "/recipes/#?recipeId;/summary";
     private String getRecipeInformationUrl = "https://" + API_HOST + "/recipes/#?recipeId;/information";
 
@@ -67,7 +67,7 @@ public class APIServiceImpl implements APIService {
 
         List<RecipeObject> recipeObjects = new ArrayList<>();
         for (RecipeObject recipeObject : searchRecipesObject.getBody().getResults())
-            recipeObjects.add(new RecipeObject(recipeObject.getId(), recipeObject.getTitle(), recipeObject.getReadyInMinutes(), recipeObject.getServings(), recipeObject.getImage()));
+            recipeObjects.add(new RecipeObject(recipeObject.getId(), recipeObject.getTitle(), recipeObject.getImage()));
 
         return recipeObjects;
     }

@@ -13,18 +13,12 @@ public class RecipeObject {
     private final int id;
     @JsonProperty(value = "title")
     private final String title;
-    @JsonProperty(value = "readyInMinutes")
-    private final short readyInMinutes;
-    @JsonProperty(value = "servings")
-    private final short servings;
     @JsonProperty(value = "image")
     private final String image;
 
-    public RecipeObject(int id, String title, short readyInMinutes, short servings, String image) {
+    public RecipeObject(int id, String title, String image) {
         this.id = id;
         this.title = title;
-        this.readyInMinutes = readyInMinutes;
-        this.servings = servings;
         this.image = image;
     }
 }
