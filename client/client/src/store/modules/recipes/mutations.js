@@ -1,11 +1,14 @@
 export default {
-    searchRecipes(state, payload) {
-        state.recipes.push(payload);
-    },
     setRecipes(state, payload) {
       state.recipes = payload;
     },
     setRecipe(state, payload) {
       state.recipe = payload;
+    },
+    addUserRecipeList(state, payload) {
+      state.recipeLists.push(payload);
+    },
+    setUserRecipeLists(state, payload) {
+      state.recipeLists = payload;
     }
 };

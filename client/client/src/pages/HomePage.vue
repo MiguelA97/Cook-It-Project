@@ -1,6 +1,7 @@
 <template>
     <section>
         <base-card>
+            <label for="search">Find your favorite recipe & Cook It!</label>
             <input class="border" type="text" id="searchBox" v-model.trim="toSearch" placeholder="Search recipes by name or ingredients">
             <base-button @click="searchRecipes">Search Recipes</base-button>
         </base-card>

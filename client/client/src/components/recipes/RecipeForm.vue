@@ -153,7 +153,6 @@ export default {
                 ingredientDetailsList : this.ingredients
             }
 
-            console.log(FormData);
             this.$emit('save-data', formData);
         },
         addIngredient() {

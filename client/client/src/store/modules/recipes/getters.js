@@ -4,5 +4,8 @@ export default {
     },
     recipe(state) {
         return state.recipe;
+    },
+    recipeLists(state) {
+        return state.recipeLists;
     }
 };

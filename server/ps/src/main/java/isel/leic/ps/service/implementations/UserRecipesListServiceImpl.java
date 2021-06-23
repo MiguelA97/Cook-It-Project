@@ -47,10 +47,10 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
 
     @Override
     public List<UserRecipeList> getUserRecipeListsByUsername(String username) throws EntityException, EntityNotFoundException {
-        ValidationsUtils.validateUserUsername(username);
+        /*ValidationsUtils.validateUserUsername(username);
         if(!userService.existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
-
+        */
         Users user = userService.getUserByUsername(username);
         return (List<UserRecipeList>) user.getUserRecipeLists();
     }
@@ -66,10 +66,10 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
     @Transactional
     @Override
     public UserRecipeList addUserRecipeList(String username, UserRecipeList userRecipeList) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, EntityMismatchException, InsufficientPrivilegesException {
-        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        /*String authenticatedUser = authenticationFacade.getAuthentication().getName();
         if (!authenticatedUser.equals(username))
             throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
-
+         */
         if (!userService.existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
         Users user = userService.getUserByUsername(username);
@@ -116,10 +116,10 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
     @Transactional
     @Override
     public void deleteUserRecipeListById(String username, int idUrl) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException {
-        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        /*String authenticatedUser = authenticationFacade.getAuthentication().getName();
         if (!authenticatedUser.equals(username))
             throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
-
+        */
         if (!existsUserRecipeListById(idUrl))
             throw new EntityNotFoundException(messageSource.getMessage("user_recipe_list_Not_Exist", new Object[]{idUrl}, Locale.ENGLISH));
         userRecipeListRepository.deleteByIdUrl(idUrl);

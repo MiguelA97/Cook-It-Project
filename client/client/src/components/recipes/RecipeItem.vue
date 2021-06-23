@@ -14,7 +14,7 @@ export default {
     methods: {
       getRecipeDetails() {
         this.$store.dispatch('recipes/getRecipeDetails', this.id); 
-        this.$router.replace('/recipes/' + this.id);
+        this.$router.push('/recipes/' + this.id);
       }
     },
 }

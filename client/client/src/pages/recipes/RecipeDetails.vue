@@ -1,21 +1,22 @@
 <template>
     <section>
         <base-card>
-            <h2>Name: {{name}}</h2>
-            <h2>Ready in: {{readyInMinutes}} minutes</h2>
-            <h2>Instructions: {{instructions}}</h2>
-            <h2>Servings: {{servings}}</h2>
-            <h2>Dairy free: {{dairyFree}}</h2>
-            <h2>Gluten free: {{glutenFree}}</h2>
-            <h2>Vegan: {{vegan}}</h2>
-            <h2>Vegetarian: {{vegetarian}}</h2>
-            <h2>Image: {{image}}</h2>
+            <h2>Name: {{recipe.title}}</h2>
+            <h2>Ready in: {{recipe.readyInMinutes}} minutes</h2>
+            <h2>Instructions: {{recipe.instructions}}</h2>
+            <h2>Servings: {{recipe.servings}}</h2>
+            <h2>Dairy free: {{recipe.dairyFree}}</h2>
+            <h2>Gluten free: {{recipe.glutenFree}}</h2>
+            <h2>Vegan: {{recipe.vegan}}</h2>
+            <h2>Vegetarian: {{recipe.vegetarian}}</h2>
+            <h2>Image: {{recipe.image}}</h2>
+            <h2>Summary: {{recipe.summary}}</h2>
         </base-card>
         <section>
             <base-card>
                 <h2>Ingredients:</h2>
                 <ul>
-                    <li v-for="ingredient in ingredients" :key="ingredient.id">{{ingredient.name}}</li>
+                    <li v-for="ingredient in recipe.ingredients" :key="ingredient.apiId">{{ingredient.name}}</li>
                 </ul>
             </base-card>
         </section>

@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import BaseCard from '../../components/ui/BaseCard.vue'
 import RecipeForm from '../../components/recipes/RecipeForm.vue'
 
 export default {
     components: {
-        RecipeForm,
-        BaseCard
+        RecipeForm
     }
 }
 </script>

@@ -17,7 +17,7 @@ public class RecipeInformationObject {
     private final boolean vegan;
     @JsonProperty(value = "glutenFree")
     private final boolean glutenFree;
-    @JsonProperty(value = "dairyDree")
+    @JsonProperty(value = "dairyFree")
     private final boolean dairyFree;
     @JsonProperty(value = "servings")
     private final short servings;

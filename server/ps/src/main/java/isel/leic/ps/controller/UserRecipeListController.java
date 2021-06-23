@@ -29,7 +29,7 @@ public class UserRecipeListController {
         List<UserRecipeList> userRecipeLists;
         ArrayList<UserRecipeListOutputModel> userRecipeListOutputModels;
         try {
-            userRecipeLists = userRecipeListService.getUserRecipeListsByUsername(username);                           //TODO tratar autenticaçao, etc!
+            userRecipeLists = userRecipeListService.getUserRecipeListsByUsername(username);
             userRecipeListOutputModels = new ArrayList<>(userRecipeLists.size());
             for (UserRecipeList userRecipeList : userRecipeLists)
                 userRecipeListOutputModels.add(new UserRecipeListOutputModel(userRecipeList, username));
