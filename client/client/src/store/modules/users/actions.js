@@ -15,5 +15,8 @@ export default {
             .catch(error => {
                 console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
             });
+    },
+    login(context, data) {
+        
     }
 };

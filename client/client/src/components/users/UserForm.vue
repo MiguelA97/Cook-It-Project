@@ -22,11 +22,14 @@
         </div>
         <p v-if="!formIsValid">Please fix the above errors and submit again.</p>
         <base-button>Register</base-button>
+        <base-button type="button" mode="flat" @click="switchToLogin">Login instead</base-button>
     </form>
 </template>
 
 <script>
+import BaseButton from '../ui/BaseButton.vue';
 export default {
+  components: { BaseButton },
     emits: ['save-data'],
     data() {
         return {
@@ -50,6 +53,9 @@ export default {
         }
     },
     methods: {
+        switchToLogin() {
+            this.$router.push('/login');
+        },
         clearValidations(input) {
             this[input].isValid = true;
         },

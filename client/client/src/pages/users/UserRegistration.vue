@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import BaseCard from '../../components/ui/BaseCard.vue'
 import UserForm from '../../components/users/UserForm.vue'
 
 export default {
     components: {
-        UserForm,
-        BaseCard
+        UserForm
     },
     methods: {
         saveData(data) {

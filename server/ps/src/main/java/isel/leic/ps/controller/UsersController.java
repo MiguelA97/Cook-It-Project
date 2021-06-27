@@ -3,10 +3,20 @@ package isel.leic.ps.controller;
 import isel.leic.ps.exceptions.*;
 import isel.leic.ps.model.Users;
 import isel.leic.ps.model.outputModel.UserOutputModel;
+import isel.leic.ps.model.outputModel.jsonObjects.JwtResponse;
+import isel.leic.ps.model.outputModel.jsonObjects.LoginRequest;
+import isel.leic.ps.security.CustomUserDetails;
+import isel.leic.ps.security.jwt.JwtUtils;
 import isel.leic.ps.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import static isel.leic.ps.utils.HeadersUtils.setSirenContentType;
@@ -16,9 +26,31 @@ import static isel.leic.ps.utils.HeadersUtils.setSirenContentType;
 public class UsersController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
-    public UsersController(UserService userService) {
+    public UsersController(UserService userService, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws MyBadCredentialsException {
+        Authentication authentication = null;
+
+        try {
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        } catch (BadCredentialsException e) {
+            throw new MyBadCredentialsException(e.getMessage());
+        }
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), userDetails.getName()));
     }
 
     @GetMapping("/{username}")

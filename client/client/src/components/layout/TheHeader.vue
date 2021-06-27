@@ -3,7 +3,7 @@
         <nav>
             <h1><router-link to="/">Cook It</router-link></h1>
             <ul>
-                <li><router-link to="/profile/:username/recipesLists">My Recipes</router-link></li>
+                <li><router-link to="/profile/:username/recipesLists">My Recipes</router-link></li>   <!--provavelmente vou ter de ir buscar o username com vuex! -->
                 <li><router-link to="/recipe/addRecipe">Add Recipe</router-link></li> <!-- estes 3 so aparecem caso o user esteja logged in! -->
                 <li><router-link to="/profile/:username/details">Account Info</router-link></li>
                 <li><router-link to="/login">Login/Logout</router-link></li>   <!-- se estiver logged in, queremos fazer logout. caso contrário ir para pagina de login -->

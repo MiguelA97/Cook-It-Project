@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.Locale;
 
 @Service
-public class DatabaseUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsImpl implements UserDetailsService {
 
     private final UsersRepository usersRepository;
     private final MessageSource messageSource;
 
-    public DatabaseUserDetailsService(UsersRepository usersRepository, MessageSource messageSource) {
+    public CustomUserDetailsImpl(UsersRepository usersRepository, MessageSource messageSource) {
         this.usersRepository = usersRepository;
         this.messageSource = messageSource;
     }
@@ -28,6 +28,6 @@ public class DatabaseUserDetailsService implements UserDetailsService {
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH)));
 
-        return User.withUsername(user.getUsername()).password(user.getPassword()).authorities("USER").build();
+        return  CustomUserDetails.build(user);//User.withUsername(user.getUsername()).password(user.getPassword()).authorities("USER").build();
     }
 }
