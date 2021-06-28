@@ -3,10 +3,10 @@
         <nav>
             <h1><router-link to="/">Cook It</router-link></h1>
             <ul>
-                <li v-if="loggedIn"><router-link to="/profile/:username/recipesLists">My Recipes</router-link></li>   <!--provavelmente vou ter de ir buscar o username com vuex! -->
-                <li v-if="loggedIn"><router-link to="/recipe/addRecipe">Add Recipe</router-link></li> <!-- estes 3 so aparecem caso o user esteja logged in! -->
-                <li v-if="loggedIn"><router-link to="/profile/:username/details">Account Info</router-link></li>
-                <li v-if="!loggedIn"><router-link to="/login">Login</router-link></li>   <!-- se estiver logged in, queremos fazer logout. caso contrário ir para pagina de login -->
+                <li v-if="loggedIn"><router-link :to=myRecipesLink>My Recipes</router-link></li>  
+                <li v-if="loggedIn"><router-link to="/recipe/addRecipe">Add Recipe</router-link></li> 
+                <li v-if="loggedIn"><router-link :to=accountInfoLink>Account Info</router-link></li>
+                <li v-if="!loggedIn"><router-link to="/login">Login</router-link></li>   
                 <li v-else><base-button @click="logout">Logout</base-button></li>
             </ul>
         </nav>
@@ -18,8 +18,17 @@ import BaseButton from '../ui/BaseButton.vue';
 export default {
   components: { BaseButton },
   computed: {
+    myRecipesLink() {
+      return "/profile/:username/recipesLists".replace(":username", this.user.username);
+    },
+    accountInfoLink() {
+      return "/profile/:username/details".replace(":username", this.user.username);
+    },
     loggedIn() {
       return this.$store.getters['user/loggedIn'];
+    },
+    user() {
+      return this.$store.getters['user/user'];
     }
   },
   methods: {

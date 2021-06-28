@@ -16,9 +16,9 @@ export default {
     props: ['id', 'userId', 'name', 'description', 'visibility', 'recipes'],
     methods: {
         getListRecipes() {
-            this.$store.dispatch('recipes/getRecipeDetails', this.id);      //aqui nao deve ser preciso ir buscar as receitas pois já as recebemos por parametro. apenas queremos
+            //this.$store.dispatch('recipes/getRecipeDetails', this.id);      //aqui nao deve ser preciso ir buscar as receitas pois já as recebemos por parametro. apenas queremos
                                                                             //igualar as recipes da store ás recipes recebidas e redirecionar para a página certa!
-            this.$router.push('/profile/:username/recipesLists/:idUrl/recipes' + this.id);  //devo ir buscar o username a store do vuex
+            //this.$router.push('/profile/:username/recipesLists/:idUrl/recipes' + this.id);  //devo ir buscar o username a store do vuex
         },
         updateList() {
 

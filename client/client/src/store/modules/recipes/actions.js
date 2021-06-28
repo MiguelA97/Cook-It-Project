@@ -2,8 +2,8 @@ import recipeAPIService from '../../../services/recipeAPIService.js'
 import userRecipesListsService from '../../../services/userRecipesListsService.js'
 
 export default {
-    searchRecipes(context, toSearch, diet, intolerances, type, cuisine) {
-        recipeAPIService.searchRecipes(toSearch, diet, intolerances, type, cuisine)
+    searchRecipes(context, data) {   
+        recipeAPIService.searchRecipes(data.toSearch, data.filter.diet, data.filter.intolerances, data.filter.type, data.filter.cuisine)
         .then(response => {
             const recipes = [];
 
@@ -47,8 +47,8 @@ export default {
             console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
         });
     },
-    addUserRecipeList(context, data, username) {
-        userRecipesListsService.addUserRecipeList(username, data)
+    addUserRecipeList(context, data) {
+        userRecipesListsService.addUserRecipeList(data.username, data.formData)
         .then(response => {
             data = {
                 id: response.data.properties.userRecipeListId,
@@ -58,7 +58,6 @@ export default {
                 visibility: response.data.properties.userRecipeListVisibility,
                 recipes: response.data.properties.userRecipeListRecipes
             }
-            console.log(data)
             context.commit('addUserRecipeList', data)
         })
         .catch(error => {
@@ -69,15 +68,15 @@ export default {
         userRecipesListsService.getUserRecipeListsByUsername(username)
         .then(response => {
             const recipeLists = [];
-
+   
             response.data.forEach(recipeList => {
                 const newRecipeList = {
-                    id: recipeList.userRecipeListId,
-                    userId: recipeList.userId,
-                    name: recipeList.userRecipeListName,
-                    description: recipeList.userRecipeListDescription,
-                    visibility: recipeList.userRecipeListVisibility,
-                    recipes: recipeList.userRecipeListRecipes       //possivelmente deve ser alterado para o objecto com todos os parametros de uma receita
+                    id: recipeList.properties.userRecipeListId,
+                    userId: recipeList.properties.userId,
+                    name: recipeList.properties.userRecipeListName,
+                    description: recipeList.properties.userRecipeListDescription,
+                    visibility: recipeList.properties.userRecipeListVisibility,
+                    recipes: recipeList.properties.userRecipeListRecipes       //possivelmente deve ser alterado para o objecto com todos os parametros de uma receita
                 };
                 recipeLists.push(newRecipeList);
             });

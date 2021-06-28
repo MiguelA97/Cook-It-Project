@@ -23,7 +23,7 @@ export default {
     methods: {
         searchRecipes() {
             if (this.toSearch === '') return;
-            this.$store.dispatch('recipes/searchRecipes', this.toSearch, '', '', '', ''); //depois adicionar as variaveis (diet, intolerances, type, cuisine) dos filtros
+            this.$store.dispatch('recipes/searchRecipes', {toSearch: this.toSearch, filter: {diet: '', intolerances: '', type: '', cuisine: ''}}); //depois adicionar as variaveis (diet, intolerances, type, cuisine) dos filtros
             this.$router.replace('/recipes');
         }
     },

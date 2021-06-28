@@ -1,9 +1,9 @@
 <template>
     <section>
-        <div>
+        <div v-if="user !== null">
             <user-recipe-list-form
-            :userId="userId"
-            :username="username"
+            :userId="user.id"
+            :username="user.username"
             ></user-recipe-list-form>
         </div>
         <base-card v-if="recipeLists.length > 0">
@@ -29,7 +29,6 @@ import UserRecipeListForm from '../../components/userRecipeLists/UserRecipeListF
 import UserRecipeListItem from '../../components/userRecipeLists/UserRecipeListItem.vue'
 
 export default {
-    props: ['userId', 'username'],          //isto deve ter de ser mudado para passar a usar vuex!
     components: {
         UserRecipeListForm,
         UserRecipeListItem,
@@ -38,10 +37,13 @@ export default {
     computed: {
         recipeLists() {
             return this.$store.getters['recipes/recipeLists'];
+        },
+        user() {
+            return this.$store.getters['user/user'];
         }
     },
     created() {
-        this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.username);          //buscar as listas a bd! e preencher em recipesLists do vuex!
+        this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);          //buscar as listas a bd! e preencher em recipesLists do vuex!
     },
 }
 

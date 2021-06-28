@@ -63,8 +63,8 @@ export default {
             if (!this.formIsValid) return;
 
             const formData = {
-                userId: this.userId,
-                name: this.name.val,
+                idUser: this.userId,
+                listName: this.name.val,
                 description: this.description,
                 visibility : this.visibility
             };
@@ -72,7 +72,9 @@ export default {
             this.name.val = '';
             this.description = '';
             this.visibility = 'private';
-            this.$store.dispatch('recipes/addUserRecipeList', formData, this.username); 
+            console.log("id teste")
+            console.log(this.userId)
+            this.$store.dispatch('recipes/addUserRecipeList', {formData, username: this.username}); 
             this.hideForm = true;
         }
     }
