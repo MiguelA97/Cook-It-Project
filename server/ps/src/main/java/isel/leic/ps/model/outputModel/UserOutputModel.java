@@ -37,6 +37,7 @@ public class UserOutputModel {
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("userId", user.getId());
         properties.put("userUsername", user.getUsername());
+        properties.put("userPassword", user.getPassword());
         properties.put("userName", user.getName());
         properties.put("userEmail", user.getEmail());
         properties.put("userRecipeLists", user.getUserRecipeLists());

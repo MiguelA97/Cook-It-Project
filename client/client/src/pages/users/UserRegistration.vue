@@ -17,7 +17,7 @@ export default {
     methods: {
         saveData(data) {
             this.$store.dispatch('user/addUser', data);
-            this.$router.replace('/');
+            this.$router.replace('/login');
         }
     },
 }

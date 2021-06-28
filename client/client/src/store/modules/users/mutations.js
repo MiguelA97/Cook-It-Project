@@ -1,5 +1,10 @@
 export default {
-    addUser(state, payload) {
-        state.user = payload;
+    login(state, user) {
+        state.loggedIn = true;
+        state.user = user;
+    },
+    logout(state) {
+        state.loggedIn = false;
+        state.user = null;
     }
 };

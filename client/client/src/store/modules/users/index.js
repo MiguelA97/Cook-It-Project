@@ -6,9 +6,8 @@ export default {
     namespaced: true,
     state() {
         return {
-            user: {},
-            userId: '',
-            username: ''
+            loggedIn: JSON.parse(localStorage.getItem('user')) === null ? false : true,
+            user: JSON.parse(localStorage.getItem('user'))
         }   
     },
     mutations,
