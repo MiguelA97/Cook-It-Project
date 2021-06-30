@@ -63,6 +63,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers(HttpMethod.POST, "/v1/users").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/users/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/recipes/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -71,7 +72,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        //config.setAllowCredentials(true);
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
         config.setAllowedOrigins(Collections.singletonList("*"));
         config.setAllowedHeaders(Collections.singletonList("*"));

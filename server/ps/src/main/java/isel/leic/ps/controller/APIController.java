@@ -28,7 +28,7 @@ public class APIController {
 
     @GetMapping("/search")
     public ResponseEntity<List<RecipeObject>> searchRecipes(@RequestParam(value = "query", defaultValue = "", required = false) String query,
-                                                            @RequestParam(value = "number", defaultValue = "100") String number,
+                                                            @RequestParam(value = "number", defaultValue = "10") String number,
                                                             @RequestParam(value = "offset", defaultValue = "0") String offset,
                                                             @RequestParam(value = "diet", defaultValue = "", required = false) String diet,
                                                             @RequestParam(value = "intolerances", defaultValue = "", required = false) String intolerances,
