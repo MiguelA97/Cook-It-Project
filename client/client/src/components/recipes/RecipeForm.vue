@@ -1,12 +1,12 @@
 <template>
     <form @submit.prevent="submitForm">
         <div class="form-control" :class="{invalid: !name.isValid}">
-            <label for="name">Name</label>
+            <label for="name">Name *</label>
             <input type="text" id="name" v-model.trim="name.val" @blur="clearValidations('name')"/>
             <p v-if="!name.isValid">Name must not be empty!</p>
         </div>
         <div class="form-control">
-            <label for="ingredients">Ingredients</label>
+            <label for="ingredients">Ingredients *</label>
             <div class="border" v-for="(ingredient, index) in ingredients" :key="index">
                 <input type="text" id="ingredientName" v-model.trim="ingredient.ingredientName" placeholder="Ingredient Name">
                 <input type="text" id="ingredientAisle" v-model.trim="ingredient.aisle" placeholder="Ingredient Aisle">
@@ -17,25 +17,25 @@
         <base-button @click="addIngredient">Add Ingredient</base-button>
         </div>
         <div class="form-control" :class="{invalid: !instructions.isValid}">
-            <label for="instructions">Instructions</label>
+            <label for="instructions">Instructions *</label>
             <textarea id="instructions" rows="5" v-model.trim="instructions.val" @blur="clearValidations('instructions')"></textarea>
             <p v-if="!instructions.isValid">Instructions must not be empty!</p>
         </div>        
         <div class="form-control" :class="{invalid: !readyInMinutes.isValid}">
-            <label for="readyInMinutes">Ready in minutes</label>
+            <label for="readyInMinutes">Ready in minutes *</label>
             <input type="number" id="readyInMinutes" v-model.trim="readyInMinutes.val" @blur="clearValidations('readyInMinutes')"/>
             <p v-if="!readyInMinutes.isValid">Ready in minutes must be greater than 0.</p>
         </div>
         <div class="form-control" :class="{invalid: !servings.isValid}">
-            <label for="servings">Servings</label>
+            <label for="servings">Servings *</label>
             <input type="number" id="servings" v-model.trim="servings.val" @blur="clearValidations('servings')"/>
             <p v-if="!servings.isValid">Servings must be greater than 0.</p>
         </div>
         <div>
-            <label for="listToAdd">List to add</label>
+            <label for="listToAdd">List to add *</label>
             <select id="listToAdd" v-model.trim="listToAdd.val" @blur="clearValidations('listToAdd')">
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
+                <option disabled selected value="">Choose list</option>
+                <option v-for="list in recipeLists" :key="list.id" :value="list.id">{{list.name}}</option>
             </select>
         </div>
         <div class="form-control">
@@ -102,6 +102,17 @@ export default {
             formIsValid: true
         }
     },
+    computed: {
+        recipeLists() {
+            return this.$store.getters['recipes/recipeLists'];
+        },
+        user() {
+            return this.$store.getters['user/user'];
+        }
+    },
+    created() {
+        this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);          //buscar as listas a bd! e preencher em recipesLists do vuex!
+    },
     methods: {
         clearValidations(input) {
             this[input].isValid = true;
@@ -124,7 +135,7 @@ export default {
                 this.servings.isValid = false;
                 this.formIsValid = false;
             }
-            if (!this.listToAdd.val) {
+            if (this.listToAdd.val === '') {
                 this.listToAdd.isValid = false;
                 this.formIsValid = false;
             }
@@ -146,13 +157,13 @@ export default {
                 readyInMinutes: this.readyInMinutes.val,
                 servings: this.servings.val,
                 idUrl: this.listToAdd.val,
-                dairyFree: this.dairyFree.val,
-                glutenFree: this.glutenFree.val,
-                vegan: this.vegan.val,
-                vegetarian: this.vegetarian.val,
+                idUser: this.user.id,
+                dairyFree: this.dairyFree,
+                glutenFree: this.glutenFree,
+                vegan: this.vegan,
+                vegetarian: this.vegetarian,
                 ingredientDetailsList : this.ingredients
             }
-
             this.$emit('save-data', formData);
         },
         addIngredient() {

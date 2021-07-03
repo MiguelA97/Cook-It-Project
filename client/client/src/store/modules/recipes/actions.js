@@ -1,9 +1,10 @@
 import recipeAPIService from '../../../services/recipeAPIService.js'
 import userRecipesListsService from '../../../services/userRecipesListsService.js'
+import recipeService from '../../../services/recipeService.js'
 
 export default {
-    searchRecipes(context, data) {   
-        recipeAPIService.searchRecipes(data.toSearch, data.filter.diet, data.filter.intolerances, data.filter.type, data.filter.cuisine)
+    async searchRecipes(context, data) {   
+        await recipeAPIService.searchRecipes(data.toSearch, data.filter.diet, data.filter.intolerances, data.filter.type, data.filter.cuisine)
         .then(response => {
             const recipes = [];
 
@@ -22,8 +23,8 @@ export default {
             console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
         });
     },
-    getRecipeDetails(context, recipeId) {
-        recipeAPIService.getRecipeInformation(recipeId)
+    async getRecipeDetails(context, recipeId) {
+        await recipeAPIService.getRecipeInformation(recipeId)
         .then(response => {
             console.log(response)
             const recipe = {
@@ -76,7 +77,7 @@ export default {
                     name: recipeList.properties.userRecipeListName,
                     description: recipeList.properties.userRecipeListDescription,
                     visibility: recipeList.properties.userRecipeListVisibility,
-                    recipes: recipeList.properties.userRecipeListRecipes       //possivelmente deve ser alterado para o objecto com todos os parametros de uma receita
+                    recipes: recipeList.properties.userRecipeListRecipes       
                 };
                 recipeLists.push(newRecipeList);
             });
@@ -86,5 +87,31 @@ export default {
         .catch(error => {
             console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
         })
+    },
+    updateUserRecipeList(context, data) {
+        console.log(context + data)
+    },
+    deleteUserRecipeList(context, data) {
+        userRecipesListsService.deleteUserRecipeList(data.username, data.listId)
+        .then(context.commit('deleteUserRecipeList', data.listId))
+        .catch(error => {
+            console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes 
+        });
+    },
+    getRecipeById(context, data) {
+        console.log(context + data)
+    },
+    addRecipe(context, data) {
+        recipeService.addRecipe(data.username, data.listId, data.recipe)
+        .then()
+        .catch(error => {
+            console.log(error.response)     //aqui tenho acesso ao objecto do erro com as informaçoes  
+        })
+    },
+    updateRecipe(context, data) {
+        console.log(context + data)
+    },
+    deleteRecipe(context, data) {
+        console.log(context + data)
     }
 };

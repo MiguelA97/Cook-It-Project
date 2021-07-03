@@ -1,9 +1,14 @@
 <template>
     <li>
-      <h3>Name: {{title}}</h3>
-      <h3>Image: {{image}}</h3>
-      <div class="actions">
-        <base-button @click="getRecipeDetails">View Details</base-button>
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <div v-else>
+        <h3>Name: {{title}}</h3>
+        <h3>Image: {{image}}</h3>
+        <div class="actions">
+          <base-button @click="getRecipeDetails">View Details</base-button>
+        </div>
       </div>
     </li>
 </template>
@@ -11,9 +16,16 @@
 <script>
 export default {
     props: ['id', 'title', 'image'],
+    data() {
+      return {
+        isLoading: false
+      }
+    },
     methods: {
-      getRecipeDetails() {
-        this.$store.dispatch('recipes/getRecipeDetails', this.id); 
+      async getRecipeDetails() {
+        this.isLoading = true;
+        await this.$store.dispatch('recipes/getRecipeDetails', this.id);
+        this.isLoading = false; 
         this.$router.push('/recipes/' + this.id);
       }
     },

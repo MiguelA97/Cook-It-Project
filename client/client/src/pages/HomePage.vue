@@ -1,9 +1,14 @@
 <template>
     <section>
         <base-card>
-            <label for="search">Find your favorite recipe & Cook It!</label>
-            <input class="border" type="text" id="searchBox" v-model.trim="toSearch" placeholder="Search recipes by name or ingredients">
-            <base-button @click="searchRecipes">Search Recipes</base-button>
+            <div v-if="isLoading">
+              <base-spinner></base-spinner>
+            </div>
+            <div v-else>
+              <label for="search">Find your favorite recipe & Cook It!</label>
+              <input class="border" type="text" id="searchBox" v-model.trim="toSearch" placeholder="Search recipes by name or ingredients">
+              <base-button @click="searchRecipes">Search Recipes</base-button>
+            </div>
         </base-card>
     </section>
 </template>
@@ -17,13 +22,16 @@ export default {
     },
     data() {
         return {
-            toSearch: ''
+            toSearch: '',
+            isLoading: false
         }
     },
     methods: {
-        searchRecipes() {
+        async searchRecipes() {
             if (this.toSearch === '') return;
-            this.$store.dispatch('recipes/searchRecipes', {toSearch: this.toSearch, filter: {diet: '', intolerances: '', type: '', cuisine: ''}}); //depois adicionar as variaveis (diet, intolerances, type, cuisine) dos filtros
+            this.isLoading = true;
+            await this.$store.dispatch('recipes/searchRecipes', {toSearch: this.toSearch, filter: {diet: '', intolerances: '', type: '', cuisine: ''}}); //depois adicionar as variaveis (diet, intolerances, type, cuisine) dos filtros
+            this.isLoading = false;
             this.$router.replace('/recipes');
         }
     },

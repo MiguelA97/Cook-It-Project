@@ -8,6 +8,9 @@ export default {
     addUserRecipeList(state, payload) {
       state.recipeLists.push(payload);
     },
+    deleteUserRecipeList(state, payload) {
+      state.recipeLists.filter(list => list.id != payload);
+    },
     setUserRecipeLists(state, payload) {
       state.recipeLists = payload;
     }

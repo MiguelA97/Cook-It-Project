@@ -79,8 +79,8 @@ public class RecipeServiceImpl implements RecipeService {
             if (existsRecipeByIdUrlAndIdApi(listId, recipe.getIdApi()))     //verify if there isn't a recipe with the same api id in this list
                 throw new EntityAlreadyExistsException(messageSource.getMessage("recipe_already_exist", new Object[]{listId, recipe.getIdApi()}, Locale.ENGLISH));
         ValidationsUtils.validateRecipeName(recipe.getName());
-        recipe.setIdUrl(listId);
-        recipe.setIdUser(userRecipeListService.getUserRecipeListById(listId).getIdUser());
+        //recipe.setIdUrl(listId);
+        //recipe.setIdUser(userRecipeListService.getUserRecipeListById(listId).getIdUser()); estas 2 linha nao sao necessarias. esta info já é enviada em recipe!
         Recipe createdRecipe = recipeRepository.save(recipe);
 
         //recipe has been created, now create ingredients and add them to the created recipe ingredients list!

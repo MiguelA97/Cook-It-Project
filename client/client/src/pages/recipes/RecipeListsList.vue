@@ -11,6 +11,7 @@
                 <user-recipe-list-item
                     v-for="recipeList in recipeLists" 
                     :key="recipeList.id"
+                    :username="user.username"
                     :id="recipeList.id"
                     :userId="recipeList.userId"
                     :name="recipeList.name"
@@ -45,6 +46,11 @@ export default {
     created() {
         this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);          //buscar as listas a bd! e preencher em recipesLists do vuex!
     },
+    watch: {
+        recipeLists() {
+            this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);
+        }
+    }
 }
 
 </script>

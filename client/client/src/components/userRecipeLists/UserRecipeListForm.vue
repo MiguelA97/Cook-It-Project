@@ -4,7 +4,7 @@
         <h2>Add a Recipe List:</h2>
         <form @submit.prevent="submitForm">
             <div class="form-control" :class="{invalid: !name.isValid}">
-                <label for="name">Name</label>
+                <label for="name">Name *</label>
                 <input type="text" id="name" v-model.trim="name.val" @blur="clearValidations('name')"/>
                 <p v-if="!name.isValid">Name must not be empty!</p>
             </div>
@@ -72,8 +72,6 @@ export default {
             this.name.val = '';
             this.description = '';
             this.visibility = 'private';
-            console.log("id teste")
-            console.log(this.userId)
             this.$store.dispatch('recipes/addUserRecipeList', {formData, username: this.username}); 
             this.hideForm = true;
         }
