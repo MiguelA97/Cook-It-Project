@@ -6,5 +6,8 @@ export default {
     logout(state) {
         state.loggedIn = false;
         state.user = null;
+    },
+    setUser(state, user) {
+        state.user = user;
     }
 };

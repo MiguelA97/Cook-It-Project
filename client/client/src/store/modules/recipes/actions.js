@@ -1,6 +1,7 @@
 import recipeAPIService from '../../../services/recipeAPIService.js'
 import userRecipesListsService from '../../../services/userRecipesListsService.js'
 import recipeService from '../../../services/recipeService.js'
+import authService from '../../../services/authenticationService.js'
 
 export default {
     async searchRecipes(context, data) {   
@@ -85,6 +86,9 @@ export default {
             context.commit('setUserRecipeLists', recipeLists)
         })
         .catch(error => {
+            if (error.status === 401) {     //quando auth expira, fazer logout!
+                authService.logout();
+            }
             console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
         })
     },

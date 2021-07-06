@@ -27,9 +27,7 @@
 </template>
 
 <script>
-import BaseButton from '../ui/BaseButton.vue';
 export default {
-  components: { BaseButton },
     emits: ['save-data'],
     data() {
         return {

@@ -33,8 +33,10 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('user/logout');   
-      this.$router.replace('/login');
+      if (confirm("Are you sure?")) {
+        this.$store.dispatch('user/logout');   
+        this.$router.replace('/login');
+      }
     }
   },
 }
