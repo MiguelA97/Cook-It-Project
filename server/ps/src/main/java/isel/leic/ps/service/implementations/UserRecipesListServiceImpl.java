@@ -107,7 +107,8 @@ public class UserRecipesListServiceImpl implements UserRecipeListService {
         if (!userRecipeList.getListName().equals(updatedUserRecipeList.getListName()) && existsUserRecipeListByListName(userRecipeList.getIdUser(), updatedUserRecipeList.getListName()))
             throw new EntityAlreadyExistsException(messageSource.getMessage("user_recipe_list_Already_Exist", new Object[]{userRecipeList.getIdUser(), updatedUserRecipeList.getListName()}, Locale.ENGLISH));
 
-        userRecipeList.setDescription(updatedUserRecipeList.getDescription());
+        if (!updatedUserRecipeList.getDescription().equals(""))
+            userRecipeList.setDescription(updatedUserRecipeList.getDescription());
         userRecipeList.setVisibility(updatedUserRecipeList.getVisibility());
         userRecipeList.setListName(updatedUserRecipeList.getListName());
         return userRecipeListRepository.save(userRecipeList);

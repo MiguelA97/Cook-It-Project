@@ -9,8 +9,9 @@
         <base-card v-if="recipeLists.length > 0">
             <ul>
                 <user-recipe-list-item
-                    v-for="recipeList in recipeLists" 
+                    v-for="(recipeList, index) in recipeLists" 
                     :key="recipeList.id"
+                    :index="index"
                     :username="user.username"
                     :id="recipeList.id"
                     :userId="recipeList.userId"
@@ -25,15 +26,13 @@
 </template>
 
 <script>
-import BaseCard from '../../components/ui/BaseCard.vue';
 import UserRecipeListForm from '../../components/userRecipeLists/UserRecipeListForm.vue'
 import UserRecipeListItem from '../../components/userRecipeLists/UserRecipeListItem.vue'
 
 export default {
     components: {
         UserRecipeListForm,
-        UserRecipeListItem,
-        BaseCard
+        UserRecipeListItem
     },
     computed: {
         recipeLists() {
@@ -44,12 +43,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);          //buscar as listas a bd! e preencher em recipesLists do vuex!
-    },
-    watch: {
-        recipeLists() {
-            this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);
-        }
+        this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);         
     }
 }
 

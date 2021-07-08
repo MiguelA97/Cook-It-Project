@@ -15,7 +15,7 @@ public class IngredientInformationObject {
     private final String aisle;
     @JsonProperty(value = "image")
     private final String image;
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "ingredientName")
     private final String name;
     @JsonProperty(value = "amount")
     private final double amount;

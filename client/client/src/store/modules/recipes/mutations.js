@@ -9,9 +9,15 @@ export default {
       state.recipeLists.push(payload);
     },
     deleteUserRecipeList(state, payload) {
-      state.recipeLists.filter(list => list.id != payload);
+      state.recipeLists.splice(payload, 1);
     },
     setUserRecipeLists(state, payload) {
       state.recipeLists = payload;
+    },
+    setUserRecipeList(state, payload) {
+      state.recipeList = payload;
+    },
+    deleteRecipe(state, payload) {
+      state.recipes.splice(payload, 1);
     }
 };

@@ -1,7 +1,7 @@
 <template>
     <section>
         <base-card>
-            <h2>Name: {{recipe.title}}</h2>
+            <h2>Name: {{recipe.name}}</h2>
             <h2>Ready in: {{recipe.readyInMinutes}} minutes</h2>
             <h2>Instructions: {{recipe.instructions}}</h2>
             <h2>Servings: {{recipe.servings}}</h2>
@@ -10,13 +10,13 @@
             <h2>Vegan: {{recipe.vegan}}</h2>
             <h2>Vegetarian: {{recipe.vegetarian}}</h2>
             <h2>Image: {{recipe.image}}</h2>
-            <h2>Summary: {{recipe.summary}}</h2>
+            <h2 v-if="recipe.summary">Summary: {{recipe.summary}}</h2>
         </base-card>
         <section>
             <base-card>
                 <h2>Ingredients:</h2>
                 <ul>
-                    <li v-for="ingredient in recipe.ingredients" :key="ingredient.apiId">{{ingredient.name}}</li>
+                    <li v-for="ingredient in recipe.ingredientDetailsList" :key="ingredient.apiId">{{ingredient.ingredientName}}</li>
                 </ul>
             </base-card>
         </section>
@@ -25,7 +25,6 @@
 
 <script>
 export default {
-    props: ['id'],
     computed: {
         recipe() {
             return this.$store.getters['recipes/recipe'];

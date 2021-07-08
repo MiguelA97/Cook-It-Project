@@ -10,6 +10,12 @@ async function getRecipeById(username, listId, recipeId) {
     return response; 
 }
 
+async function getRecipesByUserRecipeListId(username, listId) {
+    const url = CREATE_RECIPE_URL.replace(":username", username).replace(":listId", listId);
+    const response = await axios.get(url, { headers: authHeader() });
+    return response; 
+}
+
 async function addRecipe(username, listId, recipe) {
     const url = CREATE_RECIPE_URL.replace(":username", username).replace(":listId", listId);
     const response = await axios.post(url, recipe, { headers: authHeader() });
@@ -28,4 +34,4 @@ async function deleteRecipe(username, listId, recipeId) {
     return response; 
 }
 
-export default { getRecipeById, addRecipe, updateRecipe, deleteRecipe };
+export default { getRecipeById, getRecipesByUserRecipeListId, addRecipe, updateRecipe, deleteRecipe };

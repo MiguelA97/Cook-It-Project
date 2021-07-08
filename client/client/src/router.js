@@ -22,7 +22,8 @@ const router = createRouter({
         { path: '/recipes/:id', component: RecipeDetails },
         { path: '/profile/:username/details', component: UserDetails },
         { path: '/profile/:username/recipesLists', component: RecipeListsList },
-        { path: '/profile/:username/recipesLists/:idUrl/recipes', component: UserRecipeListRecipesList, props: true },
+        { path: '/profile/:username/recipesLists/:idUrl/recipes', name: "recipes", component: UserRecipeListRecipesList, props: true },
+        { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe', name: "recipe", component: RecipeDetails, props: true },
         { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe/editRecipe', component: EditRecipeForm, props: true },
         { path: '/recipe/addRecipe', component: AddRecipe },
         { path: '/:notFound(.*)', component: NotFound }

@@ -12,18 +12,17 @@
 
 <script>
 export default {
-    props: ['username', 'id', 'userId', 'name', 'description', 'visibility', 'recipes'],
+    props: ['index', 'username', 'id', 'userId', 'name', 'description', 'visibility', 'recipes'],
     methods: {
         getListRecipes() {
-            //this.$store.dispatch('recipes/getRecipeDetails', this.id);      //aqui nao deve ser preciso ir buscar as receitas pois já as recebemos por parametro. apenas queremos
-            //this.$router.push('/profile/:username/recipesLists/:idUrl/recipes' + this.id);  //devo ir buscar o username a store do vuex
+          this.$router.push({name: 'recipes', params: {username: this.username, idUrl: this.id, name: this.name, description: this.description, visibility: this.visibility}});  
         },
         deleteList() {
           if (confirm("Do you want to delete this list?")) {
-            this.$store.dispatch('recipes/deleteUserRecipeList', {username: this.username, listId: this.id});
+            this.$store.dispatch('recipes/deleteUserRecipeList', {username: this.username, listId: this.id, index: this.index});
           }
         }
-    },
+    }
 }
 </script>
 
