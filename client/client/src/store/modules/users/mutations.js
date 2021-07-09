@@ -9,5 +9,11 @@ export default {
     },
     setUser(state, user) {
         state.user = user;
+    },
+    setUserRecipeLists(state, payload) {
+        state.recipeLists = payload;
+    },
+    setUserRecipeListIndex(state, payload) {
+        state.recipeListIndex = payload;
     }
 };

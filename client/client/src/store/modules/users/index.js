@@ -7,7 +7,9 @@ export default {
     state() {
         return {
             loggedIn: JSON.parse(localStorage.getItem('user')) === null ? false : true,
-            user: JSON.parse(localStorage.getItem('user'))
+            user: JSON.parse(localStorage.getItem('user')),
+            recipeLists: [],
+            recipeListIndex: null
         }   
     },
     mutations,

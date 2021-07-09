@@ -2,6 +2,27 @@ import userService from '../../../services/userService.js'
 import authService from '../../../services/authenticationService.js'
 
 export default {
+    getUser(context, data) {
+        userService.getUser(data)
+            .then(response => {
+                const recipeLists = [];
+    
+                response.data.properties.userRecipeLists.forEach(recipeList => {
+                    const newRecipeList = {
+                        id: recipeList.idUrl,
+                        name: recipeList.listName,
+                        description: recipeList.description,
+                        recipes: recipeList.recipes       
+                    };
+                    if (recipeList.visibility === 'public')
+                        recipeLists.push(newRecipeList);
+                });
+                context.commit('setUserRecipeLists', recipeLists);
+            })
+            .catch(error => {
+                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+            });
+    },
     addUser(context, data) {
         userService.addUser(data)
             .then()

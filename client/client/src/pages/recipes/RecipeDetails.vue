@@ -16,7 +16,7 @@
             <base-card>
                 <h2>Ingredients:</h2>
                 <ul>
-                    <li v-for="ingredient in recipe.ingredientDetailsList" :key="ingredient.apiId">{{ingredient.ingredientName}}</li>
+                    <li v-for="ingredient in recipe.ingredientDetailsList" :key="ingredient.apiId">{{ingredient.ingredientName}}, {{ingredient.amount}} {{ingredient.unit}}</li>
                 </ul>
             </base-card>
         </section>
@@ -29,6 +29,9 @@ export default {
         recipe() {
             return this.$store.getters['recipes/recipe'];
         }
-    }
+    },
+    created() {
+        console.log(this.recipe)
+    },
 }
 </script>

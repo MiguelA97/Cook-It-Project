@@ -5,9 +5,18 @@
               <base-spinner></base-spinner>
             </div>
             <div v-else>
+              <div class="controls">
+                <h3>Search for:</h3>
+                <label class="radio">
+                  <input type="radio" v-model="searchType" value="recipe">Recipes     
+                </label>   
+                <label class="radio">
+                  <input type="radio" v-model="searchType" value="user">User           
+                </label>   
+              </div>
               <label for="search">Find your favorite recipe & Cook It!</label>
-              <input class="border" type="text" id="searchBox" v-model.trim="toSearch" placeholder="Search recipes by name or ingredients">
-              <base-button @click="searchRecipes">Search Recipes</base-button>
+              <input class="border" type="text" id="searchBox" v-model.trim="toSearch" placeholder="Search recipes by name, ingredients or user">
+              <base-button @click="search">Search Recipes</base-button>
             </div>
         </base-card>
     </section>
@@ -23,10 +32,22 @@ export default {
     data() {
         return {
             toSearch: '',
-            isLoading: false
+            isLoading: false,
+            searchType: 'recipe'
         }
     },
     methods: {
+        async search() {
+          if (this.searchType === 'recipe') {
+            await this.searchRecipes();
+          }
+          else if (this.searchType === 'user') {
+            this.searchUser();
+          }
+        },
+        searchUser() {
+          this.$router.push({name: 'userRecipeLists', params: {username: this.toSearch}});  
+        },
         async searchRecipes() {
             if (this.toSearch === '') return;
             this.isLoading = true;
@@ -88,5 +109,16 @@ h3 {
 .border {
   border: 1px solid black;
   margin-bottom: 5px;
+}
+
+.controls {
+  display: flex;
+}
+
+.radio {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
