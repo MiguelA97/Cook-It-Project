@@ -10,9 +10,9 @@ import RecipeDetails from './pages/recipes/RecipeDetails.vue'
 import RecipeListsList from './pages/recipes/RecipeListsList.vue'
 import UserRecipeListRecipesList from './pages/recipes/UserRecipeListRecipesList.vue'
 import AddRecipe from './pages/recipes/AddRecipe.vue'
-import EditRecipeForm from './pages/recipes/EditRecipeForm.vue'
 import UserRecipeLists from './pages/users recipes/UserRecipeLists.vue'
 import UserRecipesList from './pages/users recipes/UserRecipesList.vue'
+import PersonalRecipeDetails from './pages/recipes/PersonalRecipeDetails.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -25,8 +25,7 @@ const router = createRouter({
         { path: '/profile/:username/details', component: UserDetails },
         { path: '/profile/:username/recipesLists', component: RecipeListsList },
         { path: '/profile/:username/recipesLists/:idUrl/recipes', name: "recipes", component: UserRecipeListRecipesList, props: true },
-        { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe', name: "recipe", component: RecipeDetails, props: {showLists: false} },
-        { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe/editRecipe', component: EditRecipeForm, props: true },
+        { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe', name: "recipe", component: PersonalRecipeDetails, props: true },
         { path: '/recipe/addRecipe', component: AddRecipe },
         { path: '/user/:username/recipesLists', name: "userRecipeLists", component: UserRecipeLists, props: true },
         { path: '/user/:username/recipesLists/recipes', name: "userRecipes", component: UserRecipesList, props: true },

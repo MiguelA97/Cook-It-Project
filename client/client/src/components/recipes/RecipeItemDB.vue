@@ -15,11 +15,12 @@ export default {
     methods: {
         getRecipeDetails() {
             this.$store.commit('recipes/setRecipe', this.recipe);
-            this.$router.push({name: 'recipe', params: {username: this.username, idUrl: this.idUrl, idRecipe: this.recipe.id, showLists: false}});  
+            this.$router.push({name: 'recipe', params: {username: this.username, idUrl: this.idUrl, idRecipe: this.recipe.id}});  
         },
         deleteRecipe() {
             if (confirm("Do you want to delete this recipe?")) {
                 this.$store.dispatch('recipes/deleteRecipe', {username: this.username, listId: this.idUrl, recipeId: this.recipe.id, index: this.index});
+                this.$notify("Recipe deleted!");
             }
         }
     },

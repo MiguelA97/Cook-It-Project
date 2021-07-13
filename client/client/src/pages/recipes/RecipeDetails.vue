@@ -11,7 +11,7 @@
             <h2>Vegan: {{recipe.vegan}}</h2>
             <h2>Vegetarian: {{recipe.vegetarian}}</h2>
             <h2 v-if="recipe.summary">Summary: {{recipe.summary}}</h2>
-            <div v-if="showLists === undefined">
+            <div>
                 <label for="listToAdd">Add recipe to list</label>
                 <select class="border-select" id="listToAdd" v-model.trim="listToAdd">
                     <option disabled selected value="">Choose list</option>
@@ -33,7 +33,6 @@
 
 <script>
 export default {
-    props: ['showLists'],
     data() {
         return {
             listToAdd: ''
@@ -59,7 +58,6 @@ export default {
         }
     },
     created() {
-        console.log(this.showLists)
         this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);          //buscar as listas a bd! e preencher em recipesLists do vuex!
     },
 }

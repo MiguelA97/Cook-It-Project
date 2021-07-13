@@ -32,9 +32,7 @@
 </template>
 
 <script>
-import BaseCard from '../../components/ui/BaseCard.vue';
 export default {
-  components: { BaseCard },
     data() {
         return {
             name: {
@@ -67,6 +65,7 @@ export default {
                 this.$store.dispatch('user/deleteUser', this.user.username);   
                 this.$store.dispatch('user/logout');   
                 this.$router.replace('/');
+                this.$notify("User account deleted!");
             }
         },
         clearValidations(input) {
@@ -105,6 +104,7 @@ export default {
             this.password.val = '';
 
             this.$store.dispatch('user/updateUser', {user: formData, username: this.user.username});
+            this.$notify("User account updated!");
         }
     },
     created() {

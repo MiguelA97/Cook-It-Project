@@ -70,6 +70,7 @@ export default {
             this.visibility = 'private';
             this.$store.dispatch('recipes/updateUserRecipeList', {formData, username: this.username, idUrl: this.idUrl}); 
             this.hideForm = true;
+            this.$notify("The list was updated!");
         }
     }
 }

@@ -36,6 +36,7 @@ export default {
       if (confirm("Are you sure?")) {
         this.$store.dispatch('user/logout');   
         this.$router.replace('/login');
+        this.$notify("You have logged out!");
       }
     }
   },

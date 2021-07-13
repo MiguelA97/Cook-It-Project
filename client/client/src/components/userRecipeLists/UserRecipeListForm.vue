@@ -74,6 +74,7 @@ export default {
             this.visibility = 'private';
             this.$store.dispatch('recipes/addUserRecipeList', {formData, username: this.username}); 
             this.hideForm = true;
+            this.$notify("List created!");
         }
     }
 }

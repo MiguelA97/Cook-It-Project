@@ -66,6 +66,7 @@ export default {
 
             this.$store.dispatch('user/login', formData);   
             this.$router.replace('/');
+            this.$notify("Welcome, " + this.username.val + "!");
         }
     },
 }

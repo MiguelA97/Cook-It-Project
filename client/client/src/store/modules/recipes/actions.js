@@ -9,7 +9,6 @@ export default {
         if (data.filter.intolerances !== null) {
             data.filter.intolerances.forEach(intolerance => intolerances += intolerance + ',');
         }
-        console.log(intolerances)
         await recipeAPIService.searchRecipes(data.toSearch, data.filter.diet, intolerances, data.filter.type, data.filter.cuisine)
             .then(response => {
                 const recipes = [];
@@ -46,6 +45,10 @@ export default {
                     summary: response.data.summary,
                     ingredientDetailsList: response.data.ingredients
                 };
+                let summary = recipe.summary.replace(/(<([^>]+)>)/gi, "");
+                let instrucions = recipe.instructions.replace(/(<([^>]+)>)/gi, "");
+                recipe.summary = summary;
+                recipe.instructions = instrucions;
 
                 context.commit('setRecipe', recipe);
             })
@@ -146,7 +149,28 @@ export default {
             })
     },
     updateRecipe(context, data) {
-        console.log(context + data)
+        recipeService.updateRecipe(data.username, data.listId, data.recipeId, data.recipe)
+            .then(response => {
+                const recipe = {
+                    apiId: response.data.properties.apiId,
+                    id: response.data.properties.recipeId,
+                    image: response.data.properties.recipeImage,
+                    name: response.data.properties.recipeName,
+                    readyInMinutes: response.data.properties.recipeReadyInMinutes,
+                    instructions: response.data.properties.recipeInstructions,
+                    servings: response.data.properties.recipeServings,
+                    dairyFree: response.data.properties.recipeDairyFree,
+                    glutenFree: response.data.properties.recipeGlutenFree,
+                    vegan: response.data.properties.recipeVegan,
+                    vegetarian: response.data.properties.recipeVegetarian,
+                    ingredientDetailsList: response.data.properties.recipeIngredientDetailsList
+                };
+
+                context.commit('setRecipe', recipe);
+            })
+            .catch(error => {
+                console.log(error.response)     //aqui tenho acesso ao objecto do erro com as informaçoes  
+            })
     },
     deleteRecipe(context, data) {
         recipeService.deleteRecipe(data.username, data.listId, data.recipeId)
