@@ -4,8 +4,8 @@
         <base-spinner></base-spinner>
       </div>
       <div v-else>
-        <h3>Name: {{title}}</h3>
-        <h3>Image: {{image}}</h3>
+        <h3>{{title}}</h3>
+        <p v-if="image"><img class="center" v-bind:src=image></p>
         <div class="actions">
           <base-button @click="getRecipeDetails">View Details</base-button>
         </div>
@@ -42,6 +42,7 @@ li {
 
 h3 {
   font-size: 1.5rem;
+  text-align: center;
 }
 
 h3,
@@ -56,5 +57,11 @@ div {
 .actions {
   display: flex;
   justify-content: flex-end;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

@@ -25,7 +25,7 @@ const router = createRouter({
         { path: '/profile/:username/details', component: UserDetails },
         { path: '/profile/:username/recipesLists', component: RecipeListsList },
         { path: '/profile/:username/recipesLists/:idUrl/recipes', name: "recipes", component: UserRecipeListRecipesList, props: true },
-        { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe', name: "recipe", component: RecipeDetails, props: true },
+        { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe', name: "recipe", component: RecipeDetails, props: {showLists: false} },
         { path: '/profile/:username/recipesLists/:idUrl/recipes/:idRecipe/editRecipe', component: EditRecipeForm, props: true },
         { path: '/recipe/addRecipe', component: AddRecipe },
         { path: '/user/:username/recipesLists', name: "userRecipeLists", component: UserRecipeLists, props: true },
@@ -34,5 +34,10 @@ const router = createRouter({
         { path: '/:notFound(.*)', component: NotFound }
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    document.title = 'Cook It'
+    next()
+  })
 
 export default router;

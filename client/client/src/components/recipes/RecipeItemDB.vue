@@ -1,7 +1,7 @@
 <template>
     <li>
-        <h3>Name: {{recipe.name}}</h3>
-        <h3 v-if="recipe.image">Image: {{recipe.image}}</h3> 
+        <h3>{{recipe.name}}</h3>
+        <p v-if="recipe.image"><img class="center" v-bind:src=recipe.image></p>
         <div class="actions">
             <base-button @click="getRecipeDetails">View Details</base-button>
             <base-button @click="deleteRecipe">Delete</base-button>
@@ -15,7 +15,7 @@ export default {
     methods: {
         getRecipeDetails() {
             this.$store.commit('recipes/setRecipe', this.recipe);
-            this.$router.push({name: 'recipe', params: {username: this.username, idUrl: this.idUrl, idRecipe: this.recipe.id}});  
+            this.$router.push({name: 'recipe', params: {username: this.username, idUrl: this.idUrl, idRecipe: this.recipe.id, showLists: false}});  
         },
         deleteRecipe() {
             if (confirm("Do you want to delete this recipe?")) {
@@ -36,6 +36,7 @@ li {
 
 h3 {
   font-size: 1.5rem;
+  text-align: center;
 }
 
 h3,
@@ -50,5 +51,11 @@ div {
 .actions {
   display: flex;
   justify-content: flex-end;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

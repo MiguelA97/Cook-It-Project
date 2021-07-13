@@ -8,10 +8,10 @@ async function searchRecipes(toSearch, diet, intolerances, type, cuisine) {
     if (toSearch.includes(","))
         url += "includeIngredients=" + toSearch;
     else url += "query=" + toSearch;
-    if (diet !== undefined) url += "&diet=" + diet;
-    if (intolerances !== undefined) url += "&intolerances=" + intolerances;
-    if (type !== undefined) url += "&type=" + type;
-    if (cuisine !== undefined) url += "&cuisine=" + cuisine;
+    if (diet !== null) url += "&diet=" + diet;
+    if (intolerances !== '') url += "&intolerances=" + intolerances;
+    if (type !== null) url += "&type=" + type;
+    if (cuisine !== null) url += "&cuisine=" + cuisine;
 
     const response = await axios.get(url);
     return response; 

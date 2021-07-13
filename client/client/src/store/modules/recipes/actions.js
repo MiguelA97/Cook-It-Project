@@ -5,7 +5,12 @@ import authService from '../../../services/authenticationService.js'
 
 export default {
     async searchRecipes(context, data) {   
-        await recipeAPIService.searchRecipes(data.toSearch, data.filter.diet, data.filter.intolerances, data.filter.type, data.filter.cuisine)
+        let intolerances = '';
+        if (data.filter.intolerances !== null) {
+            data.filter.intolerances.forEach(intolerance => intolerances += intolerance + ',');
+        }
+        console.log(intolerances)
+        await recipeAPIService.searchRecipes(data.toSearch, data.filter.diet, intolerances, data.filter.type, data.filter.cuisine)
             .then(response => {
                 const recipes = [];
 

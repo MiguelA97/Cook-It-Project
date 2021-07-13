@@ -1,6 +1,17 @@
 <template>
     <section>
         <base-card>
+            <h3>Recipe Filters</h3>
+            <label for="diet">Diets</label>
+            <multi-select class="border-select" v-model="diet" :options="dietOptions" placeholder="Choose diet"></multi-select>
+            <label for="intolerances">Intolerances</label>
+            <multi-select class="border-select" mode=multiple v-model="intolerances" :options="intolerancesOptions" placeholder="Select intolerances">{{intolerances}}</multi-select>
+            <label for="types">Recipe type</label>
+            <multi-select class="border-select" v-model="type" :options="typeOptions" placeholder="Choose type"></multi-select>
+            <label for="cuisines">Cuisines</label>
+            <multi-select class="border-select" v-model="cuisine" :options="cuisineOptions" placeholder="Choose cuisine"></multi-select>
+        </base-card>
+        <base-card>
             <div v-if="isLoading">
               <base-spinner></base-spinner>
             </div>
@@ -23,17 +34,20 @@
 </template>
 
 <script>
-import BaseCard from '../components/ui/BaseCard.vue'
-
 export default {
-    components: {
-        BaseCard
-    },
     data() {
         return {
             toSearch: '',
             isLoading: false,
-            searchType: 'recipe'
+            searchType: 'recipe',
+            diet: null,
+            dietOptions: ['lacto vegetarian', 'ovo vegetarian', 'pescetarian', 'vegan', 'vegetarian'],
+            intolerances: null,
+            intolerancesOptions: ['dairy', 'egg', 'gluten', 'peanut', 'sesame', 'seafood', 'shellfish', 'soy', 'sulfite', 'tree nut', 'wheat'],
+            type: null,
+            typeOptions: ['main course', 'side dish', 'dessert', 'appetizer', 'salad', 'bread', 'breakfast', 'soup', 'beverage', 'sauce', 'drink'],
+            cuisine: null,
+            cuisineOptions: ['african', 'chinese', 'japanese', 'korean', 'vietnamese', 'thai', 'indian', 'british', 'irish', 'french', 'italian', 'mexican', 'spanish', 'middle eastern', 'jewish', 'american', 'cajun', 'southern', 'greek', 'german', 'nordic', 'eastern european', 'caribbean', 'latin american']
         }
     },
     methods: {
@@ -50,14 +64,16 @@ export default {
         },
         async searchRecipes() {
             if (this.toSearch === '') return;
-            this.isLoading = true;
-            await this.$store.dispatch('recipes/searchRecipes', {toSearch: this.toSearch, filter: {diet: '', intolerances: '', type: '', cuisine: ''}}); //depois adicionar as variaveis (diet, intolerances, type, cuisine) dos filtros
+            this.isLoading = true;                                                                                                      // intolerances tem de ser com checkboxes
+            await this.$store.dispatch('recipes/searchRecipes', {toSearch: this.toSearch, filter: {diet: this.diet, intolerances: this.intolerances, type: this.type, cuisine: this.cuisine}}); //depois adicionar as variaveis (diet, intolerances, type, cuisine) dos filtros
             this.isLoading = false;
             this.$router.replace('/recipes');
         }
-    },
+    }
 }
 </script>
+
+<style src="@vueform/multiselect/themes/default.css"></style>
 
 <style scoped>
 .form-control {
@@ -108,6 +124,10 @@ h3 {
 
 .border {
   border: 1px solid black;
+  margin-bottom: 5px;
+}
+
+.border-select {
   margin-bottom: 5px;
 }
 

@@ -1,6 +1,7 @@
 <template>
   <the-header></the-header>
   <router-view></router-view>
+  <notifications width="200px"/>
 </template>
 
 <script>

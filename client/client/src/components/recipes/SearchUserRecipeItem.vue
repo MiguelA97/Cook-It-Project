@@ -1,7 +1,7 @@
 <template>
     <li>
-        <h3>Name: {{recipe.name}}</h3>
-        <h3 v-if="recipe.image">Image: {{recipe.image}}</h3> 
+        <h3>{{recipe.name}}</h3>
+        <p v-if="recipe.image"><img class="center" v-bind:src=recipe.image></p>
         <div class="actions">
             <base-button @click="getRecipeDetails">View Details</base-button>
         </div>
@@ -30,6 +30,7 @@ li {
 
 h3 {
   font-size: 1.5rem;
+  text-align: center;
 }
 
 h3,
@@ -44,5 +45,11 @@ div {
 .actions {
   display: flex;
   justify-content: flex-end;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
