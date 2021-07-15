@@ -1,6 +1,7 @@
 import recipeAPIService from '../../../services/recipeAPIService.js'
 import userRecipesListsService from '../../../services/userRecipesListsService.js'
 import recipeService from '../../../services/recipeService.js'
+import ingredientDetailsService from '../../../services/ingredientDetailsService.js'
 import authService from '../../../services/authenticationService.js'
 
 export default {
@@ -177,6 +178,27 @@ export default {
             .then(context.commit('deleteRecipe', data.index))       
             .catch(error => {
                 console.log(error.response)     //aqui tenho acesso ao objecto do erro com as informaçoes  
+            })
+    },
+    updateIngredientDetails(context, data) {
+        ingredientDetailsService.updateIngredientDetails(data.username, data.idUrl, data.recipeId, data.ingredientDetailsId, data.formData)
+            .then(context.commit('setRecipeIngredientDetails', data.ingredients))
+            .catch(error => {
+                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+            })
+    },
+    addIngredientDetails(context, data) {
+        ingredientDetailsService.addIngredientDetails(data.username, data.idUrl, data.recipeId, data.formData)
+            .then(context.commit('setRecipeIngredientDetails', data.ingredients))
+            .catch(error => {
+                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+            })
+    },
+    deleteIngredientDetails(context, data) {
+        ingredientDetailsService.deleteIngredientDetails(data.username, data.idUrl, data.recipeId,  data.ingredientDetailsId)
+            .then(context.commit('setRecipeIngredientDetails', data.ingredients))
+            .catch(error => {
+                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
             })
     }
 };

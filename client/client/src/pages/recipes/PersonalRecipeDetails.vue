@@ -47,11 +47,31 @@
             </form>
         </base-card>
         <section>
-            <base-card>
+            <base-card v-if="!showUpdateIngredients">
                 <h2>Ingredients:</h2>
                 <ul>
-                    <li v-for="ingredient in recipe.ingredientDetailsList" :key="ingredient.apiId"><h3>{{ingredient.ingredientName}}, {{ingredient.amount}} {{ingredient.unit}}</h3></li>
+                    <li v-for="ingredient in ingredients" :key="ingredient.apiId">
+                        <h3>{{ingredient.ingredientName}}, {{ingredient.amount}} {{ingredient.unit}}</h3>
+                    </li>
                 </ul>
+                <base-button @click="showUpdateIngredients = true">Update Ingredients</base-button>
+            </base-card>
+            <base-card v-else>
+                <h2>Ingredients:</h2>
+                <ul>
+                    <div class="form-control">
+                        <li class="border" v-for="(ingredient, index) in ingredients" :key="index">
+                            <input type="text" v-model.trim="ingredient.ingredientName" placeholder="Ingredient Name">
+                            <input type="text" v-model.trim="ingredient.aisle" placeholder="Ingredient Aisle">
+                            <input type="number" step="0.01" v-model.trim="ingredient.amount" placeholder="Ingredient Amount">
+                            <input type="text" v-model.trim="ingredient.unit" placeholder="Ingredient Unit">
+                            <button @click="updateIngredient(index, ingredient.id)">Update Ingredient</button>
+                            <button @click="deleteIngredient(index, ingredient.id)">Remove Ingredient</button>                            
+                        </li>
+                    </div>
+                </ul>
+                <base-button @click="addIngredient">Add Ingredient</base-button>
+                <base-button @click="showUpdateIngredients = false">Close</base-button>
             </base-card>
         </section>
     </section>
@@ -77,11 +97,13 @@ export default {
                 val: '',
                 isValid: true
             },
+            ingredients: [],
             dairyFree: false,
             glutenFree: false,
             vegan: false,
             vegetarian: false,
-            formIsValid: true
+            formIsValid: true,
+            showUpdateIngredients: false
         }
     },
     computed: {
@@ -93,6 +115,42 @@ export default {
         }
     },
     methods: {
+        updateIngredient(index, ingredientDetailsId) {
+            const formData = {
+                ingredientName: this.ingredients[index].ingredientName,
+                aisle: this.ingredients[index].aisle,
+                amount: this.ingredients[index].amount,
+                unit: this.ingredients[index].unit   
+            }
+
+            if (ingredientDetailsId) {  //fazer update
+                this.$store.dispatch('recipes/updateIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, ingredientDetailsId: ingredientDetailsId, formData: formData, ingredients: this.ingredients});
+                this.$notify("The ingredients have been updated!");
+            }
+            else {                      //adicionar ingrediente
+                if (formData.ingredientName === '' || formData.amount === null || formData.unit === '') {
+                    console.log("cannot be empty")
+                    return;
+                }
+                this.$store.dispatch('recipes/addIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, formData: formData, ingredients: this.ingredients});
+                this.$notify("The ingredient was added!");
+            }
+        },
+        addIngredient() {
+            this.ingredients.push({
+                        ingredientName: '',
+                        aisle: '',
+                        amount: null,
+                        unit: ''    
+            });
+        },
+        deleteIngredient(index, ingredientDetailsId) {
+            this.ingredients.splice(index, 1);
+            if (ingredientDetailsId) {
+                this.$store.dispatch('recipes/deleteIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, ingredientDetailsId: ingredientDetailsId, ingredients: this.ingredients});
+                this.$notify("The ingredient was deleted!");
+            }
+        },
         clearValidations(input) {
             this[input].isValid = true;
         },
@@ -146,6 +204,7 @@ export default {
         this.glutenFree = this.recipe.glutenFree;
         this.vegan = this.recipe.vegan;
         this.vegetarian = this.recipe.vegetarian;
+        this.ingredients = this.recipe.ingredientDetailsList;
     }
 }
 </script>
@@ -222,5 +281,10 @@ h3 {
 .invalid input,
 .invalid textarea {
   border: 1px solid red;
+}
+
+.border {
+  border: 1px solid black;
+  margin-bottom: 5px;
 }
 </style>

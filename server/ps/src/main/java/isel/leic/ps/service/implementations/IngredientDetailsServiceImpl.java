@@ -101,7 +101,6 @@ public class IngredientDetailsServiceImpl implements IngredientDetailsService {
         ingredientDetails.setIngredientName(updatedIngredientDetails.getIngredientName());
         ingredientDetails.setUnit(updatedIngredientDetails.getUnit());
         ingredientDetails.setAmount(updatedIngredientDetails.getAmount());
-        ingredientDetails.setImage(updatedIngredientDetails.getImage());
         ingredientDetails.setAisle(updatedIngredientDetails.getAisle());
         return ingredientDetailsRepository.save(ingredientDetails);
     }
