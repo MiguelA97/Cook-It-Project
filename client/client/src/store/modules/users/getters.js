@@ -10,5 +10,8 @@ export default {
     },
     recipeListIndex(state) {
         return state.recipeListIndex;
+    },
+    ingredients(state) {
+        return state.ingredients;
     }
 };

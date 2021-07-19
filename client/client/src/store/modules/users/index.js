@@ -9,7 +9,8 @@ export default {
             loggedIn: JSON.parse(localStorage.getItem('user')) === null ? false : true,
             user: JSON.parse(localStorage.getItem('user')),
             recipeLists: [],
-            recipeListIndex: null
+            recipeListIndex: null,
+            ingredients: []
         }   
     },
     mutations,

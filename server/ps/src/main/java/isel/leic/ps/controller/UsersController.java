@@ -109,4 +109,32 @@ public class UsersController {
             throw new ForbiddenException(e.getMessage());
         }
     }
+
+    @PatchMapping("/{username}/pantry/{ingredient}")
+    public void addUserIngredient(@PathVariable("username") String username, @PathVariable("ingredient") String ingredient) throws BadRequestException, ConflictException, NotFoundException, ForbiddenException {
+        try {
+            userService.addUserIngredient(username, ingredient);
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(e.getMessage());
+        } catch (EntityAlreadyExistsException e) {
+            throw new ConflictException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{username}/pantry/{ingredient}/ingredient")
+    public void deleteUserIngredient(@PathVariable("username") String username, @PathVariable("ingredient") String ingredient) throws BadRequestException, NotFoundException, ForbiddenException {
+        try {
+            userService.deleteUserIngredient(username, ingredient);
+        } catch (EntityException e) {
+            throw new BadRequestException(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(e.getMessage());
+        } catch (InsufficientPrivilegesException e) {
+            throw new ForbiddenException(e.getMessage());
+        }
+    }
 }

@@ -3,6 +3,8 @@ import authHeader from './authHeader';
 
 const GET_UPDATE_DELETE_USER_URL = "http://localhost:8081/v1/users/:username";
 const CREATE_USER_URL = "http://localhost:8081/v1/users";
+const ADD_USER_INGREDIENT_URL = "http://localhost:8081/v1/users/:username/pantry/:ingredientName";
+const DELETE_USER_INGREDIENT_URL = "http://localhost:8081/v1/users/:username/pantry/:ingredientName/ingredient";
 
 async function getUser(username) {
     const url = GET_UPDATE_DELETE_USER_URL.replace(":username", username);
@@ -27,4 +29,16 @@ async function deleteUser(username) {
     return response; 
 }
 
-export default { getUser, addUser, updateUser, deleteUser };
+async function addUserIngredient(username, ingredient) {
+    const url = ADD_USER_INGREDIENT_URL.replace(":username", username).replace(":ingredientName", ingredient);
+    const response = await axios.patch(url, {}, { headers: authHeader() });
+    return response; 
+}
+
+async function deleteUserIngredient(username, ingredient) {
+    const url = DELETE_USER_INGREDIENT_URL.replace(":username", username).replace(":ingredientName", ingredient);
+    const response = await axios.patch(url, {}, { headers: authHeader() });
+    return response; 
+}
+
+export default { getUser, addUser, updateUser, deleteUser, addUserIngredient, deleteUserIngredient };

@@ -40,6 +40,7 @@ public class UserOutputModel {
         properties.put("userPassword", user.getPassword());
         properties.put("userName", user.getName());
         properties.put("userEmail", user.getEmail());
+        properties.put("userIngredients", user.getIngredients());
         properties.put("userRecipeLists", user.getUserRecipeLists());
         return properties;
     }

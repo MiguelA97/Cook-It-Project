@@ -15,5 +15,14 @@ export default {
     },
     setUserRecipeListIndex(state, payload) {
         state.recipeListIndex = payload;
+    },
+    setIngredients(state, payload) {
+        state.ingredients = payload;
+    },
+    addIngredient(state, payload) {
+        state.ingredients.push(payload);
+    },
+    deleteIngredient(state, payload) {
+        state.ingredients.splice(payload, 1);
     }
 };

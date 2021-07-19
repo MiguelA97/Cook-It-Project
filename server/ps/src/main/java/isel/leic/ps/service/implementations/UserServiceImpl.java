@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -94,5 +96,44 @@ public class UserServiceImpl implements UserService {
         if (!existsUserByUserUsername(username))
             throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
         usersRepository.deleteByUsername(username);
+    }
+
+    @Override
+    public void addUserIngredient(String username, String ingredient) throws EntityException, EntityAlreadyExistsException, EntityNotFoundException, InsufficientPrivilegesException {
+        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        if (!authenticatedUser.equals(username))
+            throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+        if (!existsUserByUserUsername(username))
+            throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
+
+        Users user = getUserByUsername(username);
+        if (user.getIngredients() != null && user.getIngredients().contains(ingredient))
+            throw new EntityAlreadyExistsException(messageSource.getMessage("ingredient_Already_Exist", new Object[]{ingredient}, Locale.ENGLISH));
+
+        List<String> updatedIngredientsList = new LinkedList<>();
+        if (user.getIngredients() != null) {
+            updatedIngredientsList = user.getIngredients();
+        }
+        updatedIngredientsList.add(ingredient);
+        user.setIngredients(updatedIngredientsList);
+        usersRepository.save(user);
+    }
+
+    @Override
+    public void deleteUserIngredient(String username, String ingredient) throws EntityException, EntityNotFoundException, InsufficientPrivilegesException {
+        String authenticatedUser = authenticationFacade.getAuthentication().getName();
+        if (!authenticatedUser.equals(username))
+            throw new InsufficientPrivilegesException(messageSource.getMessage("no_authorization", null, Locale.ENGLISH));
+        if (!existsUserByUserUsername(username))
+            throw new EntityNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH));
+
+        Users user = getUserByUsername(username);
+        if (!user.getIngredients().contains(ingredient))
+            throw new EntityNotFoundException(messageSource.getMessage("ingredient_Not_Exist", new Object[]{ingredient}, Locale.ENGLISH));
+
+        List<String> updatedIngredientsList = user.getIngredients();
+        updatedIngredientsList.remove(ingredient);
+        user.setIngredients(updatedIngredientsList);
+        usersRepository.save(user);
     }
 }

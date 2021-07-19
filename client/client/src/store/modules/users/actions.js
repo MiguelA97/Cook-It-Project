@@ -66,6 +66,29 @@ export default {
                 console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
             });
     },
+    getUserIngredients(context, data) {
+        userService.getUser(data)
+            .then(response => {
+                context.commit('setIngredients', response.data.properties.userIngredients);
+            })
+            .catch(error => {
+                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+            });
+    },
+    addUserIngredient(context, data) {
+        userService.addUserIngredient(data.username, data.ingredient)
+            .then(context.commit('addIngredient', data.ingredient))
+            .catch(error => {
+                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+            });
+    },
+    deleteUserIngredient(context, data) {
+        userService.deleteUserIngredient(data.username, data.ingredient)
+            .then(context.commit('deleteIngredient', data.index))
+            .catch(error => {
+                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+            });
+    },
     login(context, data) {
         authService.login(data)
             .then(response => {

@@ -5,7 +5,8 @@ create table if not exists USERS (
 	username varchar(25) unique not null,
 	password varchar(320) not null,
 	email varchar(320) unique not null,
-	name varchar(100) not null
+	name varchar(100) not null,
+	ingredients text[]
 );
 
 create table if not exists USER_RECIPE_LIST (

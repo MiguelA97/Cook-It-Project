@@ -3,6 +3,7 @@
         <nav>
             <h1><router-link to="/">Cook It</router-link></h1>
             <ul>
+                <li v-if="loggedIn"><router-link :to=userPantryLink>Pantry</router-link></li>  
                 <li v-if="loggedIn"><router-link :to=myRecipesLink>My Recipes</router-link></li>  
                 <li v-if="loggedIn"><router-link to="/recipe/addRecipe">Add Recipe</router-link></li> 
                 <li v-if="loggedIn"><router-link :to=accountInfoLink>Account Info</router-link></li>
@@ -18,6 +19,9 @@ import BaseButton from '../ui/BaseButton.vue';
 export default {
   components: { BaseButton },
   computed: {
+    userPantryLink() {
+      return "/user/:username/pantry".replace(":username", this.user.username);
+    },
     myRecipesLink() {
       return "/profile/:username/recipesLists".replace(":username", this.user.username);
     },
