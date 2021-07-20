@@ -60,7 +60,7 @@ export default {
     addUserRecipeList(context, data) {
         userRecipesListsService.addUserRecipeList(data.username, data.formData)
             .then(response => {
-                data = {
+                let recipeList = {
                     id: response.data.properties.userRecipeListId,
                     userId: response.data.properties.userId,
                     name: response.data.properties.userRecipeListName,
@@ -68,10 +68,11 @@ export default {
                     visibility: response.data.properties.userRecipeListVisibility,
                     recipes: response.data.properties.userRecipeListRecipes
                 }
-                context.commit('addUserRecipeList', data)
+                context.commit('addUserRecipeList', recipeList)
+                data.vm.$notify("List created!");
             })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     },
     getUserRecipeListsByUsername(context, username) {
@@ -102,16 +103,23 @@ export default {
     },
     updateUserRecipeList(context, data) {
         userRecipesListsService.updateUserRecipeList(data.username, data.idUrl, data.formData)
-            .then()
+            .then(response => {
+                console.log(response)
+                data.vm.$notify("The list was updated!");
+            })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     },
     deleteUserRecipeList(context, data) {
         userRecipesListsService.deleteUserRecipeList(data.username, data.listId)
-            .then(context.commit('deleteUserRecipeList', data.index))
+            .then(response => {
+                console.log(response)
+                context.commit('deleteUserRecipeList', data.index)
+                data.vm.$notify("List deleted!");
+            })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes 
+                data.vm.$notify(error.response.data.detail);
             });
     },
     getRecipesByUserRecipeListId(context, data) {
@@ -144,9 +152,12 @@ export default {
     },
     addRecipe(context, data) {
         recipeService.addRecipe(data.username, data.listId, data.recipe)
-            .then()
+            .then(response => {
+                console.log(response)
+                data.vm.$notify("Recipe created and added to list!");
+            })
             .catch(error => {
-                console.log(error.response)     //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     },
     updateRecipe(context, data) {
@@ -168,37 +179,64 @@ export default {
                 };
 
                 context.commit('setRecipe', recipe);
+                data.vm.$notify("This recipe has been updated!");
             })
             .catch(error => {
-                console.log(error.response)     //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     },
     deleteRecipe(context, data) {
         recipeService.deleteRecipe(data.username, data.listId, data.recipeId)
-            .then(context.commit('deleteRecipe', data.index))       
+            .then(response => {
+                console.log(response)
+                context.commit('deleteRecipe', data.index)
+                data.vm.$notify("Recipe deleted!");
+            })       
             .catch(error => {
-                console.log(error.response)     //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     },
     updateIngredientDetails(context, data) {
         ingredientDetailsService.updateIngredientDetails(data.username, data.idUrl, data.recipeId, data.ingredientDetailsId, data.formData)
-            .then(context.commit('setRecipeIngredientDetails', data.ingredients))
+            .then(response => {
+                console.log(response)
+                context.commit('setRecipeIngredientDetails', data.ingredients);
+                data.vm.$notify("The ingredient was updated!");
+            })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     },
     addIngredientDetails(context, data) {
         ingredientDetailsService.addIngredientDetails(data.username, data.idUrl, data.recipeId, data.formData)
-            .then(context.commit('setRecipeIngredientDetails', data.ingredients))
+            .then(response => {
+                console.log(response)
+                const ingredientDetails = {
+                    aisle: response.data.properties.ingredientDetailsAisle,
+                    amount: response.data.properties.ingredientDetailsAmount,
+                    id: response.data.properties.ingredientDetailsId,
+                    apiId: response.data.properties.ingredientDetailsApidId,
+                    image: response.data.properties.ingredientDetailsImage,
+                    ingredientName: response.data.properties.ingredientDetailsName,
+                    recipeId: response.data.properties.recipeId,
+                    unit: response.data.properties.ingredientDetailsUnit
+                };
+                context.commit('addRecipeIngredientDetails', ingredientDetails)
+                data.vm.$notify("The ingredient was added!");
+            })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     },
     deleteIngredientDetails(context, data) {
         ingredientDetailsService.deleteIngredientDetails(data.username, data.idUrl, data.recipeId,  data.ingredientDetailsId)
-            .then(context.commit('setRecipeIngredientDetails', data.ingredients))
+            .then(response => {
+                console.log(response)
+                context.commit('setRecipeIngredientDetails', data.ingredients);
+                data.vm.$notify("The ingredient was deleted!");
+            })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             })
     }
 };

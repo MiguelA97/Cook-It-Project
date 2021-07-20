@@ -19,8 +19,7 @@ export default {
         },
         deleteList() {
           if (confirm("Do you want to delete this list?")) {
-            this.$store.dispatch('recipes/deleteUserRecipeList', {username: this.username, listId: this.id, index: this.index});
-            this.$notify("List deleted!");
+            this.$store.dispatch('recipes/deleteUserRecipeList', {username: this.username, listId: this.id, index: this.index, vm: this});
           }
         }
     }

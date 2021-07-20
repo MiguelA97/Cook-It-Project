@@ -1,10 +1,10 @@
 <template>
     <section>
         <user-recipe-list-edit-form
-        :username="username"
-        :idUrl="idUrl"
+            :username="username"
+            :idUrl="idUrl"
         ></user-recipe-list-edit-form>
-        <base-card>
+        <base-card v-if="recipes.length > 0">
             <ul>
                 <recipe-item-db
                     v-for="(recipe, index) in recipes" 

@@ -22,5 +22,11 @@ export default {
     },
     setRecipeIngredientDetails(state, payload) {
       state.recipe.ingredientDetailsList = payload;
+    },
+    addRecipeIngredientDetails(state, payload) {
+      state.recipe.ingredientDetailsList.push(payload);
+    },
+    deleteRecipeIngredientDetails(state, payload) {
+      state.recipe.ingredientDetailsList.splice(payload, 1);
     }
 };

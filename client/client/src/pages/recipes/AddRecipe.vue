@@ -16,9 +16,8 @@ export default {
     },
     methods: {
         saveData(data) {
-            this.$store.dispatch('recipes/addRecipe', {username: this.user.username, listId: data.idUrl, recipe: data});
+            this.$store.dispatch('recipes/addRecipe', {username: this.user.username, listId: data.idUrl, recipe: data, vm: this});
             this.$router.replace('/');
-            this.$notify("Recipe created and added to list!");
         }
     },
     computed: {

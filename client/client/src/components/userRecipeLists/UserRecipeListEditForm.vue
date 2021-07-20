@@ -68,9 +68,8 @@ export default {
             this.name.val = '';
             this.description = '';
             this.visibility = 'private';
-            this.$store.dispatch('recipes/updateUserRecipeList', {formData, username: this.username, idUrl: this.idUrl}); 
+            this.$store.dispatch('recipes/updateUserRecipeList', {formData, username: this.username, idUrl: this.idUrl, vm: this}); 
             this.hideForm = true;
-            this.$notify("The list was updated!");
         }
     }
 }

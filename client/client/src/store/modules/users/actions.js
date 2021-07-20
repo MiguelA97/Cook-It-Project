@@ -25,7 +25,9 @@ export default {
     },
     addUser(context, data) {
         userService.addUser(data)
-            .then()
+            .then(response => {
+                console.log(response)
+            })
             .catch(error => {
                 console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
             });
@@ -61,7 +63,9 @@ export default {
     },
     deleteUser(context, data) {
         userService.deleteUser(data)
-            .then()
+            .then(response => {
+                console.log(response)
+            })
             .catch(error => {
                 console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
             });
@@ -77,16 +81,24 @@ export default {
     },
     addUserIngredient(context, data) {
         userService.addUserIngredient(data.username, data.ingredient)
-            .then(context.commit('addIngredient', data.ingredient))
+            .then(response => {
+                console.log(response)
+                context.commit('addIngredient', data.ingredient)
+                data.vm.$notify("The ingredient, " + data.ingredient + " was added to the pantry!")
+            })
             .catch(error => {
-                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             });
     },
     deleteUserIngredient(context, data) {
         userService.deleteUserIngredient(data.username, data.ingredient)
-            .then(context.commit('deleteIngredient', data.index))
+            .then(response => {
+                console.log(response)
+                context.commit('deleteIngredient', data.index)
+                data.vm.$notify("The ingredient, " + data.ingredient + " was deleted from the pantry!");   
+            }) 
             .catch(error => {
-                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             });
     },
     login(context, data) {

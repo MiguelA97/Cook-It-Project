@@ -1,6 +1,8 @@
 <template>
     <div>
-        <base-card >
+        <base-card>
+            <h2>Possible recipes:</h2>
+            <base-button class="border" type="button" @click="searchRecipes">Search Recipes</base-button>
             <h2>Add Ingredient to pantry</h2>
             <form @submit.prevent="submitForm">
                 <div class="form-control">
@@ -9,7 +11,10 @@
                 </div>
                 <base-button class="border" type="button" @click="addIngredient">Add Ingredient</base-button>
             </form>
-            <div>
+            <div v-if="isLoading">  
+                <base-spinner></base-spinner>
+            </div>
+            <div v-else>
                 <h1>{{user.username}} ingredients</h1>
                 <ul v-if="ingredients !== null && ingredients.length > 0">
                     <user-ingredient-item
@@ -35,7 +40,8 @@ export default {
     },
     data() {
         return {
-            name: ''
+            name: '',
+            isLoading: false
         }
     },
     computed: {
@@ -49,13 +55,22 @@ export default {
     methods: {
         addIngredient() {
             if (this.name !== '') {
-                this.$store.dispatch('user/addUserIngredient', {username: this.user.username, ingredient: this.name});  
+                this.$store.dispatch('user/addUserIngredient', {username: this.user.username, ingredient: this.name, vm: this})
                 this.name = '';       
-                this.$notify("The ingredient, " + this.name + " was added to the pantry!");
             }
             else {
                 this.$notify("The ingredient name must not be empty!");
             }
+        },
+        async searchRecipes() {
+            this.isLoading = true;  
+            let toSearch = '';
+            this.ingredients.forEach(ingredient => {
+                toSearch += ingredient + ',';
+            });                       
+            await this.$store.dispatch('recipes/searchRecipes', {toSearch, filter: {diet: null, intolerances: null, type: null, cuisine: null}});
+            this.isLoading = false;
+            this.$router.replace('/recipes');
         }
     },
     created() {

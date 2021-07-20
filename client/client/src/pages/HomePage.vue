@@ -64,10 +64,10 @@ export default {
         },
         async searchRecipes() {
             if (this.toSearch === '') return;
-            this.isLoading = true;                                                                                                      // intolerances tem de ser com checkboxes
-            await this.$store.dispatch('recipes/searchRecipes', {toSearch: this.toSearch, filter: {diet: this.diet, intolerances: this.intolerances, type: this.type, cuisine: this.cuisine}}); //depois adicionar as variaveis (diet, intolerances, type, cuisine) dos filtros
+            this.isLoading = true;                                                                                                     
+            await this.$store.dispatch('recipes/searchRecipes', {toSearch: this.toSearch, filter: {diet: this.diet, intolerances: this.intolerances, type: this.type, cuisine: this.cuisine}}); 
             this.isLoading = false;
-            this.$router.replace('/recipes');
+            this.$router.push('/recipes');
         }
     }
 }

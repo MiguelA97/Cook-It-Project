@@ -124,16 +124,15 @@ export default {
             }
 
             if (ingredientDetailsId) {  //fazer update
-                this.$store.dispatch('recipes/updateIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, ingredientDetailsId: ingredientDetailsId, formData: formData, ingredients: this.ingredients});
-                this.$notify("The ingredients have been updated!");
+                this.$store.dispatch('recipes/updateIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, ingredientDetailsId: ingredientDetailsId, formData: formData, ingredients: this.ingredients, vm: this});
             }
             else {                      //adicionar ingrediente
                 if (formData.ingredientName === '' || formData.amount === null || formData.unit === '') {
-                    console.log("cannot be empty")
+                    this.$notify("Name, amount and unit must not be empty!");
                     return;
                 }
-                this.$store.dispatch('recipes/addIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, formData: formData, ingredients: this.ingredients});
-                this.$notify("The ingredient was added!");
+                this.ingredients.splice(index, 1);
+                this.$store.dispatch('recipes/addIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, formData: formData, vm: this});
             }
         },
         addIngredient() {
@@ -141,14 +140,13 @@ export default {
                         ingredientName: '',
                         aisle: '',
                         amount: null,
-                        unit: ''    
+                        unit: ''
             });
         },
         deleteIngredient(index, ingredientDetailsId) {
             this.ingredients.splice(index, 1);
             if (ingredientDetailsId) {
-                this.$store.dispatch('recipes/deleteIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, ingredientDetailsId: ingredientDetailsId, ingredients: this.ingredients});
-                this.$notify("The ingredient was deleted!");
+                this.$store.dispatch('recipes/deleteIngredientDetails', {username: this.user.username, idUrl: this.$route.params.idUrl, recipeId: this.recipe.id, ingredientDetailsId: ingredientDetailsId, ingredients: this.ingredients, vm: this});
             }
         },
         clearValidations(input) {
@@ -191,8 +189,7 @@ export default {
                 vegetarian: this.vegetarian,
                 image: this.recipe.image
             }
-            this.$store.dispatch('recipes/updateRecipe', {username: this.user.username, listId: this.$route.params.idUrl, recipeId: this.recipe.id, recipe: formData});
-            this.$notify("This recipe has been updated!");
+            this.$store.dispatch('recipes/updateRecipe', {username: this.user.username, listId: this.$route.params.idUrl, recipeId: this.recipe.id, recipe: formData, vm: this});
         }
     },
     created() {
@@ -205,6 +202,7 @@ export default {
         this.vegan = this.recipe.vegan;
         this.vegetarian = this.recipe.vegetarian;
         this.ingredients = this.recipe.ingredientDetailsList;
+
     }
 }
 </script>

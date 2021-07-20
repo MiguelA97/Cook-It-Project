@@ -10,8 +10,7 @@ export default {
     props: ['name', 'username', 'index'],
     methods: {
         deleteIngredient() {
-            this.$store.dispatch('user/deleteUserIngredient', {username: this.username, ingredient: this.name, index: this.index});      
-            this.$notify("The ingredient, " + this.name + " was deleted from the pantry!");   
+            this.$store.dispatch('user/deleteUserIngredient', {username: this.username, ingredient: this.name, index: this.index, vm: this});      
         }   
     }
 }

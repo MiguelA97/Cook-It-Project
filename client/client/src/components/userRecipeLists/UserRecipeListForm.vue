@@ -72,9 +72,8 @@ export default {
             this.name.val = '';
             this.description = '';
             this.visibility = 'private';
-            this.$store.dispatch('recipes/addUserRecipeList', {formData, username: this.username}); 
+            this.$store.dispatch('recipes/addUserRecipeList', {formData, username: this.username, vm: this}); 
             this.hideForm = true;
-            this.$notify("List created!");
         }
     }
 }

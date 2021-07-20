@@ -19,8 +19,7 @@ export default {
         },
         deleteRecipe() {
             if (confirm("Do you want to delete this recipe?")) {
-                this.$store.dispatch('recipes/deleteRecipe', {username: this.username, listId: this.idUrl, recipeId: this.recipe.id, index: this.index});
-                this.$notify("Recipe deleted!");
+                this.$store.dispatch('recipes/deleteRecipe', {username: this.username, listId: this.idUrl, recipeId: this.recipe.id, index: this.index, vm: this});
             }
         }
     },
