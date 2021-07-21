@@ -64,9 +64,7 @@ export default {
                 password: this.password.val
             }
 
-            this.$store.dispatch('user/login', formData);   
-            this.$router.replace('/');
-            this.$notify("Welcome, " + this.username.val + "!");
+            this.$store.dispatch('user/login', {formData, vm: this});   
         }
     },
 }

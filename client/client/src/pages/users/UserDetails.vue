@@ -103,8 +103,7 @@ export default {
             }
             this.password.val = '';
 
-            this.$store.dispatch('user/updateUser', {user: formData, username: this.user.username});
-            this.$notify("User account updated!");
+            this.$store.dispatch('user/updateUser', {user: formData, username: this.user.username, vm: this});
         }
     },
     created() {

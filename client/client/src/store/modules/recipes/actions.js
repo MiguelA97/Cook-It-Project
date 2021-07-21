@@ -150,11 +150,11 @@ export default {
                 console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
             });
     },
-    addRecipe(context, data) {
+    addRecipe(context, data) {    
         recipeService.addRecipe(data.username, data.listId, data.recipe)
             .then(response => {
                 console.log(response)
-                data.vm.$notify("Recipe created and added to list!");
+                data.vm.$notify("This recipe has been added to the list!");
             })
             .catch(error => {
                 data.vm.$notify(error.response.data.detail);

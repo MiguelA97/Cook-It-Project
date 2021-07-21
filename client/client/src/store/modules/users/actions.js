@@ -24,42 +24,45 @@ export default {
             });
     },
     addUser(context, data) {
-        userService.addUser(data)
+        userService.addUser(data.data)
             .then(response => {
                 console.log(response)
+                data.vm.$notify("User account created!");
+                data.vm.$router.replace('/login');
             })
             .catch(error => {
-                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             });
     },
     updateUser(context, data) {
         userService.updateUser(data.user, data.username)
-        .then(response => {
-            var user = JSON.parse(localStorage.getItem('user'));
-            user.name = response.data.properties.userName;
-            user.username = response.data.properties.userUsername;
-            user.email = response.data.properties.userEmail;
+            .then(response => {
+                var user = JSON.parse(localStorage.getItem('user'));
+                user.name = response.data.properties.userName;
+                user.username = response.data.properties.userUsername;
+                user.email = response.data.properties.userEmail;
 
-            localStorage.setItem('user', JSON.stringify(user));
-            context.commit('setUser', user);
+                localStorage.setItem('user', JSON.stringify(user));
+                context.commit('setUser', user);
+                data.vm.$notify("User account updated!");
 
-            if (user.username !== data.username) {  //temos que revalidar o jwt, para tal é necessário novo login
-                const loginData = {
-                    username: user.username,
-                    password: data.user.password
-                };
-                authService.login(loginData)
-                    .then(response => {
-                        context.commit('login', response);
-                    })
-                    .catch(error => {
-                        console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
-                    });
-            }
-        })
-        .catch(error => {
-            console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
-        });
+                if (user.username !== data.username) {  //temos que revalidar o jwt, para tal é necessário novo login
+                    const loginData = {
+                        username: user.username,
+                        password: data.user.password
+                    };
+                    authService.login(loginData)
+                        .then(response => {
+                            context.commit('login', response);
+                        })
+                        .catch(error => {
+                            console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                        });
+                }
+            })
+            .catch(error => {
+                data.vm.$notify(error.response.data.detail);
+            });
     },
     deleteUser(context, data) {
         userService.deleteUser(data)
@@ -102,12 +105,14 @@ export default {
             });
     },
     login(context, data) {
-        authService.login(data)
+        authService.login(data.formData)
             .then(response => {
                 context.commit('login', response);
+                data.vm.$notify("Welcome, " + data.formData.username + "!");
+                data.vm.$router.replace('/');
             })
             .catch(error => {
-                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                data.vm.$notify(error.response.data.detail);
             });
     },
     logout(context) {

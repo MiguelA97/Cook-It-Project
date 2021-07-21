@@ -25,8 +25,5 @@ export default {
     },
     addRecipeIngredientDetails(state, payload) {
       state.recipe.ingredientDetailsList.push(payload);
-    },
-    deleteRecipeIngredientDetails(state, payload) {
-      state.recipe.ingredientDetailsList.splice(payload, 1);
     }
 };

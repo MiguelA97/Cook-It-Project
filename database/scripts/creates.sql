@@ -12,7 +12,7 @@ create table if not exists USERS (
 create table if not exists USER_RECIPE_LIST (
 	id_url serial,
 	id_user int references USERS(id_user) on delete cascade,
-	list_name varchar(25) not null,
+	list_name varchar(100) not null,
 	description text,
 	visibility varchar(7) check (visibility in ('public', 'private')) default 'private',
 	primary key(id_url, id_user)
@@ -39,9 +39,9 @@ create table if not exists INGREDIENT_DETAILS (
 	id_ingredient serial primary key,
 	id_api int,
 	id_recipe int references RECIPE(id_recipe) on delete cascade,
-	aisle varchar(30),
-	ingredient_name varchar(50) not null,
+	aisle varchar(100),
+	ingredient_name varchar(100) not null,
 	amount double precision not null,
-	unit varchar(20) not null,
+	unit varchar(50) not null,
 	image text
 );

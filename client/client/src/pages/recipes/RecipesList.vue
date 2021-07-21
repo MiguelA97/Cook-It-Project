@@ -1,6 +1,6 @@
 <template>
     <section>
-        <base-card>
+        <base-card v-if="recipes.length > 0">
             <ul>
                 <recipe-item 
                     v-for="recipe in recipes" 
@@ -11,6 +11,7 @@
                 ></recipe-item>
             </ul>
         </base-card>
+        <h2 v-else>There are no recipes available with those parameters!</h2>
     </section>
 </template>
 

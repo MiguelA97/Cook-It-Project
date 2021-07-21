@@ -16,7 +16,7 @@
               <base-spinner></base-spinner>
             </div>
             <div v-else>
-              <div class="controls">
+              <div v-if="user !== null" class="controls">
                 <h3>Search for:</h3>
                 <label class="radio">
                   <input type="radio" v-model="searchType" value="recipe">Recipes     
@@ -26,7 +26,7 @@
                 </label>   
               </div>
               <label for="search">Find your favorite recipe & Cook It!</label>
-              <input class="border" type="text" id="searchBox" v-model.trim="toSearch" placeholder="Search recipes by name, ingredients or user">
+              <input class="border" type="text" id="searchBox" v-model.trim="toSearch" placeholder="Search recipes by name or ingredients">
               <base-button @click="search">Search Recipes</base-button>
             </div>
         </base-card>
@@ -48,6 +48,11 @@ export default {
             typeOptions: ['main course', 'side dish', 'dessert', 'appetizer', 'salad', 'bread', 'breakfast', 'soup', 'beverage', 'sauce', 'drink'],
             cuisine: null,
             cuisineOptions: ['african', 'chinese', 'japanese', 'korean', 'vietnamese', 'thai', 'indian', 'british', 'irish', 'french', 'italian', 'mexican', 'spanish', 'middle eastern', 'jewish', 'american', 'cajun', 'southern', 'greek', 'german', 'nordic', 'eastern european', 'caribbean', 'latin american']
+        }
+    },
+    computed: {
+        user() {
+            return this.$store.getters['user/user'];
         }
     },
     methods: {

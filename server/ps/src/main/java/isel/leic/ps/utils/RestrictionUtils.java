@@ -16,7 +16,7 @@ public class RestrictionUtils {
     public static final short USER_ID_MIN = 1;
 
     //USER_RECIPE_LIST
-    public static final short URL_LIST_NAME_MAX_LENGTH = 25;
+    public static final short URL_LIST_NAME_MAX_LENGTH = 100;
     public static final short URL_VISIBILITY_MAX_LENGTH = 7;
     public static final short USER_RECIPE_LIST_ID_MIN = 1;
 
@@ -25,9 +25,9 @@ public class RestrictionUtils {
     public static final short RECIPE_ID_MIN = 1;
 
     //INGREDIENT_DETAILS
-    public static final short INGREDIENT_DETAILS_AISLE_MAX_LENGTH = 50;
-    public static final short INGREDIENT_DETAILS_INGREDIENT_NAME_MAX_LENGTH = 50;
-    public static final short INGREDIENT_DETAILS_UNIT_MAX_LENGTH = 20;
+    public static final short INGREDIENT_DETAILS_AISLE_MAX_LENGTH = 100;
+    public static final short INGREDIENT_DETAILS_INGREDIENT_NAME_MAX_LENGTH = 100;
+    public static final short INGREDIENT_DETAILS_UNIT_MAX_LENGTH = 50;
     public static final short INGREDIENT_DETAILS_ID_MIN = 1;
 
     //API
