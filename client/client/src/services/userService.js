@@ -1,10 +1,10 @@
 import axios from 'axios';
 import authHeader from './authHeader';
 
-const GET_UPDATE_DELETE_USER_URL = "http://localhost:8081/v1/users/:username";
-const CREATE_USER_URL = "http://localhost:8081/v1/users";
-const ADD_USER_INGREDIENT_URL = "http://localhost:8081/v1/users/:username/pantry/:ingredientName";
-const DELETE_USER_INGREDIENT_URL = "http://localhost:8081/v1/users/:username/pantry/:ingredientName/ingredient";
+const GET_UPDATE_DELETE_USER_URL = "https://localhost:8443/v1/users/:username";
+const CREATE_USER_URL = "https://localhost:8443/v1/users";
+const ADD_USER_INGREDIENT_URL = "https://localhost:8443/v1/users/:username/pantry/:ingredientName";
+const DELETE_USER_INGREDIENT_URL = "https://localhost:8443/v1/users/:username/pantry/:ingredientName/ingredient";
 
 async function getUser(username) {
     const url = GET_UPDATE_DELETE_USER_URL.replace(":username", username);

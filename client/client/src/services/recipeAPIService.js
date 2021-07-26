@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const SEARCH_RECIPES_URL = "http://localhost:8081/v1/recipes/search?";
-const GET_RECIPE_INFORMATION_URL = "http://localhost:8081/v1/recipes/:recipeId/information";
+const SEARCH_RECIPES_URL = "https://localhost:8443/v1/recipes/search?";
+const GET_RECIPE_INFORMATION_URL = "https://localhost:8443/v1/recipes/:recipeId/information";
 
 async function searchRecipes(toSearch, diet, intolerances, type, cuisine) {
     var url = SEARCH_RECIPES_URL;

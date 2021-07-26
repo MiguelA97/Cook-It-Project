@@ -1,8 +1,8 @@
 import axios from 'axios';
 import authHeader from './authHeader';
 
-const GET_CREATE_USER_RECIPES_LIST_URL = "http://localhost:8081/v1/users/:username/lists";
-const UPDATE_DELETE_USER_RECIPES_LIST_URL = "http://localhost:8081/v1/users/:username/lists/:idUrl";
+const GET_CREATE_USER_RECIPES_LIST_URL = "https://localhost:8443/v1/users/:username/lists";
+const UPDATE_DELETE_USER_RECIPES_LIST_URL = "https://localhost:8443/v1/users/:username/lists/:idUrl";
 
 async function getUserRecipeListsByUsername(username) {
     const url = GET_CREATE_USER_RECIPES_LIST_URL.replace(":username", username);
