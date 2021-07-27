@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import HomePage from './pages/HomePage.vue'
-import NotFound from './pages/NotFound.Vue'
 import UserLogin from './pages/users/UserLogin.vue'
 import UserRegistration from './pages/users/UserRegistration.vue'
 import UserDetails from './pages/users/UserDetails.vue'
@@ -32,7 +31,6 @@ const router = createRouter({
         { path: '/user/:username/recipesLists/recipes', name: "userRecipes", component: UserRecipesList, props: true },
         { path: '/user/:username/recipesLists/recipes/recipe', name: "userRecipe", component: RecipeDetails, props: true },
         { path: '/user/:username/pantry', component: UserPantry, props: true },
-        { path: '/:notFound(.*)', component: NotFound }
     ]
 });
 

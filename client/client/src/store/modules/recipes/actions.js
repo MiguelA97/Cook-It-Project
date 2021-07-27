@@ -26,7 +26,7 @@ export default {
                 context.commit('setRecipes', recipes);
             })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                console.log(error.response)   
             });
     },
     async getRecipeDetails(context, recipeId) {
@@ -54,7 +54,7 @@ export default {
                 context.commit('setRecipe', recipe);
             })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                console.log(error.response)   
             });
     },
     addUserRecipeList(context, data) {
@@ -98,7 +98,7 @@ export default {
                 if (error.status === 401) {     //quando auth expira, fazer logout!
                     authService.logout();
                 }
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                console.log(error.response)  
             })
     },
     updateUserRecipeList(context, data) {
@@ -147,7 +147,7 @@ export default {
                 context.commit('setRecipes', recipes);
             })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                console.log(error.response) 
             });
     },
     addRecipe(context, data) {    

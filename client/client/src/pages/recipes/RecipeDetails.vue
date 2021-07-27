@@ -73,7 +73,7 @@ export default {
     },
     created() {
         if (this.user !== null) {
-            this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);          //buscar as listas a bd! e preencher em recipesLists do vuex!
+            this.$store.dispatch('recipes/getUserRecipeListsByUsername', this.user.username);          
         }
     },
 }

@@ -36,6 +36,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         this.messageSource = messageSource;
     }
 
+    // Add exceptions here!
     @ExceptionHandler({
             BadRequestException.class,
             NotFoundException.class,

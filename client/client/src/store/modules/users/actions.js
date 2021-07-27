@@ -20,7 +20,7 @@ export default {
                 context.commit('setUserRecipeLists', recipeLists);
             })
             .catch(error => {
-                console.log(error.response) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                console.log(error.response) 
             });
     },
     addUser(context, data) {
@@ -56,7 +56,7 @@ export default {
                             context.commit('login', response);
                         })
                         .catch(error => {
-                            console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                            console.log(error) 
                         });
                 }
             })
@@ -70,7 +70,7 @@ export default {
                 console.log(response)
             })
             .catch(error => {
-                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                console.log(error)  
             });
     },
     getUserIngredients(context, data) {
@@ -79,7 +79,7 @@ export default {
                 context.commit('setIngredients', response.data.properties.userIngredients);
             })
             .catch(error => {
-                console.log(error) //aqui tenho acesso ao objecto do erro com as informaçoes  
+                console.log(error) 
             });
     },
     addUserIngredient(context, data) {

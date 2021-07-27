@@ -28,6 +28,6 @@ public class CustomUserDetailsImpl implements UserDetailsService {
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(messageSource.getMessage("username_Not_Exist", new Object[]{username}, Locale.ENGLISH)));
 
-        return  CustomUserDetails.build(user);//User.withUsername(user.getUsername()).password(user.getPassword()).authorities("USER").build();
+        return  CustomUserDetails.build(user);
     }
 }

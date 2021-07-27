@@ -9,9 +9,9 @@ public class UriBuilderUtils {
 
     static {
         try {
-            HOST = String.format("http://%s:8080", InetAddress.getLocalHost().getHostAddress());
+            HOST = String.format("https://%s:8443", InetAddress.getLocalHost().getHostAddress());
         } catch (UnknownHostException e) {
-            HOST = "http://localhost:8080";
+            HOST = "https://localhost:8443";
         }
     }
 
@@ -23,7 +23,7 @@ public class UriBuilderUtils {
             USERS = "users";
 
     /**
-     * URI Template: http://127.0.0.1:8080/v1
+     * URI Template: https://127.0.0.1:8443/v1
      *
      * @return URI to index page
      */
@@ -32,7 +32,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8081/v1/users/{username}
+     * URI Template: https://127.0.0.1:8443/v1/users/{username}
      *
      * @param username The id of the user
      * @return The specific user
@@ -42,7 +42,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8080/v1/users
+     * URI Template: https://127.0.0.1:8443/v1/users
      *
      * @return The users
      */
@@ -51,7 +51,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8081/v1/users/{username}/lists
+     * URI Template: https://127.0.0.1:8443/v1/users/{username}/lists
      *
      * @return URI to user recipe lists
      */
@@ -60,7 +60,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8081/v1/users/{username}/lists/{idUrl}
+     * URI Template: https://127.0.0.1:8443/v1/users/{username}/lists/{idUrl}
      *
      * @return URI to user recipe list
      */
@@ -69,7 +69,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8081/v1/users/{username}/lists/{idUrl}/recipes
+     * URI Template: https://127.0.0.1:8443/v1/users/{username}/lists/{idUrl}/recipes
      *
      * @return URI to recipes
      */
@@ -78,7 +78,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8081/v1/users/{username}/lists/{idUrl}/recipes/{recipeId}
+     * URI Template: https://127.0.0.1:8443/v1/users/{username}/lists/{idUrl}/recipes/{recipeId}
      *
      * @return URI to recipe
      */
@@ -87,7 +87,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8081/v1/users/{username}/lists/{idUrl}/recipes/{recipeId}/ingredients
+     * URI Template: https://127.0.0.1:8443/v1/users/{username}/lists/{idUrl}/recipes/{recipeId}/ingredients
      *
      * @return URI to recipe ingredients details
      */
@@ -96,7 +96,7 @@ public class UriBuilderUtils {
     }
 
     /**
-     * URI Template: http://127.0.0.1:8081/v1/users/{username}/lists/{idUrl}/recipes/{recipeId}/ingredients/{ingredientDetailsId}
+     * URI Template: https://127.0.0.1:8443/v1/users/{username}/lists/{idUrl}/recipes/{recipeId}/ingredients/{ingredientDetailsId}
      *
      * @return URI to recipe ingredient details
      */
